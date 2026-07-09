@@ -1,0 +1,125 @@
+# =========================================================
+# SIGAP .gitignore
+# Keep source code and docs; exclude local, generated, secret, and heavy files.
+# =========================================================
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# --- Secrets / Environment ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# --- Hermes local workspace / desktop attachments ---
+.hermes/
+
+# --- Project context / original submissions ---
+# Contains PDFs, extracted PDF text, and local planning/context files.
+# Keep out of GitHub unless intentionally sanitized and moved to docs/.
+project-context/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+src/backend/venv/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Alembic / local DB artifacts
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+.vercel/
+.turbo/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Package manager local files ---
+.pnpm-store/
+.yarn/
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# --- Docker / Runtime ---
+*.pid
+*.log
+logs/
+tmp/
+temp/
+
+# --- Generated media / uploads / storage ---
+uploads/
+storage/
+media/
+minio-data/
+redis-data/
+postgres-data/
+
+# --- Large model files / AI artifacts ---
+models/
+src/llm_service/models/
+*.gguf
+*.ggml
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+
+# --- PDFs and extracted PDF text from submissions ---
+*.pdf
+*.pdf.txt
+
+# --- Keep API contracts and source docs trackable ---
+!api-contract.yaml
+!docs/**/*.md
+!docs/**/*.yaml
+!docs/**/*.yml
+!README.md

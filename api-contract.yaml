@@ -1,40 +1,40 @@
 openapi: 3.1.0
 info:
   title: SIGAP API
-  description: >
-    API Contract draf awal untuk SIGAP (Sistem Integrasi Gizi & Akuntabilitas Pangan) —
-    platform tata kelola vendor Program Makan Bergizi Gratis (MBG).
-    Mencakup 3 modul inti fase MVP: Portal Perizinan Vendor, Dashboard Monitoring
-    Distribusi, dan Sistem Pengaduan Publik.
+  description: 'API Contract draf awal untuk SIGAP (Sistem Integrasi Gizi & Akuntabilitas
+    Pangan) — platform tata kelola vendor Program Makan Bergizi Gratis (MBG). Mencakup
+    3 modul inti fase MVP: Portal Perizinan Vendor, Dashboard Monitoring Distribusi,
+    dan Sistem Pengaduan Publik.
+
+    '
   version: 0.1.0-draft
   contact:
     name: Tim SIGAP
-
 servers:
   - url: https://api.sigap.example.id/v1
     description: Production (placeholder, sesuaikan dengan domain final)
   - url: http://localhost:8000/v1
     description: Local development
-
 tags:
   - name: Auth
     description: Autentikasi & informasi permission user
   - name: Vendor
-    description: "Modul 1 — Portal Perizinan Vendor"
+    description: Modul 1 — Portal Perizinan Vendor
   - name: Distribution
-    description: "Modul 2 — Pelaporan & Monitoring Distribusi"
+    description: Modul 2 — Pelaporan & Monitoring Distribusi
   - name: Complaint
-    description: "Modul 3 — Pengaduan Publik"
+    description: Modul 3 — Pengaduan Publik
   - name: Public
     description: Endpoint publik, tanpa autentikasi
-
+  - name: Admin
+    description: Manajemen user, role, dan audit log
 security:
   - bearerAuth: []
-
 paths:
   /auth/login:
     post:
-      tags: [Auth]
+      tags:
+        - Auth
       summary: Login pengguna (vendor, verifikator BGN, pengawas dinas, admin)
       security: []
       requestBody:
@@ -43,7 +43,9 @@ paths:
           application/json:
             schema:
               type: object
-              required: [email, password]
+              required:
+                - email
+                - password
               properties:
                 email:
                   type: string
@@ -69,10 +71,10 @@ paths:
                     example: 3600
         '401':
           $ref: '#/components/responses/Unauthorized'
-
   /auth/me:
     get:
-      tags: [Auth]
+      tags:
+        - Auth
       summary: Info user yang sedang login
       responses:
         '200':
@@ -81,13 +83,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-
   /auth/me/permissions:
     get:
-      tags: [Auth]
-      summary: >
-        Daftar permission & scope user yang sedang login.
-        Dipakai frontend untuk render menu/UI sesuai role tanpa hardcode role-check.
+      tags:
+        - Auth
+      summary: 'Daftar permission & scope user yang sedang login. Dipakai frontend
+        untuk render menu/UI sesuai role tanpa hardcode role-check.
+
+        '
       responses:
         '200':
           description: OK
@@ -103,7 +106,10 @@ paths:
                     type: array
                     items:
                       type: string
-                    example: [vendor:read, distribution:read, complaint:read]
+                    example:
+                      - vendor:read
+                      - distribution:read
+                      - complaint:read
                   scope:
                     type: object
                     properties:
@@ -111,12 +117,18 @@ paths:
                         type: string
                         example: provinsi
                       value:
-                        type: string
-                        example: DKI Jakarta
-
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - DKI Jakarta
+                          - Jawa Barat
+                        description: Mendukung multi-scope (misal pengawas yang bertanggung
+                          jawab untuk beberapa provinsi)
   /vendors:
     post:
-      tags: [Vendor]
+      tags:
+        - Vendor
       summary: Registrasi vendor baru
       requestBody:
         required: true
@@ -134,16 +146,22 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
     get:
-      tags: [Vendor]
-      summary: >
-        Daftar vendor. Hasil otomatis ter-scope sesuai role
-        (mis. Pengawas Dinas Jakarta hanya melihat vendor di wilayah Jakarta).
+      tags:
+        - Vendor
+      summary: 'Daftar vendor. Hasil otomatis ter-scope sesuai role (mis. Pengawas
+        Dinas Jakarta hanya melihat vendor di wilayah Jakarta).
+
+        '
       parameters:
         - name: status
           in: query
           schema:
             type: string
-            enum: [pending_verification, verified, rejected, suspended]
+            enum:
+              - pending_verification
+              - verified
+              - rejected
+              - suspended
         - name: page
           in: query
           schema:
@@ -168,7 +186,6 @@ paths:
                       $ref: '#/components/schemas/Vendor'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
-
   /vendors/{vendorId}:
     parameters:
       - name: vendorId
@@ -178,7 +195,8 @@ paths:
           type: string
           format: uuid
     get:
-      tags: [Vendor]
+      tags:
+        - Vendor
       summary: Detail satu vendor
       responses:
         '200':
@@ -192,7 +210,8 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
     patch:
-      tags: [Vendor]
+      tags:
+        - Vendor
       summary: Update data vendor
       requestBody:
         content:
@@ -206,10 +225,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Vendor'
-
   /vendors/{vendorId}/documents:
     post:
-      tags: [Vendor]
+      tags:
+        - Vendor
       summary: Upload dokumen legal vendor (NIK, NIB, PIRT, Sertifikat Halal & Hygiene)
       parameters:
         - name: vendorId
@@ -224,30 +243,39 @@ paths:
           multipart/form-data:
             schema:
               type: object
-              required: [document_type, file]
+              required:
+                - document_type
+                - file
               properties:
                 document_type:
                   type: string
-                  enum: [nik, nib, pirt, sertifikat_halal, sertifikat_hygiene]
+                  enum:
+                    - nik
+                    - nib
+                    - pirt
+                    - sertifikat_halal
+                    - sertifikat_hygiene
                 file:
                   type: string
                   format: binary
       responses:
         '201':
-          description: >
-            Dokumen tersimpan. Validasi otomatis ke OSS/BPOM/BPJPH
-            berjalan asinkron di background.
+          description: 'Dokumen tersimpan. Validasi otomatis ke OSS/BPOM/BPJPH berjalan
+            asinkron di background.
+
+            '
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VendorDocument'
-
   /vendors/{vendorId}/verify:
     post:
-      tags: [Vendor]
-      summary: >
-        Verifikasi & keputusan approval vendor oleh Verifikator BGN.
-        Approve memicu penerbitan SIO Digital.
+      tags:
+        - Vendor
+      summary: 'Verifikasi & keputusan approval vendor oleh Verifikator BGN. Approve
+        memicu penerbitan SIO Digital.
+
+        '
       parameters:
         - name: vendorId
           in: path
@@ -260,11 +288,14 @@ paths:
           application/json:
             schema:
               type: object
-              required: [decision]
+              required:
+                - decision
               properties:
                 decision:
                   type: string
-                  enum: [approve, reject]
+                  enum:
+                    - approve
+                    - reject
                 notes:
                   type: string
       responses:
@@ -275,11 +306,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Vendor'
         '403':
-          description: Hanya role verifikator_bgn yang diizinkan mengakses endpoint ini
-
+          description: Hanya role verifikator_bgn yang diizinkan mengakses endpoint
+            ini
   /vendors/{vendorId}/sio:
     get:
-      tags: [Vendor]
+      tags:
+        - Vendor
       summary: Ambil data SIO Digital (QR Code) vendor yang sudah terverifikasi
       parameters:
         - name: vendorId
@@ -295,13 +327,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SIODigital'
-
   /vendors/{vendorId}/score:
     get:
-      tags: [Distribution]
-      summary: >
-        Vendor Score dinamis, dihitung dari ketepatan distribusi,
-        kelengkapan pelaporan, hasil inspeksi, dan volume pengaduan valid.
+      tags:
+        - Distribution
+      summary: 'Vendor Score dinamis, dihitung dari ketepatan distribusi, kelengkapan
+        pelaporan, hasil inspeksi, dan volume pengaduan valid.
+
+        '
       parameters:
         - name: vendorId
           in: path
@@ -316,10 +349,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VendorScore'
-
   /distributions:
     post:
-      tags: [Distribution]
+      tags:
+        - Distribution
       summary: Submit laporan distribusi harian, wajib disertai foto & koordinat GPS
       requestBody:
         required: true
@@ -334,8 +367,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DistributionReport'
+          headers: &id001
+            X-RateLimit-Limit:
+              schema:
+                type: integer
+            X-RateLimit-Remaining:
+              schema:
+                type: integer
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+      parameters:
+        - &id002
+          name: X-Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Mencegah duplicate submission jika koneksi lag
     get:
-      tags: [Distribution]
+      tags:
+        - Distribution
       summary: Daftar laporan distribusi, ter-scope sesuai role
       parameters:
         - name: vendor_id
@@ -371,10 +423,10 @@ paths:
                       $ref: '#/components/schemas/DistributionReport'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
-
   /distributions/{id}:
     get:
-      tags: [Distribution]
+      tags:
+        - Distribution
       summary: Detail satu laporan distribusi
       parameters:
         - name: id
@@ -390,10 +442,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DistributionReport'
-
   /complaints:
     post:
-      tags: [Complaint]
+      tags:
+        - Complaint
       summary: Submit pengaduan masyarakat. Bisa tanpa login (pelapor dapat anonim).
       security: []
       requestBody:
@@ -409,20 +461,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Complaint'
+          headers: *id001
+      parameters:
+        - *id002
     get:
-      tags: [Complaint]
+      tags:
+        - Complaint
       summary: Daftar pengaduan untuk verifikator/pengawas, ter-scope wilayah
       parameters:
         - name: status
           in: query
           schema:
             type: string
-            enum: [baru, diproses, ditindaklanjuti, ditutup]
+            enum:
+              - baru
+              - diproses
+              - ditindaklanjuti
+              - ditutup
         - name: severity
           in: query
           schema:
             type: string
-            enum: [rendah, sedang, tinggi, kritis]
+            enum:
+              - rendah
+              - sedang
+              - tinggi
+              - kritis
       responses:
         '200':
           description: OK
@@ -437,13 +501,14 @@ paths:
                       $ref: '#/components/schemas/Complaint'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
-
   /complaints/{id}:
     get:
-      tags: [Complaint]
-      summary: >
-        Detail pengaduan & status tracking.
-        Nomor tiket berfungsi sebagai kunci akses publik untuk melacak laporan sendiri.
+      tags:
+        - Complaint
+      summary: 'Detail pengaduan & status tracking. Nomor tiket berfungsi sebagai
+        kunci akses publik untuk melacak laporan sendiri.
+
+        '
       security: []
       parameters:
         - name: id
@@ -460,7 +525,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Complaint'
     patch:
-      tags: [Complaint]
+      tags:
+        - Complaint
       summary: Update status & tindak lanjut pengaduan (khusus verifikator BGN)
       parameters:
         - name: id
@@ -477,7 +543,10 @@ paths:
               properties:
                 status:
                   type: string
-                  enum: [diproses, ditindaklanjuti, ditutup]
+                  enum:
+                    - diproses
+                    - ditindaklanjuti
+                    - ditutup
                 resolution_notes:
                   type: string
       responses:
@@ -487,10 +556,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Complaint'
-
   /public/vendors/verify:
     get:
-      tags: [Public]
+      tags:
+        - Public
       summary: Verifikasi keabsahan vendor via kode SIO/QR atau pencarian nama-wilayah
       security: []
       parameters:
@@ -513,11 +582,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PublicVendorProfile'
-
   /public/dashboard/summary:
     get:
-      tags: [Public]
-      summary: Data agregat publik (jumlah vendor aktif, statistik pengaduan), tanpa data sensitif
+      tags:
+        - Public
+      summary: Data agregat publik (jumlah vendor aktif, statistik pengaduan), tanpa
+        data sensitif
       security: []
       responses:
         '200':
@@ -526,14 +596,140 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublicDashboardSummary'
-
+  /audit-logs:
+    get:
+      tags:
+        - Admin
+      summary: Melihat jejak audit (Audit Trail) dari seluruh perubahan data
+      parameters:
+        - name: entity_type
+          in: query
+          schema:
+            type: string
+        - name: action
+          in: query
+          schema:
+            type: string
+            enum:
+              - CREATE
+              - UPDATE
+              - DELETE
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditLog'
+  /distributions/{id}/appeal:
+    post:
+      tags:
+        - Distribution
+      summary: Vendor mengajukan banding atas flag anomali yang dihasilkan AI
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - reason
+              properties:
+                reason:
+                  type: string
+                supporting_evidence:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Banding diajukan
+  /vendors/{vendorId}/documents/{documentId}/status:
+    get:
+      tags:
+        - Vendor
+      summary: Mengecek status validasi dokumen di sistem OSS/BPOM secara asinkron
+      parameters:
+        - name: vendorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - validating
+                      - valid
+                      - invalid
+                  validated_via:
+                    type: string
+                  validated_at:
+                    type: string
+                    format: date-time
+  /admin/users:
+    post:
+      tags:
+        - Admin
+      summary: Admin mendaftarkan akun baru (Vendor/Pengawas) secara sistematis (Bukan
+        self sign-up)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - name
+                - role
+              properties:
+                email:
+                  type: string
+                  format: email
+                name:
+                  type: string
+                role:
+                  type: string
+                scope_value:
+                  type: array
+                  items:
+                    type: string
+                  description: Wilayah/provinsi jika ada
+      responses:
+        '201':
+          description: Akun berhasil dibuat
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
   responses:
     BadRequest:
       description: Request tidak valid
@@ -559,7 +755,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-
   schemas:
     Error:
       type: object
@@ -567,7 +762,7 @@ components:
       properties:
         type:
           type: string
-          example: "https://sigap.example.id/errors/validation-error"
+          example: https://sigap.example.id/errors/validation-error
         title:
           type: string
           example: Validation Error
@@ -576,11 +771,10 @@ components:
           example: 400
         detail:
           type: string
-          example: "Field 'nik_penanggung_jawab' wajib diisi"
+          example: Field 'nik_penanggung_jawab' wajib diisi
         instance:
           type: string
           example: /v1/vendors
-
     Pagination:
       type: object
       properties:
@@ -592,7 +786,6 @@ components:
           type: integer
         total_pages:
           type: integer
-
     User:
       type: object
       properties:
@@ -607,16 +800,21 @@ components:
         role:
           type: string
           example: pengawas_dinas
-
     VendorRegistrationRequest:
       type: object
-      required: [nama_usaha, nik_penanggung_jawab, nib, alamat, provinsi, kabupaten_kota]
+      required:
+        - nama_usaha
+        - nik_penanggung_jawab
+        - nib
+        - alamat
+        - provinsi
+        - kabupaten_kota
       properties:
         nama_usaha:
           type: string
         nik_penanggung_jawab:
           type: string
-          example: "3175xxxxxxxxxxxx"
+          example: 3175xxxxxxxxxxxx
         nib:
           type: string
         alamat:
@@ -627,7 +825,6 @@ components:
           type: string
         kontak_telepon:
           type: string
-
     VendorUpdateRequest:
       type: object
       properties:
@@ -635,7 +832,6 @@ components:
           type: string
         kontak_telepon:
           type: string
-
     Vendor:
       type: object
       properties:
@@ -646,6 +842,7 @@ components:
           type: string
         nik_penanggung_jawab:
           type: string
+          description: NIK asli (Hanya terlihat oleh role Admin/Verifikator)
         nib:
           type: string
         alamat:
@@ -656,7 +853,11 @@ components:
           type: string
         status:
           type: string
-          enum: [pending_verification, verified, rejected, suspended]
+          enum:
+            - pending_verification
+            - verified
+            - rejected
+            - suspended
         vendor_score:
           type: number
           format: float
@@ -667,7 +868,10 @@ components:
         updated_at:
           type: string
           format: date-time
-
+        nik_penanggung_jawab_masked:
+          type: string
+          example: 3175********1234
+          description: NIK yang telah di-mask demi keamanan (PII Masking)
     VendorDocument:
       type: object
       properties:
@@ -679,18 +883,25 @@ components:
           format: uuid
         document_type:
           type: string
-          enum: [nik, nib, pirt, sertifikat_halal, sertifikat_hygiene]
+          enum:
+            - nik
+            - nib
+            - pirt
+            - sertifikat_halal
+            - sertifikat_hygiene
         file_url:
           type: string
           format: uri
         validation_status:
           type: string
-          enum: [pending, valid, invalid]
+          enum:
+            - pending
+            - valid
+            - invalid
         validated_via:
           type: string
-          example: "OSS API"
+          example: OSS API
           nullable: true
-
     SIODigital:
       type: object
       properties:
@@ -709,7 +920,6 @@ components:
         valid_until:
           type: string
           format: date-time
-
     VendorScore:
       type: object
       properties:
@@ -733,10 +943,14 @@ components:
         last_updated:
           type: string
           format: date-time
-
     DistributionReportRequest:
       type: object
-      required: [vendor_id, jumlah_porsi, latitude, longitude, foto]
+      required:
+        - vendor_id
+        - jumlah_porsi
+        - latitude
+        - longitude
+        - foto
       properties:
         vendor_id:
           type: string
@@ -754,7 +968,10 @@ components:
         foto:
           type: string
           format: binary
-
+        radius:
+          type: number
+          format: float
+          description: Radius jangkauan layanan (meter)
     DistributionReport:
       type: object
       properties:
@@ -777,19 +994,43 @@ components:
         foto_url:
           type: string
           format: uri
-        anomaly_detected:
-          type: boolean
-        anomaly_score:
-          type: number
-          format: float
-          nullable: true
         reported_at:
           type: string
           format: date-time
-
+        anomaly:
+          type: object
+          nullable: true
+          description: Hasil analisis dari Anomaly Detection Engine (Probabilistik)
+          properties:
+            score:
+              type: number
+              format: float
+              description: Probabilitas anomali 0.0 - 1.0
+            confidence:
+              type: number
+              format: float
+            flag:
+              type: string
+              enum:
+                - none
+                - low_risk
+                - medium_risk
+                - high_risk
+                - critical
+            detected:
+              type: boolean
+              description: True jika flag berstatus high_risk atau critical
+            details:
+              type: array
+              items:
+                type: string
+              description: Faktor-faktor yang berkontribusi pada skor
     ComplaintRequest:
       type: object
-      required: [vendor_id, kategori, deskripsi]
+      required:
+        - vendor_id
+        - kategori
+        - deskripsi
       properties:
         vendor_id:
           type: string
@@ -799,7 +1040,12 @@ components:
           description: Opsional — pelapor dapat mengirim tanpa identitas
         kategori:
           type: string
-          enum: [keracunan, keterlambatan, kekurangan_porsi, kualitas_makanan, lainnya]
+          enum:
+            - keracunan
+            - keterlambatan
+            - kekurangan_porsi
+            - kualitas_makanan
+            - lainnya
         deskripsi:
           type: string
         latitude:
@@ -811,7 +1057,14 @@ components:
         foto:
           type: string
           format: binary
-
+        distribution_id:
+          type: string
+          format: uuid
+          description: Opsional — ID laporan distribusi spesifik yang diadukan
+        tanggal_kejadian:
+          type: string
+          format: date
+          description: Tanggal kejadian (opsional, jika spesifik per hari)
     Complaint:
       type: object
       properties:
@@ -830,10 +1083,18 @@ components:
           type: string
         severity:
           type: string
-          enum: [rendah, sedang, tinggi, kritis]
+          enum:
+            - rendah
+            - sedang
+            - tinggi
+            - kritis
         status:
           type: string
-          enum: [baru, diproses, ditindaklanjuti, ditutup]
+          enum:
+            - baru
+            - diproses
+            - ditindaklanjuti
+            - ditutup
         resolution_notes:
           type: string
           nullable: true
@@ -843,10 +1104,10 @@ components:
         sla_deadline:
           type: string
           format: date-time
-
     PublicVendorProfile:
       type: object
-      description: Subset data vendor yang aman ditampilkan ke publik, tanpa NIK/data pribadi
+      description: Subset data vendor yang aman ditampilkan ke publik, tanpa NIK/data
+        pribadi
       properties:
         nama_usaha:
           type: string
@@ -861,7 +1122,6 @@ components:
         valid_until:
           type: string
           format: date-time
-
     PublicDashboardSummary:
       type: object
       properties:
@@ -873,4 +1133,28 @@ components:
           type: integer
         pengaduan_tertindaklanjuti_persen:
           type: number
-  
+    AuditLog:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        entity_type:
+          type: string
+        entity_id:
+          type: string
+        action:
+          type: string
+        actor_id:
+          type: string
+        old_values:
+          type: object
+          additionalProperties: true
+        new_values:
+          type: object
+          additionalProperties: true
+        timestamp:
+          type: string
+          format: date-time
+        ip_address:
+          type: string

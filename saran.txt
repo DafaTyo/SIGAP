@@ -1,0 +1,30 @@
+
+Pertama gini, lu kan di vendor tuh ada NIK penanggung jawab kan? Masalahnya kalau misalkan lu NIK penanggung jawab, lu jangan pernah ngirim data *full*. Lah kalau misalkan kayak di Shopee misalkan *username*. Jadi lu harus nge-bintangin tuh. Jadi yang lu tampilkan cukup 4 angka awal, 4 angka akhir. Jadi kan NIK itu kan ada 16 ya, 16-17 ya. Itu lu cukup bintangin aja. Jadi 4 di awal lu lihatin, bintangin, 4 di akhir bintangin gitu. Jadi lu tambahin ini, tambahin PII lah, *personally identifiable information* gitu. Nah, itu harus lu *masking* datanya, satu.
+
+Yang kedua, lu belum ada *audit trail*. Jadi misalkan ketika lu mau nge-*post* atau *patch* atau *update* atau *delete*, itu lu harus audit semuanya. Misalkan lu tambahin lah *audit log* gitu. Misalkan kayak tanggal sekian, jam sekian, itu siapa yang lakuin, terus kemudian perubahannya dari apa ke apa. Itu harus lu jabarin, karena enggak boleh kan kalau data sensitif tuh harus data *audit trail*-nya ada. Itu kan salah satu bentuk *data governance*.
+
+Kemudian, lu kan udah pakai ini nih, udah pakai OPA ya? RBAC sebenarnya bagus, cuman maksud gua kalau misalkan RBAC, ya tadi gua bilang lu ada *scope* yang ini lah. Pertanyaan gua gini: kalau misalkan ada pengawas dinas, ya kan, misalkan dia itu vendor-nya ada dua provinsi, gimana? Gimana kalau misalkan vendor-nya ada dua provinsi, enggak mungkin dong dinasnya beda-beda gitu. Kalau misalkan dinasnya pengen satu tapi dua provinsi gimana? Nah, itu lu harus pikirin. Makanya lu, makanya kan gua kemarin gua tambahin *permission* juga kan, atau lu bisa nerapin namanya *attribute-based* (ABAC).
+
+Terus, dari sisi input nih. Masalahnya lu belum ada permasalahan kalau misalkan di-*duplicate entry*. Misalkan kalau gua *submit* dua kali nih karena jaringan gua *lag*. Lu tambahin kayak *idempotency key* atau segala macam gitu, jadi ketahuan dia tuh jejak *trail*-nya berutan enggak. Kalau misalkan lu *post* 10 kali tapi aplikasi lu *lag*, ke-*request*-nya *post* 10 kali padahal cuma satu kali aksi, nah itu gimana tuh? Tuh.
+
+Terus kemudian, lu kan pakai *geospatial* ya? Di distribusi menurut gua lu tambahin *latitude*, *longitude* sama radius. Karena kan lu pakai *maps* ya, pakai *geospatial*. Kemudian *rate limit* sih, *rate limit* tuh belum ada lah. Lu masih kalau misalkan kena DDoS atau 429 *Too Many Requests* gitu.
+
+Terus habisnya, *compliant request*. *Compliant request* kan bisa aja misalkan kayak ada di spesifik pengiriman gitu, ada spesifik hari. Lu tambahin dah tuh daripada cuma vendor kan.
+
+Terus kemudian, kalau misalkan ada AI nih, AI-nya nge-*flag* sesuatu salah. Nah, itu gimana tuh lu bisa ajukan banding? Itu harus pikirin juga.
+
+Terus kemudian, lu bikin ini... Bikin apanya, *polling endpoint* gitu. Kalau misalkan OSS lu jalannya di belakang layar tapi lu enggak ngasih tahu *user*, *user* kan enggak tahu nih sebenarnya udah jalan belum sih datanya gitu, verifikasinya gitu.
+
+Sama yang fatal menurut gua gini: lu *anomaly detection* kan *true* atau *false*, sedangkan AI itu kan biasanya probabilistik. Jadi misalkan kayak skor gitu, 97% *confidence*. Ya menurut gua lu tambahin skor, jangan *boolean* lah. Menurut gua probabilitasnya sama *flag*-nya. Jadi misalkan: oke *probability*-nya sekian sampai sekian, baru *flag*-nya sekian sampai sekian. Jadi jangan cuma skor doang tapi ada *flag*-nya juga gitu. Jangan langsung ke *flag*, menurut gua lu balik urutannya gitu. Jadi skor dulu, baru *detected*, baru *flag*-nya apa. Karena kalau misalkan lu *true*/*false*-nya dulu, ya kalau misalkan dia salah, misalkan *true*, *true*-nya tapi cuma 0,5, kebaca nya *true*. Nah mampus lu kalau misalkan di situ.
+
+Makanya paling beberapa PR sih ini sih. Gua enggak terlalu ngedalam ya, cuman menurut gua beberapa saran ini tuh lu harus terapin. Cuman kalau misalkan lu merasa ada bagian kayaknya enggak semuanya harus diterapin deh soalnya *target* gua MVP, ya *it's okay* gitu. Gua cuma ngasih tahu aja.
+
+Gini, kalau lu ada inputan *role*, ya berarti orang bisa aja milih *vendor* atau apa, jadi otomatis opsi satu enggak masuk akal.
+
+Terus kalau misalkan login secara otomatis inputan email, password, dan terdaftar, berarti lu harus buat database buat nampung email atau password gitu. Nah, itu bisa enggak gitu?
+
+Nah kan, lah kalau misalkan bukan *vendor* atau mitra, pertanyaannya gini: dari mana lu tahu orang itu punya/sebagai *vendor* atau mitra gitu? Berarti kan lu harus nambahin *role* dulu kan? Nah, pertanyaannya, itu masuk akal enggak? Masuk, cuman gini: lu bisa enggak nyiapin database-nya gitu?
+
+Jadi nanti pas pertanyaannya adalah: siapa yang masukin data username, password, terus habis itu sebagai *role*? Itu posisinya apa di sistem lu gitu? Itu harus jelas. Kan enggak mungkin lu tiba-tiba buka database terus nambahin mandiri, enggak mungkin kan? Pasti dari suatu sistem, entah admin atau siapa. Nah, batasan admin itu sampai gimana? Apakah dia bisa ganti password atau gimana? Itu juga harus dipikirin gitu. Itu aja sih.
+
+Cuman kalau misalkan lu bikin *role*, kayaknya *sign up* agak aneh deh. Kecuali lu emang cuma sebagai user biasa, masuk akal. Tapi kalau *vendor*, biasanya kan dibuatin akunnya. Enggak mungkin *vendor* asal buat bikin sendiri, ya lu bisa aja langsung jadi *role* yang paling tinggi, gitu kan logikanya.
