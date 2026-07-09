@@ -1,0 +1,6 @@
+Alembic migrations for SIGAP backend.
+
+Run from src/backend:
+
+  PYTHONPATH=. alembic revision --autogenerate -m "initial schema"
+  PYTHONPATH=. alembic upgrade head
