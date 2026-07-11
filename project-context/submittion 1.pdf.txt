@@ -1,0 +1,636 @@
+
+
+===== PAGE 1 / 19 =====
+proposal
+1st submission
+pusat inovasi 
+digital indonesia
+2026
+berinovasi untuk masa depan,
+memberdayakan talenta digital
+
+
+
+===== PAGE 2 / 19 =====
+ketentuan penulisan 
+proposal
+• Proposal wajib ditulis dalam Bahasa Indonesia yang jelas dan mudah 
+dipahami.
+• Gunakan bahasa yang formal, ringkas, dan langsung ke inti.
+• Hindari penggunaan jargon teknis berlebihan tanpa penjelasan.
+• Fokus pada kejelasan ide, logika solusi, dan dampak nyata, bukan 
+sekadar gaya bahasa.
+• Proposal harus mengikuti struktur template resmi yang disediakan 
+oleh panitia.
+• Setiap bagian harus diisi secara proporsional, tidak terlalu panjang di 
+satu bagian dan terlalu pendek di bagian lain.
+• Format dokumen:
+⚬Format file: PDF
+⚬Nama file: Nama Tim_Nama Ketua Tim_Proposal Hackathon dan 
+Digdaya 2026.pdf
+⚬Spasi: 1 – 1.15
+⚬Font: bebas, mudah dibaca (contoh: Arial, Calibri, Times New 
+Roman)
+⚬Ukuran font utama: 11–12 pt
+• Gambar, diagram, tabel, atau ilustrasi bersifat opsional.
+• Visual hanya digunakan jika membantu memperjelas ide, bukan 
+sebagai dekorasi.
+• Semua visual harus: Relevan, mudah dibaca, dan diberi judul atau 
+keterangan singkat jika perlu.
+• Dapat menambahkan Referensi sebagai tambahan di akhir dokumen 
+proposal jika mengutip pihak lain.
+• Proposal yang telah diisi dapat diunggah di laman submission dengan 
+bentuk pdf saja.
+• Peserta dapat melampirkan dokumen tambahan lain yang relevan dan 
+atau link demo / prototype (bersifat opsional).
+
+
+
+===== PAGE 3 / 19 =====
+0
+problem statements
+Penguatan 
+Ketahanan dan 
+Inovasi Keuangan
+Manajemen Risiko
+1.Fraud Detection Systems (FDS)
+2.APU/PPT, Tracing Transaction 
+termasuk kripto
+3.Perlindungan Konsumen
+4.Cyber Security & Data 
+Protection
+5.Regtech & Suptech
+Elektronifikasi 
+Keuangan Daerah
+1.Sistem Pemungutan 
+Pendapatan Daerah yang 
+Cerdas (Smart Revenue 
+Collection)
+2.Smart Belanja Daerah
+3.Smart City
+4.Penasihat Investasi Daerah
+5.Project Crowdfunding
+Memperluas Investor 
+Ritel
+1.Penasihat Investasi Keuangan
+2.Literasi Investor Ritel
+3.Asisten Keuangan Pribadi
+4.Analisis Perilaku Pasar
+5.Rekomendasi Produk 
+Keuangan dan Analisis Risiko
+Digitalisasi Keuangan 
+Syariah
+1.Investasi SUKUK Digital
+2.Analitik ZISWAF
+3.Platform Sertifikasi Halal
+4.Komersialisasi Produk 
+Pesantren
+5.Pembiayaan UMKM Syariah
+Peningkatan 
+Produktivitas, 
+Ketahanan 
+Pangan, dan 
+Penciptaan 
+Lapangan Kerja
+Inklusi Ekonomi 
+(UMKM)
+1.Pemanfaatan Data Alternatif / 
+Credit Scoring
+2.Digital Advisor untuk Ekspor 
+UMKM
+3.Scoring Kesiapan Ekspor
+4.B2B Matchmaking untuk 
+Bahan Baku
+5.Matchmaking Pembeli-Penjual 
+Ekspor
+Digitalisasi Ketahanan 
+Pangan
+1.Platform Penjualan Langsung 
+dari Petani ke Konsumen
+2.Platform Matching Demand-
+Supply Antarwilayah
+3.Pemantauan Inflasi
+4.Pembiayaan Petani & 
+Penajaman Sasaran Subsidi
+5.Logistik Pangan Cerdas
+Digitalisasi 
+Penciptaan 
+Lapangan Kerja
+1.Platform Job Matching 
+Berbasis Kecerdasan Artifisial
+2.Skill Gap Advisor
+3.Personalized Training
+4.Analitik Kesesuaian Pekerjaan 
+dan Tenaga Kerja
+5.Job Matching Antarwilayah
+Percepatan 
+Layanan Publik, 
+Ekonomi Kreatif, 
+dan Ekspor Jasa 
+Digital
+Digitalisasi Layanan 
+Publik & Pariwisata
+1.Integrated Smart Ticketing
+2.Personalisasi Pengalaman 
+Pariwisata
+3.Platform Perizinan dan 
+Pengawasan Vendor MBG
+4.Pengayaan Data untuk 
+Penyaluran Bantuan Sosial 
+Digital
+5.Pemantauan dan Restorasi 
+Lingkungan
+Digitalisasi Ekonomi 
+Kreatif
+1.Permainan untuk Nasionalisme 
+dan Edukasi
+2.Animasi
+3.Digitalisasi Museum dan 
+Warisan Budaya
+4.IP Protection
+5.Market Insight Industri Kreatif
+Digitalisasi Ekspor 
+Layanan Digital
+1.Platform Kerja Jarak Jauh 
+(Remote-work)
+2.Layanan IT & Software
+3.Penyelesaian Transaksi Lintas 
+Negara (Cross-Border)
+4.Otomatisasi Layanan 
+Pelanggan Multibahasa
+5.Local Language AI (LLM)
+
+
+
+===== PAGE 4 / 19 =====
+полуфиналы
+team identity
+Nama Tim
+Nama Ketua Tim
+Muhammad Sheva Kurnia Meazza
+085281517471
+Kontak
+Dafa Prasetyo (Backend Developer)
+Muhammad Sheva Kurnia Meazza (UI/UX Designer)
+Muhammad Farhan Nurkhaeri (ML/AI Enthusiast)
+Madridiska Fadlan Nugroho (Data Scientist)
+Nama Anggota 
+Tim & Peran
+Ringkasan Tim
+Siapa tim Anda dan kenapa relevan dengan solusi ini?
+(maks. 600 karakter)
+Kami merupakan tim yang terdiri dari empat mahasiswa dengan kompetensi di bidang 
+teknologi, analisis data, dan pengembangan sistem. Berfokus pada peningkatan 
+transparansi 
+dan 
+efektivitas 
+program 
+Makan 
+Bergizi 
+Gratis 
+(MBG), 
+kami 
+mengembangkan solusi digital yang mampu memantau distribusi, kualitas, serta 
+ketepatan sasaran secara real-time. Dengan pendekatan berbasis data dan kolaborasi 
+yang solid, kami berkomitmen menghadirkan inovasi yang terukur, berkelanjutan, dan 
+memberikan dampak nyata bagi masyarakat.
+shevaclassroom@gmail.com
+Email
+Universitas Gunadarma, University of Jakarta International
+Institusi
+-
+Link Portofolio
+1
+
+
+
+===== PAGE 5 / 19 =====
+team identity
+Executive Summary Project
+Jelaskan ringkasan eksekutif proyek Anda, bagaimana proyek ini mendukung 
+tema Hackathon, dan bagaimana proyek ini dapat memberikan dampak positif 
+bagi ekonomi digital dan lanskap keuangan Indonesia. Pastikan untuk 
+menyertakan problem statement yang Anda coba jawab dengan solusi inovatif 
+Anda.
+(maks. 600 karakter)
+SIGAP (Sistem Integrasi Gizi & Akuntabilitas Pangan) adalah platform digital 
+end-to-end yang mentransformasi tata kelola vendor Program Makan Bergizi 
+Gratis (MBG) menjadi ekosistem yang transparan, terstandar, dan berbasis data.
+Dibangun untuk menjawab celah sistemik yang nyata, SIGAP menghadirkan: 
+perizinan vendor digital yang lebih cepat dan terukur, monitoring distribusi 
+realtime, standarisasi mutu gizi terukur, kanal pengaduan publik terstruktur, dan 
+dashboard analitik strategis bagi pemangku kebijakan, memastikan anggaran 
+tersalurkan tepat sasaran.
+2
+
+
+
+===== PAGE 6 / 19 =====
+Percepatan Layanan Publik, Ekonomi Kreatif, dan Ekspor Jasa Digital
+Platform Perizinan dan Pengawasan Vendor MBG
+SIGAP dirancang untuk mentransformasi tata kelola vendor Program Makan Bergizi 
+Gratis (MBG) dari proses manual yang tersebar menjadi sistem digital terpadu yang 
+akuntabel dan berbasis data.
+Platform ini menargetkan: 
+1)
+Percepatan perizinan vendor menjadi lebih cepat melalui alur verifikasi digital 
+end-to-end.
+2)
+Pengawasan distribusi makanan secara real-time kepada penerima manfaat di 
+seluruh Indonesia.
+3)
+Partisipasi publik aktif melalui kanal pengaduan terstruktur dan informatif
+4)
+Penyediaan dashboard analitik bagi BGN dan pemangku kebijakan sebagai dasar 
+pengambilan keputusan strategis.
+Target : >70% vendor aktif termonitor, >80% pengaduan masyarakat tertindaklanjuti 
+dan memastikan program senilai Rp71 triliun berjalan transparan dan efisien.
+Problem statement
+Problem Statement yang Dipilih
+Sub-Problem Statement Acuan
+(boleh lebih dari satu)
+Tujuan Utama
+Jelaskan tujuan utama dan target spesifik yang ingin dicapai dari inovasi ini.
+(maks. 800 karakter)
+3
+Silakan cek halaman 0 untuk penulisan Problem Statement yang sesuai.
+
+
+
+===== PAGE 7 / 19 =====
+Program MBG melibatkan puluhan ribu vendor SPPG di 34 provinsi, namun tidak 
+didukung infrastruktur digital yang memadai. Empat masalah kritis yang teridentifikasi:
+1)
+Perizinan tidak terstandar & rentan manipulasi, Verifikasi dokumen dilakukan 
+manual, membuka celah bagi vendor tidak layak untuk lolos seleksi.
+2)
+Distribusi makanan tidak dapat diverifikasi independent, Pelaporan harian 
+sepenuhnya bergantung input manual vendor tanpa mekanisme validasi silang, 
+sehingga data mudah dimanipulasi.
+3)
+Nihilnya sistem deteksi dini vendor bermasalah, Tidak ada skoring atau alert 
+otomatis; pelanggaran standar gizi dan ketepatan distribusi baru diketahui setelah 
+insiden terjadi.
+4)
+Pengaduan masyarakat tanpa jalur formal, Laporan dari orang tua, guru, maupun 
+kepala sekolah tidak memiliki saluran resmi, sehingga tidak tertangani secara 
+sistematis dan terukur.
+Masalah ini secara kolektif mengancam efektivitas anggaran Rp71 triliun dan mengikis 
+kepercayaan publik terhadap program prioritas nasional.
+Problem definition
+Apa Masalah Utamanya?
+Masalah harus spesifik, bukan umum.
+(maks. 1000 karakter)
+4
+Terdampak Langsung:
+•
+82,9 juta penerima manfaat yang bergantung pada kualitas dan ketepatan 
+distribusi tiap harinya.
+•
+30.000 vendor/SPPG aktif, pelaku UMKM pangan yang terhambat birokrasi 
+perizinan tidak transparan dan tidak terdigitalisasi
+•
+Petugas BGN & Dinas terkait, verifikator yang kewalahan menangani ribuan 
+dokumen secara manual tanpa alat bantu digital
+Siapa yang Terdampak dan Seberapa Besar?
+Siapa pengguna / institusi / industri yang terdampak?
+(maks. 700 karakter)
+
+
+
+===== PAGE 8 / 19 =====
+Permasalahan tata kelola vendor MBG bukan sekadar asumsi namun telah 
+didokumentasikan oleh berbagai sumber terpercaya:
+1)
+Ombudsman RI (Sept 2025) menemukan 4 potensi maladministrasi dalam MBG, 
+termasuk proses verifikasi mitra tanpa kepastian waktu dan sistem pengawasan 
+yang masih reaktif serta belum berbasis data.
+2)
+ICW (Jan 2025) mengungkap mekanisme pengadaan SPPG tidak transparan — 
+ditemukan SPPG menguasai lebih dari satu wilayah kecamatan dengan alamat 
+dapur yang sama, melanggar petunjuk teknis BGN.
+3)
+Transparency International Indonesia (Jun 2025) melalui Corruption Risk 
+Assessment menyimpulkan MBG membuka ruang korupsi sistemik, dengan 
+estimasi potensi kerugian negara hingga Rp1,8 miliar per SPPG per tahun.
+4)
+JPPI (Sept 2025) mencatat korban keracunan akibat distribusi MBG menembus 
+10.482 orang — bukti nyata absennya sistem kontrol kualitas vendor yang 
+terstandar dan real-time.
+Problem definition
+Bukti Masalah
+Data, laporan, observasi, regulasi, atau pengalaman nyata.
+(maks. 800 karakter)
+5
+Terdampak Tidak Langsung:
+Negara & publik — anggaran sebesar Rp71 triliun berisiko tidak terserap optimal tanpa 
+sistem pengawasan berbasis data di 34 provinsi
+
+
+
+===== PAGE 9 / 19 =====
+proposed solution
+Solusi Inti
+Deskripsikan secara umum solusi yang Anda ajukan dan bagaimana solusi tersebut bekerja.
+(maks. 900 karakter)
+6
+SIGAP bekerja sebagai sistem terpadu yang menghubungkan seluruh aktor ekosistem 
+MBG dalam satu platform yang saling terintegrasi.
+Cara kerja: Vendor mendaftar dan mengajukan perizinan secara digital dengan validasi 
+otomatis ke sistem OSS, BPOM, dan BPJPH. Setelah terverifikasi, vendor melaporkan 
+distribusi harian melalui aplikasi; sistem mendeteksi anomali secara otomatis dan 
+memberikan alert kepada pengawas. Masyarakat dapat melaporkan penyimpangan 
+melalui portal publik. Seluruh data terintegrasi dalam dashboard analitik=s untuk 
+pengambilan keputusan strategis oleh BGN dan pemangku kebijakan.
+Tiga pilar utama SIGAP:
+1)
+Verifikasi, perizinan digital berbasis data pemerintah
+2)
+Pengawasan, monitoring distribusi dan vendor scoring real-time
+3)
+Akuntabilitas, kanal pengaduan publik dengan SLA terukur
+Gambar / Ilustrasi / Skema
+(jika ada)
+
+
+
+===== PAGE 10 / 19 =====
+proposed solution
+Bagaimana Solusi Bekerja?
+Jelaskan proses dari input → proses → output.
+(maks. 900 karakter)
+7
+Input : Tiga Sumber Data Utama Vendor mengunggah dokumen legal (NIK, NIB, 
+PIRT, Sertifikat Halal & Hygiene) secara digital, menginput laporan distribusi 
+harian via aplikasi. Masyarakat menyubmit laporan penyimpangan dilengkapi 
+foto & koordinat GPS sebagai bukti terverifikasi.
+Process : Validasi, Analisis & Eskalasi Otomatis Dokumen divalidasi otomatis 
+melalui integrasi API lintas instansi (OSS, BPOM, BPJPH). Engine anomaly 
+detection menganalisis pola distribusi dan memicu alert real-time bila terdeteksi 
+inkonsistensi. Laporan masyarakat dieskalasi berbasis severity scoring kepada 
+verifikator BGN.
+Output : Keputusan Berbasis Data Vendor terverifikasi menerima SIO Digital ber-
+QR Code yang dapat divalidasi publik secara instan. Pengawas memperoleh 
+Vendor Score dinamis dan notifikasi anomali. BGN mengakses dashboard 
+analitik agregat per wilayah sebagai basis kebijakan operasional.
+
+
+
+===== PAGE 11 / 19 =====
+impact & outcome
+Manfaat Utama Jika Solusi Diterapkan
+Jelaskan perubahan positif yang diharapkan bagi pengguna, industri, atau masyarakat.
+(maks. 800 karakter)
+8
+•
+Bagi Vendor & UMKM, Pangan Proses perizinan yang sebelumnya tidak 
+terstandar kini menjadi transparan, terdigitalisasi, dan dapat dipantau secara 
+mandiri — menurunkan hambatan masuk bagi UMKM lokal yang ingin bermitra 
+dengan program MBG.
+•
+Bagi Pengawas & BGN, Beban verifikasi manual tereduksi signifikan melalui 
+otomasi validasi dokumen dan anomaly detection — memungkinkan pengawas 
+fokus pada kasus berprioritas tinggi.
+•
+Bagi Masyarakat & Penerima Manfaat, Kanal pengaduan formal meningkatkan 
+daya kontrol publik terhadap kualitas distribusi — memastikan 82,9 juta 
+penerima manfaat mendapat makanan bergizi sesuai standar.
+•
+Bagi Negara, Transparansi berbasis data meminimalkan potensi kebocoran 
+anggaran Rp71 triliun dan memperkuat akuntabilitas program prioritas nasional 
+secara terukur.
+Dampak Jangka Pendek dan Menengah
+Uraikan dampak dalam waktu dekat dan dalam beberapa bulan/tahun ke depan.
+(maks. 600 karakter)
+Jangka Pendek : Perizinan vendor terdigitalisasi dan terstandar secara nasional. 
+Pengawas BGN memiliki dashboard terpusat untuk monitoring distribusi. Masyarakat 
+mendapatkan kanal pengaduan resmi yang proper dan dapat ditindaklanjuti secara 
+transparan.
+Jangka Menengah : Vendor Score mendorong kompetisi sehat antar SPPG berbasis 
+kinerja nyata. Anomaly detection menekan potensi manipulasi distribusi secara 
+sistemik. Data agregat SIGAP menjadi basis evaluasi kebijakan MBG berbasis evidence 
+mendukung efisiensi anggaran Rp71 triliun secara berkelanjutan.
+
+
+
+===== PAGE 12 / 19 =====
+innovation & differentiation
+Apa yang Membuat Solusi Ini Berbeda?
+Jelaskan unsur keunikan, inovasi, atau pendekatan baru dari solusi Anda.
+(maks. 700 karakter)
+9
+SIGAP membedakan diri melalui pendekatan berbasis data terpadu (interoperabilitas) 
+dan pengawasan partisipatif. Tidak seperti sistem manual yang statis, SIGAP 
+menerapkan Vendor Scoring Dinamis yang mengevaluasi kinerja vendor secara real-
+time berdasarkan laporan distribusi harian dan feedback masyarakat.
+Inovasi utama kami terletak pada SIO Digital berbasis QR Code yang memungkinkan 
+transparansi penuh bagi publik untuk memverifikasi keabsahan vendor di lapangan. 
+Dengan deteksi anomali otomatis, SIGAP mampu mendeteksi potensi penyimpangan 
+anggaran sebelum menjadi masalah besar, mengubah birokrasi kaku menjadi sistem 
+layanan publik yang lincah, modern, dan sangat akuntabel.
+Posisi Solusi Dibanding Pendekatan atau Produk yang Sudah Ada
+Jika sudah ada solusi serupa di pasar, jelaskan bagaimana solusi Anda melengkapi, 
+memperbaiki, atau melampaui pendekatan tersebut.
+(maks. 700 karakter)
+SIGAP melampaui sistem manual yang terfragmentasi dengan menghadirkan 
+interoperabilitas penuh antara data izin (OSS, BPOM, Halal) dan operasional lapangan. 
+Berbeda dengan platform pengadaan umum yang hanya fokus pada aspek 
+administratif di awal, SIGAP menawarkan Monitoring Pasca-Izin secara harian.
+Keunggulan utamanya adalah Siklus Umpan Balik Tertutup: laporan masyarakat 
+langsung memengaruhi Vendor Score, yang pada gilirannya menentukan kelayakan 
+perpanjangan izin otomatis. Kami mengubah sistem "penerbitan izin lalu lupakan" 
+menjadi pengawasan aktif berbasis data yang memastikan kualitas gizi tetap terjaga 
+secara konsisten dan transparan di seluruh Indonesia.
+
+
+
+===== PAGE 13 / 19 =====
+technical approach
+Teknologi Utama yang Digunakan
+Sebutkan teknologi atau pendekatan utama (contoh: AI, aplikasi web, mobile, data analytics, 
+automation).
+(maks. 700 karakter)
+1
+0
+•
+Frontend & Interface : Next.js 14 + TypeScript + Tailwind CSS untuk platform web; 
+Progressive Web App (PWA) untuk aksesibilitas perangkat dan koneksi rendah.
+•
+Backend & API : FastAPI (Python) sebagai core REST API; WebSocket untuk 
+notifikasi real-time; integrasi API eksternal lintas instansi (OSS, BPOM, BPJPH, 
+DJP).
+•
+Data & AI : PostgreSQL + PostGIS untuk database relasional dan geo-spasial; 
+anomaly detection engine untuk identifikasi manipulasi distribusi; dashboard 
+analitik berbasis agregasi data real-time.
+•
+Infrastruktur : Docker + Kubernetes di GovCloud Indonesia; Redis untuk caching 
+dan antrian notifikasi; MinIO untuk penyimpanan dokumen terenkripsi.
+Pemilihan dan Penggunaan Teknologi
+Jelaskan mengapa Anda memilih teknologi tersebut dan bagaimana cara menggunakannya.
+(maks. 600 karakter)
+Setiap teknologi dipilih berdasarkan tiga kriteria yakni keandalan produksi, kesesuaian 
+regulasi pemerintah, dan efisiensi pengembangan.
+Next.js dipilih karena SSR-nya mendukung aksesibilitas optimal di koneksi rendah. 
+FastAPI dipilih karena performa tinggi dan kemudahan integrasi dengan library AI/ML 
+Python. 
+PostgreSQL + PostGIS menangani kebutuhan data relasional sekaligus geo-spasial 
+untuk pemetaan vendor. GovCloud memastikan kepatuhan regulasi data residency 
+sesuai Perpres SPBE. Redis menjamin notifikasi real-time tanpa membebani database 
+utama.
+
+
+
+===== PAGE 14 / 19 =====
+technical approach
+Algoritma Solusi
+Jelaskan algoritma AI/ML dan/atau blockchain yang akan Anda gunakan.
+(maks. 700 karakter)
+11
+Anomaly Detection — Isolation Forest & Z-Score Analysis Mendeteksi pola distribusi 
+yang menyimpang dari baseline historis vendor — mencakup laporan porsi tidak 
+konsisten, frekuensi distribusi anomali, dan inkonsistensi geo-lokasi pengiriman.
+Vendor Scoring — Weighted Multi-Factor Scoring Skor vendor dikalkulasi secara 
+dinamis dari empat variabel terbobot: ketepatan distribusi, kelengkapan pelaporan, 
+hasil inspeksi lapangan, dan volume pengaduan masyarakat yang valid.
+Severity Classification — Rule-Based + NLP Classifier Laporan masyarakat 
+diklasifikasikan otomatis berdasarkan tingkat kekritisan (keracunan, keterlambatan, 
+kekurangan porsi) untuk menentukan prioritas eskalasi kepada verifikator BGN.
+Data atau Input Utama yang Digunakan
+Jelaskan data apa yang digunakan dan dari mana asalnya, serta kualitas dan keandalan data 
+tersebut.
+(maks. 900 karakter)
+SIGAP beroperasi di atas empat lapisan data yang saling memvalidasi satu sama lain, 
+membentuk ekosistem data yang terpercaya dan sulit dimanipulasi secara sepihak.
+1)
+Data Identitas & Legalitas NIK, NIB, NPWP, dan sertifikat perizinan vendor 
+divalidasi langsung ke sumber otoritatif: OSS, DJP, BPOM, dan BPJPH — eliminasi 
+data palsu sejak onboarding.
+2)
+Data Operasional Harian Laporan distribusi vendor dikombinasikan dengan GPS 
+timestamped dan foto sebagai bukti primer yang tidak dapat direkayasa secara 
+manual.
+3)
+Data Sosial & Pengaduan Laporan masyarakat berfungsi sebagai sinyal eksternal 
+independen yang mengkalibrasi dan mengkoreksi data operasional vendor secara 
+real-time.
+
+
+
+===== PAGE 15 / 19 =====
+technical approach
+Pertimbangan Keamanan dan Skalabilitas
+Uraikan secara singkat bagaimana solusi memperhatikan keamanan data dan potensi 
+pengembangan ke depan.
+(maks. 600 karakter)
+12
+4)   Knowledge Base Regulasi Dokumen kebijakan BGN, Perpres, dan Permenkes 
+diindeks sebagai RAG knowledge base — memastikan seluruh proses klasifikasi 
+dan rekomendasi sistem mengacu pada regulasi yang valid.
+Keamanan Data sensitif vendor dienkripsi menggunakan standar TLS dan AES-256. 
+Sistem menerapkan Role-Based Access Control (RBAC) sehingga setiap pengguna 
+hanya dapat mengakses data sesuai perannya. Seluruh aktivitas tercatat dalam audit 
+log untuk keperluan investigasi. Platform di-deploy di GovCloud agar data tersimpan di 
+dalam wilayah Indonesia sesuai regulasi UU PDP.
+Skalabilitas Platform dibangun dengan arsitektur modular berbasis Docker sehingga 
+setiap modul dapat dikembangkan dan diperbaiki secara independen. Pendekatan ini 
+memudahkan penambahan fitur baru tanpa mengganggu sistem yang sedang 
+berjalan.
+
+
+
+===== PAGE 16 / 19 =====
+implementation feasibility
+Status Inovasi
+Inovasi saat ini sedang dalam tahap apa? Misalnya ide / mockup / POC / prototype / pilot 
+project?
+13
+Saat ini tim telah menyelesaikan penyusunan Product Requirements Document (PRD), 
+pendefinisian alur proses utama, perancangan arsitektur sistem, serta pembuatan 
+mockup visual alur kerja platform. 
+Apakah Inovasi Realistis untuk Dibagun?
+Jelaskan mengapa solusi ini masuk akal untuk direalisasikan oleh tim Anda.
+(maks. 700 karakter)
+SIGAP dirancang dengan pendekatan MVP-first — membangun yang esensial terlebih 
+dahulu sebelum fitur lanjutan.
+Dalam konteks hackathon, proyek terfokus pada pengembangan tiga modul inti yaitu 
+Portal Perizinan digital, Dashboard Monitoring distribusi, dan Sistem Pengaduan publik. 
+Ketiga modul ini sudah cukup untuk membuktikan nilai utama platform secara 
+fungsional dan dapat didemonstrasikan secara nyata.
+Fitur kompleks seperti integrasi penuh API pemerintah, anomaly detection engine, dan 
+RAG-based chatbot diposisikan sebagai roadmap pengembangan lanjutan — bukan 
+beban dalam iterasi pertama.
+Tahapan Pengembangan
+Uraikan rencana tahapan implementasi dari awal hingga MVP atau pilot.
+(maks. 900 karakter)
+Pengembangan SIGAP dilakukan secara iteratif dalam lima tahap berurutan, dimulai 
+dari yang paling fundamental hingga fitur paling kompleks.
+Dimulai dari perancangan — finalisasi desain sistem, ERD database, wireframe UI/UX, 
+dan setup environment pengembangan sebagai fondasi seluruh tahap berikutnya.
+Dilanjutkan dengan pembangunan modul inti — Portal Perizinan Vendor beserta REST 
+API dan database utama sebagai deliverable pertama yang dapat diuji.
+
+
+
+===== PAGE 17 / 19 =====
+implementation feasibility
+Bisnis Model dan Keberlanjutan
+Gambarkan bisnis model dari solusi Anda dalam bentuk business model canvas, serta jelaskan 
+lebih detail.
+(maks. 1000 karakter)
+1
+4
+Setelah inti stabil, dikembangkan modul monitoring dan pengaduan — distribusi 
+harian, Vendor Score, sistem pengaduan publik, dan notifikasi otomatis. 
+Lapisan AI dan analitik diintegrasikan setelahnya, anomaly detection engine dan RAG-
+based chatbot di atas data operasional yang sudah berjalan.
+Lalu tahap akhir adalah pengujian dan demo — simulasi data end-to-end, bug fixing, 
+dan finalisasi tampilan untuk presentasi hackathon.
+SIGAP beroperasi sebagai platform government-to-business dengan model pendanaan 
+berbasis anggaran publik dan lisensi SaaS.
+Sumber Pendapatan: Pendanaan utama berasal dari alokasi anggaran BGN sebagai 
+pengelola program MBG. Sumber sekunder mencakup lisensi SaaS kepada pemerintah 
+daerah yang ingin mengadopsi platform secara mandiri, layanan analitik data premium, 
+serta biaya registrasi untuk vendor skala enterprise.
+Struktur Biaya: Komponen biaya utama meliputi hosting infrastruktur GovCloud, 
+pengembangan dan pemeliharaan platform berkelanjutan, serta biaya integrasi API 
+lintas instansi pemerintah.
+Keberlanjutan Jangka Panjang: SIGAP dirancang agar memiliki ketergantungan 
+struktural dari BGN sebagai tulang punggung pengawasan vendor nasional. Nilai 
+platform meningkat seiring akumulasi data historis vendor — menciptakan switching 
+cost yang tinggi dan posisi strategis yang sulit digantikan solusi ad-hoc.
+
+
+
+===== PAGE 18 / 19 =====
+attachment & reference
+• Lampirkan capturing mockup / POC / prototype / pilot project yang relevan 
+dengan proyek Anda berupa screenshoot jika ada (tidak mandatory).
+• Lampirkan hal-hal yang belum Anda jelaskan dalam uraian di atas.
+• Berikan referensi dari sumber-sumber yang Anda kutip.
+1
+5
+(Sumber: Mockup konseptual berbasis PRD SIGAP, dibuat oleh Gemini Image 
+Generation, 2025)
+Hal Tambahan yang Belum Dijelaskan
+Platform SIGAP dirancang sepenuhnya mengacu pada regulasi yang berlaku yang 
+ditetapkan secara resmi sebagai standar nasional oleh BGN hingga dokumen ini 
+disusun.
+Referensi
+•
+Ombudsman RI. (2025). Kajian Sistemik Program Makan Bergizi Gratis. 
+ombudsman.go.id
+•
+Indonesia Corruption Watch. (2025, Januari). Catatan Kritis Tata Kelola MBG. 
+antikorupsi.org
+•
+Transparency International Indonesia. (2025, Juni). Corruption Risk Assessment: 
+Program MBG. ti.or.id
+•
+JPPI. (2025, September). Laporan Pemantauan Keracunan MBG. jppi.or.id
+
+
+
+===== PAGE 19 / 19 =====
+berinovasi untuk masa depan,
+memberdayakan talenta digital
