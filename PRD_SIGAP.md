@@ -59,8 +59,17 @@ Membangun ekosistem tata kelola vendor yang transparan, akuntabel, dan terautoma
 ### 3.3 Modul 3: Sistem Pengaduan Publik (Public Feedback)
 *   **FR3.1 Public Complaint**: Masyarakat dapat mengirim pengaduan (anonim atau teridentifikasi) disertai foto dan lokasi.
 *   **FR3.2 Ticket Tracking**: Setiap laporan mendapatkan nomor tiket unik untuk pelacakan status.
-*   **FR3.3 Severity Scoring**: Sistem mengkategorikan pengaduan berdasarkan tingkat urgensi (Rendah $\rightarrow$ Kritis).
+*   **FR3.3 Severity Scoring**: Sistem mengkategorikan pengaduan berdasarkan tingkat urgensi (Rendah → Kritis).
 *   **FR3.4 Resolution Workflow**: Verifikator/Pengawas dapat memperbarui status pengaduan dan memberikan catatan penyelesaian.
+
+---
+
+## 4. Technical Infrastructure & Tech Stack (Research-Backed)
+*   **Geospatial**: Menggunakan **PostGIS** dengan tipe data `GEOGRAPHY(Point, 4326)`. Validasi radius dilakukan via fungsi `ST_DWithin(report_loc, school_loc, radius_in_meters)`.
+*   **Database Security**: Menggunakan **PostgreSQL RLS** dengan `SET LOCAL app.current_scope` untuk menjamin isolasi wilayah tingkat database.
+*   **Asynchronous AI**: Menggunakan **Redis + ARQ/Celery** (Python) untuk antrean pemrosesan model anomali, mencegah *blocking* pada *main thread* API.
+*   **PII Security**: Data NIK di-encrypt di database menggunakan **pgcrypto** dan di-masking secara dinamis di level **Next.js BFF** sebelum response dikirim ke klien.
+*   **Policy Engine**: **Open Policy Agent (OPA)** untuk evaluasi ABAC (Attribute-Based Access Control) yang terpusat.
 
 ---
 
@@ -102,3 +111,4 @@ Membangun ekosistem tata kelola vendor yang transparan, akuntabel, dan terautoma
 *   **Fraud Reduction**: Persentase penurunan laporan distribusi fiktif yang berhasil dideteksi AI.
 *   **Public Resolution Rate**: Persentase pengaduan masyarakat yang terselesaikan dalam SLA $\le$ 3 hari kerja.
 *   **Data Integrity**: Nol insiden kebocoran PII (NIK) pada layer public API.
+[H[2J[3J
