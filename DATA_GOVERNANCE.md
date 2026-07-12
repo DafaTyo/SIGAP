@@ -34,9 +34,14 @@ This document defines the data governance framework for **SIGAP** (Sistem Inform
    - Columns marked confidential are stored encrypted using PostgreSQL `pgcrypto` (`AES-256`), e.g., `nik_encrypted BYTEA`.
 3. **Dynamic Masking in BFF**
    - Masking pattern `3175********1234` applied for NIK; email shown as `user***@domain.com`.
-4. **Consent & Purpose Limitation**
+4. **Response Masking Policy**
+   - Semua endpoint yang meng‑embalikan NIK **harus** mengembalikan versi *masked* (`3175********1234`). Kolom mentah `nik_encrypted` **tidak pernah** dikirim ke client layer.
+   - **Schema Separation**:
+     - `vendor_public` – hanya field yang boleh dilihat publik (nama, status, lokasi, NIK_masked).
+     - `vendor_admin` – menyimpan `nik_encrypted`, dokumen lengkap, metadata internal. Penggunaan schema dipilih oleh FastAPI dependency `require_schema(role)`.
+5. **Consent & Purpose Limitation**
    - Data collection consent recorded in `user_consent` table; purpose codes mapped to SDI taxonomy.
-5. **Data Subject Rights**
+6. **Data Subject Rights**
    - Endpoints for **access**, **rectification**, and **erasure** implemented per UU PDP, routed through BFF with audit logging.
 
 ---
@@ -48,13 +53,24 @@ This document defines the data governance framework for **SIGAP** (Sistem Inform
 
 ---
 
-## 5. Metadata & Standardized Data Exchange (Satu Data Indonesia)
+## 5. Geospatial & Radius Validation
 - **Geospatial Data** uses `PostGIS` `geography(Point,4326)`; region codes follow **BPS Kode Wilayah** (province, kabupaten, kecamatan, desa).
+- **Radius Tolerance Mechanism**
+  - Parameter `radius_tolerance_meters` (default **50 m**) added to validation logic.
+  - Validation uses `ST_DWithin` with tolerance; jika jarak diluar toleransi ±10 % maka sistem memberi **warning flag** dan menandai untuk verifikasi manual.
+  - Semua perubahan radius disimpan di tabel `distribution_audit` untuk traceability.
 - **SDI Integration**: Export/import utilities produce CSV/JSON adhering to **Satu Data** schemas, facilitating interoperability with other government systems.
 
 ---
 
-## 6. Access Control (OPA / ABAC)
+## 6. Metadata & Photo Timestamp
+- New column `photo_taken_at TIMESTAMP WITH TIME ZONE` added to `distributions` table.
+- **Tampering Detection**: Jika `photo_taken_at` lebih lama dari `created_at` lebih dari **24 jam**, otomatis flag `tampering_suspicion = true`.
+- Endpoint `/distribution/{id}/metadata` menyediakan metadata lengkap (EXIF, capture time, lokasi) kepada auditor.
+
+---
+
+## 7. Access Control (OPA / ABAC)
 - Policies expressed in Rego evaluate attributes: `role`, `scope`, `region_code`.
 - Example policy snippet (stored in `opa/policies/sgp.rego`):
 ```rego
@@ -65,6 +81,7 @@ allow {
 }
 ```
 - FastAPI dependency injects `current_user` and `current_scope`; RLS context set accordingly.
+- **RLS Reset Middleware** (`RLSResetMiddleware`) ensures `SET LOCAL` is cleared / reset at the end of each request, preventing leakage across pooled connections.
 
 ---
 
@@ -110,11 +127,25 @@ allow {
 
 ---
 
-## 11. Monitoring & Reporting
+## 11. Idempotency Enforcement
+- Header `X-Idempotency-Key` is **mandatory** for all state‑changing operations (`POST`, `PATCH`, `DELETE`).
+- Expected format: UUID v4 (ex: `550e8400-e29b-41d4-a716-446655440000`).
+- FastAPI middleware rejects any request missing the header or with a duplicate key within a 24‑hour window.
+
+---
+
+## 12. Real‑time Updates (SSE / WebSocket)
+- Document upload workflow triggers an async task (Celery/ARQ).
+- Progress is streamed to the client via **WebSocket** channel `ws://api.sigap.gov/docs/status/{upload_id}` (alternatively `EventSource` for SSE).
+- Removes heavy client‑side polling and mitigates DDoS risk from repeated status requests.
+
+---
+
+## 13. Monitoring & Reporting
 - **Hermes Cron Jobs** generate weekly compliance dashboards stored in `reports/compliance_*`.
 - **OPA Policy Evaluation Logs** are streamed to a central logging system (ELK) for real‑time monitoring.
 - **Security Incident Response** procedures defined in `SECURITY_INCIDENT_RESPONSE.md`.
 
 ---
 
-*Document version: 1.0 – 12 July 2026*
+*Document version: 1.1 – 12 July 2026*
