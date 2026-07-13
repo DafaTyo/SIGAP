@@ -18,51 +18,7 @@ SIGAP leverages a **Modular Monolith** pattern with strict domain boundaries, ba
 
 ## 📂 Project Structure
 ```text
-C:\SIGAP\
-│
-├─ api-contract.yaml            # Single source of truth untuk API
-├─ .env.example
-├─ .gitignore
-├─ README.md
-│
-├─ backend                      # FastAPI core
-│   ├─ app
-│   │   ├─ main.py
-│   │   ├─ settings.py
-│   │   ├─ db/                  # Database logic
-│   │   │   ├─ base.py
-│   │   │   └─ session.py       # RLS session context logic
-│   │   ├─ core/                # Global utilities
-│   │   │   ├─ security.py      # Encryption/Decryption/PII Helpers
-│   │   │   └─ config.py
-│   │   ├─ middleware/
-│   │   │   ├─ audit.py
-│   │   │   └─ rls.py
-│   │   ├─ modules/             # Domain modules
-│   │   │   └─ [vendor|distribution|complaint]/
-│   │   │       ├─ router.py
-│   │   │       ├─ service.py   # Business logic (not CRUD)
-│   │   │       ├─ crud.py      # DB interaction
-│   │   │       └─ schemas.py   # Pydantic schemas
-│   │   └─ workers/             # Async background tasks
-│   │
-│   ├─ migrations/              # ALEMVIC/SQL migrations (linked to 001_init_schema.sql)
-│   └─ requirements.txt
-│
-├─ frontend                     # Next.js BFF & UI
-│   ├─ src/
-│   │   ├─ app/                 # App Router
-│   │   ├─ components/
-│   │   ├─ lib/
-│   │   │   ├─ api/             # Generated OpenAPI client (using openapi-typescript)
-│   │   │   └─ piiMask.ts       # PII masking utilities
-│   │   └─ actions/             # Server Actions (BFF)
-│   └─ package.json
-│
-├─ opa/                         # OPA policies (Rego)
-├─ docs/                        # Semua file dokumen (PRD, DESIGN, dll.)
-├─ tests/                       # Testing suite
-└─ scripts/                     # Lint, Test, OpenAPI Gen
+comming soon
 ```
 
 ---
