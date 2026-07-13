@@ -1,22 +1,23 @@
-# TASK.md – Backend/middleware
+# TASK‑BE‑006 – Middleware Package Master List
 
 ## Goals
-- Implement *global* FastAPI middleware stack:
-  1. **CORS** – allowed origins from env.
-  2. **GZipMiddleware** – compress response > 500 KB.
-  3. **SecurityHeadersMiddleware** – add `X-Content-Type-Options`, `X-Frame-Options`, `Strict-Transport-Security`.
-  4. **RequestIDMiddleware** – generate `X-Request-ID` (UUID4) per request.
-  5. **OPAEnforcementMiddleware** – evaluate policy before route handler; return **403** bila deny.
-  6. **AuditLoggingMiddleware** – log request/response metadata & policy decision ke tabel `vendor_audit`.
-- Middleware harus **configurable** via env (`MIDDLEWARE_ENABLE_LOGGING=true` dll.)
-- Pastikan middleware tidak mempengaruhi performa (> 2 ms overhead per request).
+- Assemble a **modular middleware stack** for the FastAPI backend where each concern lives in its own module.
+- Provide a single helper `register_middlewares(app)` that imports and registers each middleware based on environment toggles.
+- Ensure **full test coverage** (≥ 90 %) for every sub‑module and for the registration helper itself.
+- Keep the stack **lightweight**: only enable what the deployment needs (e.g., rate‑limit can stay disabled in dev).
 
 ## Verification Criteria
-- [] Semua middleware ter‑register di `app/main.py` menggunakan `add_middleware`.
-- [] Unit‑test (`pytest backend/tests/middleware`) memverifikasi masing‑middleware (CORS header, GZip size, security headers, request‑id presence, OPA decision, audit entry).
-- [] Load test (`locust` atau `k6`) menunjukkan rata‑rata latency tambahan < 2 ms.
-- [] CI menjalankan `pytest backend/tests/middleware` dan coverage ≥ 90 %.
-- [] Dokumentasi di `docs/MIDDLEWARE.md` menjelaskan urutan, env vars, dan contoh log entry.
+- [] `register_middlewares(app)` calls the `add_*` functions for every middleware that is enabled via env vars.
+- [] All sub‑module `TASK‑BE‑006‑0x` items are marked **[x]** when their unit tests pass.
+- [] End‑to‑end test `tests/middleware/test_full_stack.py` spins up a FastAPI `TestClient` with the full registration and verifies that:
+  - CORS headers appear when enabled.
+  - GZip compresses large responses.
+  - Security headers are present.
+  - Request‑ID propagates.
+  - OPA policy blocks/allows correctly.
+  - Audit log entry is created.
+  - (optional) Rate‑limit throttles after the defined threshold.
+- [] CI pipeline runs the full‑stack middleware test suite and fails if any criteria are not satisfied.
 
 ## Status
-- [ ] Pending
+- [] Pending
