@@ -1,18 +1,20 @@
-# TASK.md – Backend/dependencies
+# TASK‑BE‑007‑05 – Dependency Package Master List
 
 ## Goals
-- Provide **dependency‑injection** helpers for:
-  - Database session (`Depends(get_db)`).
-  - Redis cache client (optional, for rate‑limiting / caching).
-  - JWT token verifier / current user extractor.
-- Semua dependency harus **lazy‑loaded** dan dapat **di‑override** untuk testing.
+- Centralize all FastAPI dependencies (DB session, Redis cache, JWT auth, Settings) in a single package.
+- Provide a helper `register_dependencies(app)` that can optionally inject dependencies globally (e.g., via `app.dependency_overrides`).
+- Ensure each sub‑dependency has **≥ 90 %** test coverage and passes CI.
+- Make the package easy to import: `from .dependencies import get_db, get_redis, get_current_user, get_settings`.
 
 ## Verification Criteria
-- [] `get_db` meng‑return SQLAlchemy `Session` yang otomatis `commit/rollback` pada request selesai.
-- [] `get_current_user` mem‑decode JWT, mem‑validasi `sub` dan `role`, dan men‑inject `User` model ke route.
-- [] Unit‑test (`pytest backend/tests/dependencies`) mem‑mock DB dan JWT, memastikan error handling (401, 403).
-- [] Coverage ≥ 85 % pada folder `dependencies`.
-- [] CI menjalankan test suite dan gagal bila dependency tidak tersedia (mis. env var `DB_URL` hilang).
+- [] All sub‑dependency `TASK‑BE‑007‑0x` items are marked **[x]** when their unit tests succeed.
+- [] `register_dependencies(app)` can be called from `app/main.py` to set global overrides for testing environments.
+- [] End‑to‑end test `tests/dependencies/test_full_package.py` creates a FastAPI `TestClient` with all dependencies wired and verifies that:
+  - DB session works (INSERT & SELECT).
+  - Redis cache can store/retrieve a value.
+  - JWT auth correctly extracts `user_id`.
+  - Settings are accessible inside a sample endpoint.
+- [] CI runs the full‑package dependency tests and fails on any regression.
 
 ## Status
-- [ ] Pending
+- [] Pending

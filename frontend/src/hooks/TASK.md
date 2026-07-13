@@ -1,15 +1,15 @@
-# TASK.md – Frontend/hooks
+# TASK‑FE‑004 – Custom React Hooks
 
 ## Goals
-- Buat custom React hooks untuk **auth**, **data fetching**, **pagination**, dan **form handling**.
-- Hooks harus tipe‑safe (TypeScript) dan dapat dipakai ulang di seluruh halaman.
+- Create reusable hooks for common UI logic (e.g., `useAuth`, `useVendorData`, `useDebounce`).
+- Each hook must be typed with TypeScript and include JSDoc comments.
+- Provide unit tests using React Testing Library and Jest.
 
 ## Verification Criteria
-- [] Hook `useAuth` meng‑expose `login`, `logout`, `currentUser`, dan secara otomatis refresh token.
-- [] Hook `useFetch` men‑handle loading/error states, abort controller, dan caching (SWR pattern).
-- [] Hook `usePagination` menyediakan data slice, total count, dan navigasi halaman.
-- [] Unit‑test untuk setiap hook dengan **React Testing Library** (`@testing-library/react-hooks`).
-- [] Coverage ≥ 85 % pada folder `hooks`.
+- [] Hook files live under `src/hooks/` with `.ts` extension.
+- [] Each hook returns a stable API (e.g., `useAuth(): {user, login, logout}`).
+- [] All hooks have accompanying test file `*.test.tsx` that achieves ≥ 90 % coverage.
+- [] CI pipeline runs the hook test suite and fails on coverage drop.
 
 ## Status
-- [ ] Pending
+- [] Pending

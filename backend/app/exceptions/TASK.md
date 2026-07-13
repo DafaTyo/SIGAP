@@ -1,16 +1,16 @@
-# TASK.md – Backend/exceptions
+# TASK‑BE‑008‑01 – Exception Base Classes
 
 ## Goals
-- Definisikan **custom exception hierarchy** yang konsisten dengan standar **HTTP status codes** dan **application‑specific error codes**.
-- Buat **FastAPI exception handlers** yang meng‑transform `AppError` menjadi JSON response (`{"error": "...", "code": "..."}`).
-- Pastikan semua exception memiliki **logging** ter‑centralized (menggunakan logger dari `core`).
+- Define a hierarchy of custom exception classes that inherit from `fastapi.HTTPException`.
+- Provide a base `AppError` with fields `status_code`, `detail`, and optional `extra` dict for additional context.
+- Derive specific exceptions (e.g., `NotFoundError`, `ConflictError`, `ValidationError`) that set appropriate HTTP status codes.
+- Ensure each exception can be raised from services or routers and will be automatically converted to JSON error responses by FastAPI.
 
 ## Verification Criteria
-- [] `AppError` base class dengan atribut `status_code`, `detail`, `error_code`.
-- [] Sub‑classes: `ValidationError`, `AuthError`, `PermissionError`, `NotFoundError`, `DatabaseError`.
-- [] Exception handler (`@app.exception_handler(AppError)`) meng‑return `JSONResponse` dengan schema yang tervalidasi.
-- [] Unit‑test memverifikasi mapping exception → HTTP response (status, body) dan logging output.
-- [] Coverage ≥ 85 % pada folder `exceptions`.
+- [] `AppError` can be instantiated with custom `status_code` and `detail` and when raised returns a JSON response matching FastAPI's default error format.
+- [] Sub‑classes (`NotFoundError`, `ConflictError`, `ValidationError`) set correct status codes (404, 409, 422 respectively).
+- [] Unit test `tests/exceptions/test_app_error.py` verifies that raising each exception yields the expected status code and JSON payload.
+- [] CI pipeline runs the exception tests and fails on regression.
 
 ## Status
-- [ ] Pending
+- [] Pending
