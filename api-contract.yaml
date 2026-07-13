@@ -1,13 +1,20 @@
 openapi: 3.1.0
 info:
   title: SIGAP API
-  description: 'API Contract draf awal untuk SIGAP (Sistem Integrasi Gizi & Akuntabilitas
-    Pangan) — platform tata kelola vendor Program Makan Bergizi Gratis (MBG). Mencakup
-    3 modul inti fase MVP: Portal Perizinan Vendor, Dashboard Monitoring Distribusi,
-    dan Sistem Pengaduan Publik.
+  description: >
+    API Contract untuk SIGAP (Sistem Integrasi Gizi & Akuntabilitas Pangan) —
+    platform tata kelola vendor Program Makan Bergizi Gratis (MBG). Mencakup 3
+    modul inti fase MVP: Portal Perizinan Vendor, Dashboard Monitoring
+    Distribusi, dan Sistem Pengaduan Publik.
 
-    '
-  version: 0.1.0-draft
+
+    Versi ini (0.2.0) memperbaiki sejumlah isu dari draft 0.1.0: schema yang
+    salah tempat di bawah components.responses, duplicate key YAML yang
+    menghilangkan schema DistributionReport, kebocoran NIK mentah lewat
+    schema Vendor, radius geospasial yang bisa dimanipulasi lewat payload
+    client, serta idempotency key yang tidak konsisten diterapkan di seluruh
+    endpoint state-changing.
+  version: 0.2.0
   contact:
     name: Tim SIGAP
 servers:
@@ -71,6 +78,7 @@ paths:
                     example: 3600
         '401':
           $ref: '#/components/responses/Unauthorized'
+
   /auth/me:
     get:
       tags:
@@ -83,14 +91,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+
   /auth/me/permissions:
     get:
       tags:
         - Auth
-      summary: 'Daftar permission & scope user yang sedang login. Dipakai frontend
+      summary: >
+        Daftar permission & scope user yang sedang login. Dipakai frontend
         untuk render menu/UI sesuai role tanpa hardcode role-check.
-
-        '
       responses:
         '200':
           description: OK
@@ -123,28 +131,25 @@ paths:
                         example:
                           - DKI Jakarta
                           - Jawa Barat
-                        description: Mendukung multi-scope (misal pengawas yang bertanggung
-                          jawab untuk beberapa provinsi)
+                        description: >
+                          Mendukung multi-scope (misal pengawas yang
+                          bertanggung jawab untuk beberapa provinsi)
+
   /vendors:
     post:
       tags:
         - Vendor
       summary: Registrasi vendor baru
-      description: |
-        Endpoint ini menerima data registration vendor. Karena NIK merupakan PII, nilai
-        `nik_penanggung_jawab` disimpan secara rahasia dan hanya terlihat oleh role
-        `admin` atau `verifikator`. Respons mengembalikan field `nik_penanggung_jawab_masked`
-        yang menampilkan 4 digit pertama dan 4 digit terakhir, semua digit lain diganti
-        dengan bintang. Untuk mencegah duplicate submission pada jaringan yang lag,
-        endpoint mendukung header **X-Idempotency-Key** (optional).
+      description: >
+        Endpoint ini menerima data registrasi vendor. `nik_penanggung_jawab`
+        yang dikirim di request disimpan terenkripsi (pgcrypto AES-256) dan
+        TIDAK PERNAH dikembalikan mentah lewat response ini maupun endpoint
+        vendor lain — response selalu memakai schema `Vendor` yang hanya
+        berisi `nik_penanggung_jawab_masked`. Untuk kebutuhan reveal NIK
+        mentah oleh admin/verifikator, gunakan endpoint khusus
+        GET /vendors/{vendorId}/nik yang wajib tercatat di audit log.
       parameters:
-        - name: X-Idempotency-Key
-          in: header
-          description: Kunci idempotensi untuk menghindari duplikasi request
-          required: true
-
-          schema:
-            type: string
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -173,10 +178,12 @@ paths:
       tags:
         - Vendor
       summary: Daftar vendor dengan filter scope
-      description: |
-        Hasil otomatis ter‑scope sesuai role (mis. Pengawas Dinas Jakarta hanya melihat
-        vendor di wilayah Jakarta). Parameter `scope` dapat ditambahkan untuk memperjelas
-        filter wilayah bila diperlukan.
+      description: >
+        Hasil otomatis ter-scope sesuai role (mis. Pengawas Dinas Jakarta
+        hanya melihat vendor di wilayah Jakarta). Parameter `province` dapat
+        ditambahkan untuk memperjelas filter wilayah bila diperlukan. Endpoint
+        baca (GET) tidak memerlukan X-Idempotency-Key — idempotency hanya
+        relevan untuk operasi yang mengubah state.
       parameters:
         - name: status
           in: query
@@ -202,13 +209,6 @@ paths:
           schema:
             type: integer
             default: 20
-        - name: X-Idempotency-Key
-          in: header
-          description: (optional) mendukung retry idempotent pada list request
-          required: true
-
-          schema:
-            type: string
       responses:
         '200':
           description: OK
@@ -231,6 +231,7 @@ paths:
                   pagination:
                     $ref: '#/components/schemas/Pagination'
 
+  /vendors/{vendorId}:
     parameters:
       - name: vendorId
         in: path
@@ -242,6 +243,10 @@ paths:
       tags:
         - Vendor
       summary: Detail satu vendor
+      description: >
+        Response selalu memakai schema `Vendor` (NIK ter-mask). Ini berlaku
+        untuk semua role, termasuk admin/verifikator — lihat
+        GET /vendors/{vendorId}/nik untuk reveal NIK mentah secara terpisah.
       responses:
         '200':
           description: OK
@@ -257,6 +262,8 @@ paths:
       tags:
         - Vendor
       summary: Update data vendor
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         content:
           application/json:
@@ -269,6 +276,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Vendor'
+
+  /vendors/{vendorId}/nik:
+    get:
+      tags:
+        - Vendor
+      summary: Reveal NIK penanggung jawab mentah (RESTRICTED — admin/verifikator_bgn)
+      description: >
+        Endpoint terpisah, sengaja dipisah dari GET /vendors/{vendorId} agar
+        payload standar (dipakai semua role) tidak pernah membawa NIK mentah
+        sama sekali — bukan hanya "disembunyikan" di level frontend, tapi
+        memang tidak ada di response object-nya. Dibatasi role
+        admin/verifikator_bgn lewat OPA. Setiap akses WAJIB membuat entry di
+        audit_logs (action=PII_REVEAL, actor_id, vendor_id, timestamp) sesuai
+        AuditMiddleware.
+      parameters:
+        - name: vendorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorNikReveal'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
   /vendors/{vendorId}/documents:
     post:
       tags:
@@ -281,6 +321,7 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -304,22 +345,26 @@ paths:
                   format: binary
       responses:
         '201':
-          description: 'Dokumen tersimpan. Validasi otomatis ke OSS/BPOM/BPJPH berjalan
-            asinkron di background.
-
-            '
+          description: >
+            Dokumen tersimpan. Validasi otomatis ke OSS/BPOM/BPJPH berjalan
+            asinkron di background. Gunakan endpoint
+            .../status/stream (SSE) untuk memantau progres tanpa polling.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VendorDocument'
-  /vendors/{vendorId}/verify:
-    post:
+
+  /vendors/{vendorId}/documents/{documentId}/status:
+    get:
       tags:
         - Vendor
-      summary: 'Verifikasi & keputusan approval vendor oleh Verifikator BGN. Approve
-        memicu penerbitan SIO Digital.
-
-        '
+      summary: Mengecek status validasi dokumen di sistem OSS/BPOM secara asinkron (polling)
+      description: >
+        Fallback bagi client yang tidak mendukung SSE/WebSocket. Untuk
+        menghindari beban server & risiko DDoS akibat polling masif saat
+        banyak vendor submit dokumen bersamaan, client disarankan memakai
+        GET .../status/stream (SSE) atau channel WebSocket
+        ws://api.sigap.gov/docs/status/{upload_id} (DATA_GOVERNANCE.md §12).
       parameters:
         - name: vendorId
           in: path
@@ -327,6 +372,69 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentValidationStatus'
+
+  /vendors/{vendorId}/documents/{documentId}/status/stream:
+    get:
+      tags:
+        - Vendor
+      summary: Status validasi dokumen secara real-time via Server-Sent Events
+      description: >
+        Direkomendasikan sebagai pengganti polling. Client browser cukup
+        memakai EventSource. Setiap event berisi JSON yang sama dengan
+        schema DocumentValidationStatus. Koneksi ditutup otomatis oleh
+        server begitu status mencapai `valid` atau `invalid`.
+      parameters:
+        - name: vendorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: >
+            Event stream. Contoh isi tiap event:
+            `data: {"status":"valid","validated_via":"OSS
+            API","validated_at":"2026-07-13T10:00:00Z"}`
+          content:
+            text/event-stream:
+              schema:
+                type: string
+
+  /vendors/{vendorId}/verify:
+    post:
+      tags:
+        - Vendor
+      summary: >
+        Verifikasi & keputusan approval vendor oleh Verifikator BGN. Approve
+        memicu penerbitan SIO Digital.
+      parameters:
+        - name: vendorId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         content:
           application/json:
@@ -350,8 +458,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Vendor'
         '403':
-          description: Hanya role verifikator_bgn yang diizinkan mengakses endpoint
-            ini
+          $ref: '#/components/responses/Forbidden'
+
   /vendors/{vendorId}/sio:
     get:
       tags:
@@ -371,14 +479,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SIODigital'
+
   /vendors/{vendorId}/score:
     get:
       tags:
         - Distribution
-      summary: 'Vendor Score dinamis, dihitung dari ketepatan distribusi, kelengkapan
+      summary: >
+        Vendor Score dinamis, dihitung dari ketepatan distribusi, kelengkapan
         pelaporan, hasil inspeksi, dan volume pengaduan valid.
-
-        '
       parameters:
         - name: vendorId
           in: path
@@ -393,11 +501,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/VendorScore'
+
   /distributions:
     post:
       tags:
         - Distribution
       summary: Submit laporan distribusi harian, wajib disertai foto & koordinat GPS
+      description: >
+        Client HANYA mengirim latitude/longitude/foto/metadata EXIF. Radius
+        jangkauan sekolah, toleransi, dan hasil validasi geospasial
+        SEPENUHNYA dihitung di server (ST_DWithin, DATA_GOVERNANCE.md §5)
+        berdasarkan data sekolah yang terdaftar — client tidak dapat
+        mengirim/mengubah nilai radius lewat payload ini.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -407,29 +524,17 @@ paths:
       responses:
         '201':
           description: Laporan tersimpan; anomaly detection berjalan asinkron
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/RateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/RateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/RateLimitReset'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/DistributionReport'
-          headers: &id001
-            X-RateLimit-Limit:
-              schema:
-                type: integer
-            X-RateLimit-Remaining:
-              schema:
-                type: integer
-            X-RateLimit-Reset:
-              schema:
-                type: integer
-      parameters:
-        - &id002
-          name: X-Idempotency-Key
-          in: header
-          required: true
-
-          schema:
-            type: string
-          description: Mencegah duplicate submission jika koneksi lag
     get:
       tags:
         - Distribution
@@ -468,6 +573,7 @@ paths:
                       $ref: '#/components/schemas/DistributionReport'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
+
   /distributions/{id}:
     get:
       tags:
@@ -487,12 +593,82 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DistributionReport'
+
+  /distributions/{id}/metadata:
+    get:
+      tags:
+        - Distribution
+      summary: Metadata teknis lengkap laporan distribusi untuk keperluan audit
+      description: >
+        Menyediakan EXIF, capture time, dan lokasi lengkap bagi auditor untuk
+        investigasi dugaan tampering foto/lokasi (DATA_GOVERNANCE.md §6).
+        Dibatasi role verifikator_bgn/pengawas_dinas/admin.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistributionMetadata'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /distributions/{id}/appeal:
+    post:
+      tags:
+        - Distribution
+      summary: Vendor mengajukan banding atas flag anomali yang dihasilkan AI
+      description: >
+        Selama status banding `pending_review`/`in_progress`, perhitungan
+        Vendor Score untuk laporan ini dibekukan (`is_frozen=true` pada
+        object anomaly) sampai banding diputuskan.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - reason
+              properties:
+                reason:
+                  type: string
+                supporting_evidence:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Banding diajukan, status vendor score dibekukan sementara
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealResponse'
+
   /complaints:
     post:
       tags:
         - Complaint
       summary: Submit pengaduan masyarakat. Bisa tanpa login (pelapor dapat anonim).
       security: []
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -502,13 +678,17 @@ paths:
       responses:
         '201':
           description: Pengaduan tersimpan, mendapat nomor tiket untuk tracking
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/RateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/RateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/RateLimitReset'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Complaint'
-          headers: *id001
-      parameters:
-        - *id002
     get:
       tags:
         - Complaint
@@ -546,14 +726,14 @@ paths:
                       $ref: '#/components/schemas/Complaint'
                   pagination:
                     $ref: '#/components/schemas/Pagination'
+
   /complaints/{id}:
     get:
       tags:
         - Complaint
-      summary: 'Detail pengaduan & status tracking. Nomor tiket berfungsi sebagai
+      summary: >
+        Detail pengaduan & status tracking. Nomor tiket berfungsi sebagai
         kunci akses publik untuk melacak laporan sendiri.
-
-        '
       security: []
       parameters:
         - name: id
@@ -580,6 +760,7 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         content:
           application/json:
@@ -601,6 +782,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Complaint'
+
   /public/vendors/verify:
     get:
       tags:
@@ -627,11 +809,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PublicVendorProfile'
+
   /public/dashboard/summary:
     get:
       tags:
         - Public
-      summary: Data agregat publik (jumlah vendor aktif, statistik pengaduan), tanpa
+      summary: >
+        Data agregat publik (jumlah vendor aktif, statistik pengaduan), tanpa
         data sensitif
       security: []
       responses:
@@ -641,6 +825,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PublicDashboardSummary'
+
   /audit-logs:
     get:
       tags:
@@ -659,6 +844,7 @@ paths:
               - CREATE
               - UPDATE
               - DELETE
+              - PII_REVEAL
       responses:
         '200':
           description: OK
@@ -671,78 +857,16 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/AuditLog'
-  /distributions/{id}/appeal:
-    post:
-      tags:
-        - Distribution
-      summary: Vendor mengajukan banding atas flag anomali yang dihasilkan AI
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              required:
-                - reason
-              properties:
-                reason:
-                  type: string
-                supporting_evidence:
-                  type: string
-                  format: binary
-      responses:
-        '200':
-          description: Banding diajukan
-  /vendors/{vendorId}/documents/{documentId}/status:
-    get:
-      tags:
-        - Vendor
-      summary: Mengecek status validasi dokumen di sistem OSS/BPOM secara asinkron
-      parameters:
-        - name: vendorId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: documentId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    enum:
-                      - validating
-                      - valid
-                      - invalid
-                  validated_via:
-                    type: string
-                  validated_at:
-                    type: string
-                    format: date-time
+
   /admin/users:
     post:
       tags:
         - Admin
-      summary: Admin mendaftarkan akun baru (Vendor/Pengawas) secara sistematis (Bukan
-        self sign-up)
+      summary: >
+        Admin mendaftarkan akun baru (Vendor/Pengawas) secara sistematis
+        (bukan self sign-up)
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
@@ -769,7 +893,30 @@ paths:
       responses:
         '201':
           description: Akun berhasil dibuat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
 components:
+  parameters:
+    IdempotencyKey:
+      name: X-Idempotency-Key
+      in: header
+      required: true
+      description: >
+        WAJIB (required, bukan opsional) untuk semua operasi yang mengubah
+        state (POST/PATCH/DELETE) guna mencegah duplicate submission akibat
+        retry/network lag/klik ganda (DATA_GOVERNANCE.md §11). Tidak dipakai
+        pada operasi baca (GET). Server menolak request tanpa header ini,
+        atau dengan key yang sama dalam window 24 jam (kecuali sebagai
+        retry dari request identik).
+      schema:
+        type: string
+        format: uuid
+        pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'
+        example: 550e8400-e29b-41d4-a716-446655440000
+
   headers:
     RateLimitLimit:
       description: Maximum number of requests allowed in the current window
@@ -780,36 +927,65 @@ components:
       schema:
         type: integer
     RateLimitReset:
-      description: Timestamp (epoch seconds) when the rate‑limit window resets
+      description: Timestamp (epoch seconds) when the rate-limit window resets
       schema:
         type: integer
+
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-  schemas:
-    Vendor:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        nama_usaha:
-          type: string
-        nik_penanggung_jawab_masked:
-          type: string
-          example: 3175********1234
-          description: NIK yang telah di-mask demi keamanan (PII Masking)
+
   responses:
+    BadRequest:
+      description: Request tidak valid (validasi payload gagal)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Token tidak ada/kadaluarsa/tidak valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Role/scope pengguna tidak memiliki izin atas resource ini
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource tidak ditemukan
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     TooManyRequests:
-      description: Rate limit exceeded. Client should respect the RateLimit‑Reset header.
+      description: >
+        Rate limit exceeded. Client should respect the RateLimit-Reset
+        header.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
 
-          example: /v1/vendors
+  schemas:
+    Error:
+      type: object
+      properties:
+        error_code:
+          type: string
+          example: VALIDATION_ERROR
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+
     Pagination:
       type: object
       properties:
@@ -821,6 +997,7 @@ components:
           type: integer
         total_pages:
           type: integer
+
     User:
       type: object
       properties:
@@ -835,6 +1012,7 @@ components:
         role:
           type: string
           example: pengawas_dinas
+
     VendorRegistrationRequest:
       type: object
       required:
@@ -850,6 +1028,10 @@ components:
         nik_penanggung_jawab:
           type: string
           example: 3175xxxxxxxxxxxx
+          description: >
+            NIK mentah, hanya dipakai sekali saat registrasi untuk disimpan
+            terenkripsi (pgcrypto AES-256). Tidak pernah dikembalikan mentah
+            oleh endpoint manapun kecuali GET /vendors/{vendorId}/nik.
         nib:
           type: string
         alamat:
@@ -860,93 +1042,92 @@ components:
           type: string
         kontak_telepon:
           type: string
+
     VendorUpdateRequest:
       type: object
+      description: >
+        Sengaja tidak menerima field NIK — perubahan data identitas legal
+        harus lewat proses verifikasi ulang, bukan update biasa.
       properties:
         alamat:
           type: string
         kontak_telepon:
-          Vendor:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              nama_usaha:
-                type: string
-              nik_penanggung_jawab:
-                type: string
-                description: NIK asli, hanya terlihat oleh role admin/verifikator
-              nik_penanggung_jawab_masked:
-                type: string
-                example: 3175********1234
-                description: NIK yang telah di-mask demi keamanan (PII Masking)
-              nib:
-                type: string
-              alamat:
-                type: string
-              provinsi:
-                type: string
-              kabupaten_kota:
-                type: string
-              status:
-                type: string
-                enum:
-                  - pending_verification
-                  - verified
-                  - rejected
-                  - suspended
-              vendor_score:
-                type: number
-                format: float
-                example: 87.5
-              created_at:
-                type: string
-                format: date-time
-              updated_at:
-                type: string
-                format: date-time
+          type: string
 
-          VendorPublic:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              nama_usaha:
-                type: string
-              nik_penanggung_jawab_masked:
-                type: string
-                example: 3175********1234
-                description: NIK yang telah di-mask demi keamanan (PII Masking)
-              nib:
-                type: string
-              alamat:
-                type: string
-              provinsi:
-                type: string
-              kabupaten_kota:
-                type: string
-              status:
-                type: string
-                enum:
-                  - pending_verification
-                  - verified
-                  - rejected
-                  - suspended
-              vendor_score:
-                type: number
-                format: float
-                example: 87.5
-              created_at:
-                type: string
-                format: date-time
-              updated_at:
-                type: string
-                format: date-time
+    Vendor:
+      type: object
+      description: >
+        Schema standar untuk SEMUA role (termasuk admin/verifikator). NIK
+        mentah tidak pernah muncul sebagai field di schema ini — hanya versi
+        masked. Ini bukan konvensi penyembunyian di frontend, tapi memang
+        tidak ada field NIK mentah di object ini sama sekali, sehingga tidak
+        bisa bocor lewat inspect response/DevTools.
+      properties:
+        id:
+          type: string
+          format: uuid
+        nama_usaha:
+          type: string
+        nik_penanggung_jawab_masked:
+          type: string
+          example: 3175********1234
+          description: >
+            NIK ter-mask (4 digit awal + 4 digit akhir, sisanya bintang).
+            Satu-satunya representasi NIK yang beredar lewat endpoint umum.
+        nib:
+          type: string
+        alamat:
+          type: string
+        provinsi:
+          type: string
+        kabupaten_kota:
+          type: string
+        status:
+          type: string
+          enum:
+            - pending_verification
+            - verified
+            - rejected
+            - suspended
+        vendor_score:
+          type: number
+          format: float
+          example: 87.5
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    VendorNikReveal:
+      type: object
+      description: >
+        Payload khusus, HANYA dikembalikan oleh GET /vendors/{vendorId}/nik.
+        Endpoint ini wajib dibatasi role admin/verifikator_bgn dan wajib
+        membuat entry audit_logs (action=PII_REVEAL) setiap kali diakses —
+        lihat AuditMiddleware di AGENTS.md.
+      properties:
+        vendor_id:
+          type: string
+          format: uuid
+        nik_penanggung_jawab:
+          type: string
+          description: NIK asli, didekripsi dari nik_encrypted saat request ini saja.
+        revealed_by:
+          type: string
+          format: uuid
+          description: actor_id yang melakukan reveal (dicatat di audit log)
+        revealed_at:
+          type: string
+          format: date-time
+
     RLSMiddlewareConfig:
       type: object
-      description: Konfigurasi middleware FastAPI untuk mengisolasi state per-request dan memastikan Row Level Security (RLS) diterapkan pada setiap koneksi database.
+      description: >
+        Konfigurasi middleware FastAPI untuk mengisolasi state per-request
+        dan memastikan Row Level Security (RLS) diterapkan pada setiap
+        koneksi database.
       properties:
         use_transaction:
           type: boolean
@@ -954,6 +1135,18 @@ components:
         rls_enforced:
           type: boolean
           description: Pastikan kebijakan RLS aktif pada setiap query.
+        reset_on_request_end:
+          type: boolean
+          default: true
+          description: >
+            WAJIB true. Representasi dari RLSResetMiddleware
+            (DATA_GOVERNANCE.md §7): SET LOCAL app.current_user_id/
+            app.current_scope harus di-reset di akhir tiap request, karena
+            FastAPI/SQLAlchemy memakai connection pooling — tanpa reset ini,
+            koneksi yang dipakai ulang bisa membawa scope user sebelumnya
+            dan bocor lintas tenant/wilayah. Ini adalah kewajiban level
+            middleware/kode, bukan sesuatu yang bisa dijamin lewat contract
+            API saja.
         session_isolation_level:
           type: string
           enum:
@@ -962,6 +1155,7 @@ components:
             - serializable
           default: read_committed
           description: Level isolasi transaksi database.
+
     VendorDocument:
       type: object
       properties:
@@ -992,6 +1186,22 @@ components:
           type: string
           example: OSS API
           nullable: true
+
+    DocumentValidationStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - validating
+            - valid
+            - invalid
+        validated_via:
+          type: string
+        validated_at:
+          type: string
+          format: date-time
+
     SIODigital:
       type: object
       properties:
@@ -1010,6 +1220,7 @@ components:
         valid_until:
           type: string
           format: date-time
+
     VendorScore:
       type: object
       properties:
@@ -1033,8 +1244,16 @@ components:
         last_updated:
           type: string
           format: date-time
+
     DistributionReportRequest:
       type: object
+      description: >
+        Client HANYA mengirim latitude/longitude/foto/metadata. Field radius
+        SENGAJA tidak ada di request ini — radius jangkauan sekolah dan
+        toleransi ditentukan & divalidasi sepenuhnya di server berdasarkan
+        data sekolah yang terdaftar, agar tidak bisa dimanipulasi lewat
+        payload (mis. mengecilkan/membesarkan radius supaya laporan palsu
+        lolos validasi).
       required:
         - vendor_id
         - jumlah_porsi
@@ -1055,29 +1274,19 @@ components:
         longitude:
           type: number
           format: float
-        radius:
-          type: number
-          format: float
-          description: Radius jangkauan layanan (meter)
-        radius_tolerance:
-          type: number
-          format: float
-          description: Toleransi radius (meter) yang diizinkan server untuk validasi koordinat
-        radius_max:
-          type: number
-          format: float
-          description: Radius jangkauan layanan maksimum (meter) yang ditetapkan server-side
         foto:
           type: string
           format: binary
         metadata:
           type: object
           description: Metadata waktu pengambilan foto & device info
+          required:
+            - capture_time
           properties:
             capture_time:
               type: string
               format: date-time
-              description: Timestamp aktual pengambilan foto (EXIF)
+              description: Timestamp aktual pengambilan foto (EXIF).
             exif_timestamp:
               type: string
               format: date-time
@@ -1085,9 +1294,8 @@ components:
             device_id:
               type: string
               nullable: true
-          required:
-            - capture_time
 
+    DistributionReport:
       type: object
       properties:
         id:
@@ -1112,6 +1320,48 @@ components:
         reported_at:
           type: string
           format: date-time
+          description: >
+            Waktu server menerima laporan. Bukan waktu foto diambil — lihat
+            photo_taken_at untuk itu.
+        photo_taken_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: >
+            Timestamp EXIF asli saat foto diambil. Jika selisih dengan
+            created_at lebih dari 24 jam, tampering_suspicion otomatis true
+            (DATA_GOVERNANCE.md §6) — mencegah kasus foto lama dikirim ulang
+            seolah-olah baru.
+        tampering_suspicion:
+          type: boolean
+          description: >
+            True jika photo_taken_at lebih lama dari created_at >24 jam,
+            atau metadata EXIF hilang/tidak konsisten.
+        geo_validation:
+          type: object
+          description: >
+            Hasil validasi radius geospasial, dihitung sepenuhnya di server
+            (ST_DWithin) — tidak bergantung pada input client sama sekali.
+          properties:
+            distance_from_school_meters:
+              type: number
+              format: float
+            radius_allowed_meters:
+              type: number
+              format: float
+              description: Radius jangkauan resmi sekolah, dikonfigurasi di server.
+            radius_tolerance_meters:
+              type: number
+              format: float
+              example: 50
+              description: Toleransi default (DATA_GOVERNANCE.md §5).
+            within_tolerance:
+              type: boolean
+            requires_manual_verification:
+              type: boolean
+              description: >
+                True jika jarak di luar toleransi ±10%, ditandai untuk
+                verifikasi manual.
         anomaly:
           type: object
           nullable: true
@@ -1151,23 +1401,58 @@ components:
               default: none
             is_frozen:
               type: boolean
-              description: True jika perhitungan vendor dibekukan selama pending_review
-            metadata:
-              type: object
-              description: Metadata tambahan laporan distribusi
-              properties:
-                capture_time:
-                  type: string
-                  format: date-time
-                exif_timestamp:
-                  type: string
-                  format: date-time
-                  nullable: true
-                device_id:
-                  type: string
-                  nullable: true
-              required:
-                - capture_time
+              description: >
+                True jika perhitungan vendor score dibekukan karena banding
+                sedang pending_review/in_progress.
+
+    DistributionMetadata:
+      type: object
+      description: Detail teknis untuk audit dugaan tampering (DATA_GOVERNANCE.md §6).
+      properties:
+        distribution_id:
+          type: string
+          format: uuid
+        photo_taken_at:
+          type: string
+          format: date-time
+          nullable: true
+        exif_timestamp:
+          type: string
+          format: date-time
+          nullable: true
+        device_id:
+          type: string
+          nullable: true
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        tampering_suspicion:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+
+    AppealResponse:
+      type: object
+      properties:
+        distribution_id:
+          type: string
+          format: uuid
+        appeal_status:
+          type: string
+          enum:
+            - pending_review
+            - in_progress
+        is_frozen:
+          type: boolean
+          example: true
+        submitted_at:
+          type: string
+          format: date-time
+
     ComplaintRequest:
       type: object
       required:
@@ -1208,6 +1493,7 @@ components:
           type: string
           format: date
           description: Tanggal kejadian (opsional, jika spesifik per hari)
+
     Complaint:
       type: object
       properties:
@@ -1247,9 +1533,11 @@ components:
         sla_deadline:
           type: string
           format: date-time
+
     PublicVendorProfile:
       type: object
-      description: Subset data vendor yang aman ditampilkan ke publik, tanpa NIK/data
+      description: >
+        Subset data vendor yang aman ditampilkan ke publik, tanpa NIK/data
         pribadi
       properties:
         nama_usaha:
@@ -1265,6 +1553,7 @@ components:
         valid_until:
           type: string
           format: date-time
+
     PublicDashboardSummary:
       type: object
       properties:
@@ -1276,6 +1565,7 @@ components:
           type: integer
         pengaduan_tertindaklanjuti_persen:
           type: number
+
     AuditLog:
       type: object
       properties:
@@ -1288,6 +1578,11 @@ components:
           type: string
         action:
           type: string
+          enum:
+            - CREATE
+            - UPDATE
+            - DELETE
+            - PII_REVEAL
         actor_id:
           type: string
         old_values:
