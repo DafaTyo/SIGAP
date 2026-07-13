@@ -141,7 +141,8 @@ paths:
         - name: X-Idempotency-Key
           in: header
           description: Kunci idempotensi untuk menghindari duplikasi request
-          required: false
+          required: true
+
           schema:
             type: string
       requestBody:
@@ -204,7 +205,8 @@ paths:
         - name: X-Idempotency-Key
           in: header
           description: (optional) mendukung retry idempotent pada list request
-          required: false
+          required: true
+
           schema:
             type: string
       responses:
@@ -423,7 +425,8 @@ paths:
         - &id002
           name: X-Idempotency-Key
           in: header
-          required: false
+          required: true
+
           schema:
             type: string
           description: Mencegah duplicate submission jika koneksi lag
@@ -863,47 +866,102 @@ components:
         alamat:
           type: string
         kontak_telepon:
-          type: string
-    Vendor:
+          Vendor:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              nama_usaha:
+                type: string
+              nik_penanggung_jawab:
+                type: string
+                description: NIK asli, hanya terlihat oleh role admin/verifikator
+              nik_penanggung_jawab_masked:
+                type: string
+                example: 3175********1234
+                description: NIK yang telah di-mask demi keamanan (PII Masking)
+              nib:
+                type: string
+              alamat:
+                type: string
+              provinsi:
+                type: string
+              kabupaten_kota:
+                type: string
+              status:
+                type: string
+                enum:
+                  - pending_verification
+                  - verified
+                  - rejected
+                  - suspended
+              vendor_score:
+                type: number
+                format: float
+                example: 87.5
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+
+          VendorPublic:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              nama_usaha:
+                type: string
+              nik_penanggung_jawab_masked:
+                type: string
+                example: 3175********1234
+                description: NIK yang telah di-mask demi keamanan (PII Masking)
+              nib:
+                type: string
+              alamat:
+                type: string
+              provinsi:
+                type: string
+              kabupaten_kota:
+                type: string
+              status:
+                type: string
+                enum:
+                  - pending_verification
+                  - verified
+                  - rejected
+                  - suspended
+              vendor_score:
+                type: number
+                format: float
+                example: 87.5
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+    RLSMiddlewareConfig:
       type: object
+      description: Konfigurasi middleware FastAPI untuk mengisolasi state per-request dan memastikan Row Level Security (RLS) diterapkan pada setiap koneksi database.
       properties:
-        id:
-          type: string
-          format: uuid
-        nama_usaha:
-          type: string
-        nik_penanggung_jawab:
-          type: string
-          description: NIK asli (Hanya terlihat oleh role Admin/Verifikator)
-        nib:
-          type: string
-        alamat:
-          type: string
-        provinsi:
-          type: string
-        kabupaten_kota:
-          type: string
-        status:
+        use_transaction:
+          type: boolean
+          description: Jika true, setiap request dibungkus dalam transaksi database.
+        rls_enforced:
+          type: boolean
+          description: Pastikan kebijakan RLS aktif pada setiap query.
+        session_isolation_level:
           type: string
           enum:
-            - pending_verification
-            - verified
-            - rejected
-            - suspended
-        vendor_score:
-          type: number
-          format: float
-          example: 87.5
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        nik_penanggung_jawab_masked:
-          type: string
-          example: 3175********1234
-          description: NIK yang telah di-mask demi keamanan (PII Masking)
+            - read_committed
+            - repeatable_read
+            - serializable
+          default: read_committed
+          description: Level isolasi transaksi database.
     VendorDocument:
       type: object
       properties:
@@ -997,14 +1055,39 @@ components:
         longitude:
           type: number
           format: float
-        foto:
-          type: string
-          format: binary
         radius:
           type: number
           format: float
           description: Radius jangkauan layanan (meter)
-    DistributionReport:
+        radius_tolerance:
+          type: number
+          format: float
+          description: Toleransi radius (meter) yang diizinkan server untuk validasi koordinat
+        radius_max:
+          type: number
+          format: float
+          description: Radius jangkauan layanan maksimum (meter) yang ditetapkan server-side
+        foto:
+          type: string
+          format: binary
+        metadata:
+          type: object
+          description: Metadata waktu pengambilan foto & device info
+          properties:
+            capture_time:
+              type: string
+              format: date-time
+              description: Timestamp aktual pengambilan foto (EXIF)
+            exif_timestamp:
+              type: string
+              format: date-time
+              nullable: true
+            device_id:
+              type: string
+              nullable: true
+          required:
+            - capture_time
+
       type: object
       properties:
         id:
@@ -1057,6 +1140,34 @@ components:
               items:
                 type: string
               description: Faktor-faktor yang berkontribusi pada skor
+            appeal_status:
+              type: string
+              enum:
+                - none
+                - pending_review
+                - in_progress
+                - resolved
+                - rejected
+              default: none
+            is_frozen:
+              type: boolean
+              description: True jika perhitungan vendor dibekukan selama pending_review
+            metadata:
+              type: object
+              description: Metadata tambahan laporan distribusi
+              properties:
+                capture_time:
+                  type: string
+                  format: date-time
+                exif_timestamp:
+                  type: string
+                  format: date-time
+                  nullable: true
+                device_id:
+                  type: string
+                  nullable: true
+              required:
+                - capture_time
     ComplaintRequest:
       type: object
       required:
