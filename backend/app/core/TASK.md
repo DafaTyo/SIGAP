@@ -1,16 +1,25 @@
-# TASK.md – Backend/core
+# 📌 Module Task Tracker: Core Package (backend/app/core)
 
-## Goals
-- Centralize konfigurasi aplikasi: **settings** (pydantic BaseSettings), **logger** (structlog/JSON), dan **dependency injection container**.
-- Implementasikan **CORS**, **GZip**, **Security‑Headers**, **Request‑ID**, serta **OPA policy middleware** pada level FastAPI (diletakkan di `main.py`).
-- Pastikan semua konfigurasi dapat di‑override via environment variables (`.env.example`).
+## 🎯 Core Objective & Responsibility
+- Menyediakan konfigurasi aplikasi global, logger, dan utilitas dasar yang dapat di‑import oleh seluruh modul backend.
+- Tidak mengandung logika bisnis domain spesifik.
 
-## Verification Criteria
-- [] Settings dapat dimuat (`Settings()`), memvalidasi required vars (`DB_URL`, `OPA_URL`, `JWT_SECRET`).
-- [] Logger mengoutput JSON ke stdout, termasuk `request_id`.
-- [] Middleware stack ter‑registrasi di `app/main.py` (FastAPI `add_middleware`).
-- [] Unit‑test (`pytest backend/tests/core`) memverifikasi bahwa `Settings` meng‑raise error bila var penting hilang.
-- [] Coverage ≥ 85 % pada folder `core`.
+## 📋 Development Checklist
+- [ ] **Create package init** – `__init__.py` (placeholder, akan berisi `logger = logging.getLogger(__name__)`).
+- [ ] **Add configuration loader** – file `config.py` yang membaca variabel environment (`DATABASE_URL`, `REDIS_URL`, `JWT_SECRET`).
+- [ ] **Add logger utility** – file `logger.py` dengan standar format JSON log.
+- [ ] **Add generic exception base** – `exceptions.py` yang menurunkan `HTTPException` untuk reuse.
+- [ ] **Write documentation** – `README.md` singkat di dalam folder menjelaskan apa yang harus di‑import.
 
-## Status
-- [ ] Pending
+## 🔒 Constraints & Best Practices
+- Semua fungsi harus **stateless** dan tidak membuka koneksi DB; koneksi dikelola di `dependencies/`.
+- Logger harus dapat di‑override dalam testing (handler `NullHandler`).
+- Tidak menulis kode yang berinteraksi dengan framework FastAPI di sini.
+
+## 📄 References
+- `docs/DESIGN.md` (section *Technical Architecture*).
+- `api-contract.yaml` untuk memastikan endpoint‑endpoint memakai konfigurasi yang didefinisikan.
+
+---
+
+**Instruksi Eksplisit:** Implementasi kode (Python) baru **boleh** dimulai hanya setelah semua item checklist di atas ditandai selesai.

@@ -1,16 +1,28 @@
-# TASK.md – Infra/scripts
+# 📌 Module Task Tracker: Infra Scripts (infra/scripts)
 
-## Goals
-- Provide utility scripts for **deployment**, **backup**, **restore**, **health‑check**, and **environment bootstrap**.
-- Scripts must be **POSIX‑compatible** (bash) and work on Windows Git‑Bash as well as Linux CI runners.
+## 🎯 Core Objective & Responsibility
+- Menyediakan **script automation** untuk setup, migrasi database, health‑check, dan deployment ke environment staging/production.
+- Semua script ditulis dalam **bash** (POSIX compatible) untuk Linux‑based container runtime.
 
-## Verification Criteria
-- [] `scripts/deploy.sh` builds Docker images, tags with `git rev-parse --short HEAD`, and pushes to registry (Docker Hub / GHCR).
-- [] `scripts/backup.sh` runs `pg_dump` and stores dump in `backups/` with timestamped filename.
-- [] `scripts/restore.sh` can restore a dump into a fresh PostgreSQL container.
-- [] `scripts/healthcheck.sh` curls `/health` endpoint of each service and exits 0 only if all are healthy.
-- [] CI runs `bash scripts/healthcheck.sh` after `docker compose up` to ensure all services start correctly.
-- [] All scripts have shebang (`#!/usr/bin/env bash`) and exit with non‑zero code on failure.
+## 📋 Development Checklist
+- [ ] **Package init** – `README.md` dengan deskripsi tiap script.
+- [ ] **bootstrap.sh** – men‑setup Docker network, pull images, dan `docker compose up -d`.
+- [ ] **migrate.sh** – menjalankan Alembic migrations (`alembic upgrade head`).
+- [ ] **healthcheck.sh** – curl `/health` endpoint backend, return exit code 0/1.
+- [ ] **seed.sh** – load seed data JSON ke DB via FastAPI endpoint (`/admin/seed`).
+- [ ] **deploy.sh** – wrapper untuk production deploy (docker compose pull, down, up). 
+- [ ] **Write Scripts README** – contoh pemanggilan, requirement (bash, docker), dan troubleshooting.
 
-## Status
-- [ ] Pending
+## 🔒 Constraints & Best Practices
+- **Idempotent:** tiap script dapat dijalankan berulang kali tanpa menimbulkan duplikasi.
+- **Error handling:** `set -euo pipefail`; output log ke stdout.
+- **Permissions:** file mode `0755`.
+- **Testing:** unit‑test bash scripts dengan `bats` (optional).
+
+## 📄 References
+- `infra/docker/TASK.md` – definisi layanan yang akan dijalankan.
+- `docs/DESIGN.md` – deployment diagram.
+
+---
+
+**Instruksi Eksplisit:** Tidak menulis script apapun sebelum semua checklist di atas di‑centang selesai.

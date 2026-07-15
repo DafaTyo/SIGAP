@@ -1,16 +1,29 @@
-# TASK.md – Infra/prometheus
+# 📌 Module Task Tracker: Infra Prometheus (infra/prometheus)
 
-## Goals
-- Set up Prometheus to **scrape** metrics from `frontend`, `backend`, `postgres`, and `opa`.
-- Define alert rules for **error rate > 1 %**, **latency > 300 ms**, and **container restarts**.
-- Export metrics in **Prometheus exposition format** (`/metrics`).
+## 🎯 Core Objective & Responsibility
+- Menyiapkan **Prometheus** untuk meng‑scrape metrik dari FastAPI backend (`/metrics`) dan dari Redis/OPA bila diperlukan.
+- Menyediakan **alerting rules** dasar (up/down, high latency, error rate).
 
-## Verification Criteria
-- [] `prometheus.yml` includes job configs for each service, using Docker service DNS.
-- [] `docker compose up` brings up Prometheus and it successfully scrapes all targets (no `scrape_error`).
-- [] Alert rule `HighErrorRate` fires when simulated error rate > 1 % (use `curl` to generate errors).
-- [] Grafana dashboard (imported via `grafana/dashboard.json`) visualizes request latency, error rate, DB connection pool.
-- [] CI runs `promtool check config` and fails on syntax errors.
+## 📋 Development Checklist
+- [ ] **Package init** – `README.md` dengan petunjuk instalasi.
+- [ ] **Prometheus Config** – `prometheus.yml`
+  - Scrape `backend:8000/metrics` every 15s.
+  - Optional: scrape `redis:6379` via `redis_exporter` (future).
+  - Define job `sigap_backend`.
+- [ ] **Alerting Rules** – `alerts.yml`
+  - Alert if `up{job="sigap_backend"} == 0` for >1m.
+  - Alert if `http_requests_total{status="5.."}` > 5 per minute.
+- [ ] **Write Prometheus README** – cara menjalankan `prometheus --config.file=prometheus.yml` dan mengakses UI (`localhost:9090`).
 
-## Status
-- [ ] Pending
+## 🔒 Constraints & Best Practices
+- **Retention:** keep 15 days of data (set in Prometheus args).
+- **Security:** expose Prometheus only inside Docker network (`sigap_net`).
+- **Metrics Naming:** follow `snake_case` convention, prefix `sigap_`.
+
+## 📄 References
+- `docs/DESIGN.md` – kebutuhan observability.
+- `infra/docker/docker-compose.yml` – service definition.
+
+---
+
+**Instruksi Eksplisit:** Tidak menulis `prometheus.yml` atau `alerts.yml` sebelum checklist di atas ditandai selesai.

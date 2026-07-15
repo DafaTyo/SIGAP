@@ -1,16 +1,30 @@
-# TASK‑FE‑006 – Styles / Design Tokens
+# 📌 Module Task Tracker: Styles Package (frontend/src/styles)
 
-## Goals
-- Store Tailwind CSS configuration and any design‑token JSON/YAML files used across the UI.
-- Ensure the design system is versioned and can be imported by Storybook and component libraries.
-- Provide a helper that loads tokens (e.g., colors, spacing) for use in component props.
+## 🎯 Core Objective & Responsibility
+- Menyimpan **style definitions** untuk proyek Next.js, termasuk Tailwind configuration, CSS‑Modules, dan design token file.
+- Tidak mengandung kode JavaScript/TypeScript, hanya konfigurasi styling.
 
-## Verification Criteria
-- [] `tailwind.config.js` exists at project root and references `./src/styles/design.tokens.json`.
-- [] `design.tokens.json` (or `.yaml`) contains at least color palette, font sizes, and spacing scale.
-- [] Component library imports tokens via a small utility (`importTokens()`).
-- [] Unit test `src/styles/__tests__/tokens.test.ts` verifies that the token file can be parsed and returns expected values.
-- [] CI runs the style token test and fails on parsing errors or missing required keys.
+## 📋 Development Checklist
+- [ ] **Package init** – `index.ts` (optional, hanya untuk re‑export jika diperlukan).
+- [ ] **Tailwind Config** – `tailwind.config.js`
+  - Define custom colors, spacing, typography based on `docs/DESIGN.md` palette.
+  - Enable JIT mode, purge paths `./src/**/*.tsx`.
+- [ ] **Design Tokens** – `tokens.css` (or `tokens.module.css`)
+  - Variables: `--color-primary`, `--spacing-sm`, `--border-radius`, dll.
+- [ ] **Global CSS** – `globals.css`
+  - Import Tailwind base, components, utilities; set `html, body` font family.
+- [ ] **Write Styles README** – pola penggunaan Tailwind vs CSS‑Modules, contoh `className={styles.buttonPrimary}`.
 
-## Status
-- [] Pending
+## 🔒 Constraints & Best Practices
+- **No inline styles** in React components – always use Tailwind classes or CSS‑Modules.
+- **Purge unused CSS** to keep bundle size < 150 KB.
+- **Accessibility:** ensure high contrast colors, focus outlines.
+- **Testing:** use `storybook` (optional) to visual‑test components.
+
+## 📄 References
+- `docs/DESIGN.md` – color palette, typography, spacing guidelines.
+- `frontend/src/components/` – contoh penggunaan classNames.
+
+---
+
+**Instruksi Eksplisit:** Tidak ada file konfigurasi styling yang boleh di‑commit (Tailwind, CSS) sebelum checklist di atas ditandai selesai.

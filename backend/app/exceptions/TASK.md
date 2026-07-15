@@ -1,16 +1,30 @@
-# TASK‑BE‑008‑01 – Exception Base Classes
+# 📌 Module Task Tracker: Exceptions Package (backend/app/exceptions)
 
-## Goals
-- Define a hierarchy of custom exception classes that inherit from `fastapi.HTTPException`.
-- Provide a base `AppError` with fields `status_code`, `detail`, and optional `extra` dict for additional context.
-- Derive specific exceptions (e.g., `NotFoundError`, `ConflictError`, `ValidationError`) that set appropriate HTTP status codes.
-- Ensure each exception can be raised from services or routers and will be automatically converted to JSON error responses by FastAPI.
+## 🎯 Core Objective & Responsibility
+- Menyimpan **custom FastAPI HTTPException** subclasses yang dipakai di seluruh aplikasi (mis. `VendorNotFound`, `PermissionDenied`, `InvalidDocument`).
+- Mempermudah re‑use dan konsistensi pesan error serta kode status.
 
-## Verification Criteria
-- [] `AppError` can be instantiated with custom `status_code` and `detail` and when raised returns a JSON response matching FastAPI's default error format.
-- [] Sub‑classes (`NotFoundError`, `ConflictError`, `ValidationError`) set correct status codes (404, 409, 422 respectively).
-- [] Unit test `tests/exceptions/test_app_error.py` verifies that raising each exception yields the expected status code and JSON payload.
-- [] CI pipeline runs the exception tests and fails on regression.
+## 📋 Development Checklist
+- [ ] **Package init** – `__init__.py` yang meng‑export semua exception class.
+- [ ] **Define Exceptions** – `exceptions.py`
+  - **Classes:**
+    - `VendorNotFound(HttpException)` – 404
+    - `DocumentValidationFailed(HttpException)` – 422
+    - `PermissionDenied(HttpException)` – 403
+    - `RateLimitExceeded(HttpException)` – 429
+    - `IdempotencyConflict(HttpException)` – 409
+  - **Each class** harus menerima `detail: str` dan optional `headers: dict`.
+- [ ] **Write Exception README** – contoh penggunaan `raise VendorNotFound(detail="Vendor not found")` di service layer.
 
-## Status
-- [] Pending
+## 🔒 Constraints & Best Practices
+- **Never expose raw stack trace** – set `detail` dengan pesan yang user‑friendly.
+- **All exceptions** harus dipanggil melalui `raise` di service atau router, **bukan** di middleware.
+- **Testing:** Pastikan setiap exception menghasilkan JSON dengan fields `detail` dan `status_code` di test suite.
+
+## 📄 References
+- `api-contract.yaml` – definisi error response (`components/responses/BadRequest`, `Unauthorized`, `Forbidden`).
+- `docs/DESIGN.md` – bagian *Error handling & audit*.
+
+---
+
+**Instruksi Eksplisit:** Tidak ada kode Python yang boleh dibuat sampai semua item checklist di atas ditandai selesai.

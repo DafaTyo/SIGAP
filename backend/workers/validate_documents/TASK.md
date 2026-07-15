@@ -1,17 +1,35 @@
-# TASK‑BE‑011‑04 – Background Worker for OSS/BPOM Validation
+# 📌 Module Task Tracker: Workers Package (backend/workers/validate_documents)
 
-## Goals
-- Implement **Redis‑based worker** (using **ARQ** atau **Celery**) yang meng‑konsumsi job `validate_external_documents`.
-- Job mengambil payload dokumen (NIB, PIRT, Sertifikat Halal) dan memanggil API eksternal OSS/BPOM.
-- Hasil validasi (status `valid`/`invalid` + detail) disimpan di tabel `legal_documents`.
-- Worker dijalankan secara **asynchronous**, tidak memblokir request BFF.
-- Pastikan worker dapat di‑scale (multiple workers) dan memiliki retry/back‑off.
+## 🎯 Core Objective & Responsibility
+- Mengimplementasikan **worker** yang memproses validasi dokumen legal vendor secara asynchronous.
+- Menggunakan **Redis queue** (Celery/ARQ) untuk men‑enqueue job ketika vendor meng‑upload dokumen.
+- Mengirimkan status via **Server‑Sent Events (SSE)** atau **WebSocket** ke frontend.
 
-## Verification Criteria
-- [] Worker dapat dijalankan dengan perintah `python -m workers.validate_documents` (script starter).
-- [] Unit test `tests/workers/test_validate_documents.py` menggunakan mock HTTP ke OSS/BPOM dan memverifikasi penyimpanan hasil di DB.
-- [] CI pipeline men‑run worker test dalam environment dengan Redis mock (e.g., `fakeredis`).
-- [] Dokumentasi `README.md` di folder `workers/` menjelaskan cara menjalankan worker di dev & prod.
+## 📋 Development Checklist
+- [ ] **Package init** – `__init__.py` (expose worker entrypoint).
+- [ ] **Worker entrypoint** – `worker.py`
+  - **Function:** `process_document(vendor_id: UUID, document_type: str, file_path: str)`
+  - **Steps:**
+    1. Download file dari storage (local atau S3).
+    2. Call external API OSS/BPOM (mockable).
+    3. Update `DocumentValidationStatus` di DB (`pending`, `valid`, `invalid`).
+    4. Publish status to SSE channel `/vendors/{id}/documents/{doc_id}/status/stream`.
+- [ ] **Task Scheduler** – `tasks.py`
+  - Register worker with Celery/ARQ (`@celery.task` atau `@arq_job`).
+- [ ] **Error handling** – retry dengan backoff exponential, cap maksimal 3 retries.
+- [ ] **Write Worker README** – cara menjalankan worker container, environment vars (`REDIS_URL`, `EXTERNAL_API_KEY`).
 
-## Status
-- [] Pending
+## 🔒 Constraints & Best Practices
+- **Idempotent processing:** Jika dokumen sudah `valid` atau `invalid`, skip re‑processing.
+- **Timeout:** set maksimal 5 menit per dokumen; kirim `status = "failed"` bila timeout.
+- **Security:** Jangan log isi file mentah; hanya log hash SHA256.
+- **Testing:** Mock external API via `responses` library; unit‑test worker logic in `backend/tests/workers/`.
+
+## 📄 References
+- `api-contract.yaml` – endpoint `/vendors/{vendorId}/documents/{documentId}/status` & `/status/stream`.
+- `docs/DATA_GOVERNANCE.md` – kebijakan penyimpanan dokumen & audit.
+- `backend/app/middleware/audit_log.py` – pastikan setiap status update tercatat.
+
+---
+
+**Instruksi Eksplisit:** Kode worker (Python) **tidak boleh** ditulis sampai semua item checklist di atas di‑centang selesai.

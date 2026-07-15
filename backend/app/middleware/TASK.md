@@ -1,23 +1,41 @@
-# TASK‑BE‑006 – Middleware Package Master List
+# 📌 Module Task Tracker: Middleware Package (backend/app/middleware)
 
-## Goals
-- Assemble a **modular middleware stack** for the FastAPI backend where each concern lives in its own module.
-- Provide a single helper `register_middlewares(app)` that imports and registers each middleware based on environment toggles.
-- Ensure **full test coverage** (≥ 90 %) for every sub‑module and for the registration helper itself.
-- Keep the stack **lightweight**: only enable what the deployment needs (e.g., rate‑limit can stay disabled in dev).
+## 🎯 Core Objective & Responsibility
+- Menyediakan **FastAPI middleware** yang menangani cross‑cutting concerns:
+  - Audit logging
+  - Row‑Level Security (RLS) context setter
+  - OPA policy evaluation
+  - Idempotency handling
+  - Rate limiting
+- Middleware bersifat **stateless** dan dapat dipasang di urutan yang konsisten pada aplikasi utama.
 
-## Verification Criteria
-- [] `register_middlewares(app)` calls the `add_*` functions for every middleware that is enabled via env vars.
-- [] All sub‑module `TASK‑BE‑006‑0x` items are marked **[x]** when their unit tests pass.
-- [] End‑to‑end test `tests/middleware/test_full_stack.py` spins up a FastAPI `TestClient` with the full registration and verifies that:
-  - CORS headers appear when enabled.
-  - GZip compresses large responses.
-  - Security headers are present.
-  - Request‑ID propagates.
-  - OPA policy blocks/allows correctly.
-  - Audit log entry is created.
-  - (optional) Rate‑limit throttles after the defined threshold.
-- [] CI pipeline runs the full‑stack middleware test suite and fails if any criteria are not satisfied.
+## 📋 Development Checklist
+- [ ] **Package init** – `__init__.py` yang meng‑export semua middleware class.
+- [ ] **Audit Log Middleware** – `audit_log.py`
+  - **Functionality:** Capture `request.method`, `path`, `user.id`, `old_value`, `new_value`; insert ke tabel `audit_logs`.
+  - **Input:** `request`, `response` objects.
+  - **Output:** Tidak mengubah response, hanya men‑insert log.
+- [ ] **RLS Setter Middleware** – `rls_setter.py`
+  - **Functionality:** Pada setiap request, jalankan `SET LOCAL app.current_user_id = <user_id>; SET LOCAL app.current_scope = <province>` pada DB connection (via SQLAlchemy event).
+- [ ] **OPA Policy Middleware** – `opa_policy.py`
+  - **Functionality:** Memanggil OPA server (`http://opa:8181/v1/data/sigap/auth/allow`) dengan payload `{user, action, resource}`; menolak dengan `HTTPException(403)` bila tidak diizinkan.
+- [ ] **Idempotency Middleware** – `idempotency.py`
+  - **Functionality:** Simpan `idempotency_key` di Redis; jika key sudah ada, kembalikan response yang tersimpan.
+- [ ] **Rate Limit Middleware** – `rate_limit.py`
+  - **Functionality:** Batas request per IP/ per user (configurable via env `RATE_LIMIT_*`).
+- [ ] **Write Middleware README** – menjelaskan urutan pemasangan, konfigurasi env, dan contoh penggunaan dalam `backend/app/main.py`.
 
-## Status
-- [] Pending
+## 🔒 Constraints & Best Practices
+- **Order matters:** AuditLog → Idempotency → RateLimit → OPA → RLS (set before DB queries).
+- **No DB commit** dalam middleware kecuali `audit_log` (gunakan separate connection/transaction).
+- **Performance:** Cache OPA decisions per request for 5 seconds to reduce remote calls.
+- **Testing:** Mock OPA server & Redis in `backend/app/tests/middleware/`.
+
+## 📄 References
+- `docs/DESIGN.md` – bagian *Security Architecture* (RLS, OPA, masking).
+- `api-contract.yaml` – header requirements (idempotency, rate‑limit).
+- `backend/app/policies/sgp.rego` – contoh policy yang akan dipanggil.
+
+---
+
+**Instruksi Eksplisit:** Tidak ada kode middleware yang boleh ditulis sebelum semua poin di atas ditandai selesai.

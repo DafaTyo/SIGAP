@@ -1,14 +1,22 @@
-# TASK.md – Frontend/public
+# 📌 Module Task Tracker: Public Assets (frontend/public)
 
-## Goals
-- Menyimpan aset statis (logo, favicon, gambar ilustrasi) yang akan di‑serve langsung oleh Next.js.
-- Optimasi ukuran gambar (WebP, compress) untuk performa LCP < 1 s.
+## 🎯 Core Objective & Responsibility
+- Menyimpan **static assets** yang akan dilayani oleh Next.js secara langsung (favicon, logo, gambar ilustrasi, robots.txt).
+- Tidak mengandung kode eksekusi, hanya file‑binary atau teks.
 
-## Verification Criteria
-- [] Semua aset dapat di‑akses lewat `/public/<filename>` tanpa 404.
-- [] Gambar dikompresi < 200 KB, format WebP bila memungkinkan.
-- [] LCP (Largest Contentful Paint) pada halaman Home < 1 s pada jaringan 3G.
-- [] CI menjalankan `npm run lint && npm run build` dan gagal bila ada asset yang tidak ter‑optimasi.
+## 📋 Development Checklist
+- [ ] **Create placeholder assets** – `favicon.ico`, `logo.svg`, `robots.txt` (dummy content).
+- [ ] **Add README.md** – menjelaskan konvensi penamaan (`*.png` untuk UI icons, `*.svg` untuk vector, `*.ico` untuk favicon) dan cara men‑add asset ke repo.
+- [ ] **Add .gitkeep** (optional) jika folder akan tetap kosong pada awal commit.
 
-## Status
-- [ ] Pending
+## 🔒 Constraints & Best Practices
+- **Size limit:** tidak ada file > 150 KB untuk menjaga bundle size.
+- **Naming:** gunakan lower‑kebab‑case (`my-logo.svg`).
+- **Performance:** compress PNG/JPEG dengan lossless tools sebelum commit.
+
+## 📄 References
+- `docs/DESIGN.md` – bagian *UI/UX Assets*.
+
+---
+
+**Instruksi Eksplisit:** Tidak ada file kode yang boleh dibuat di dalam `frontend/public` sampai semua checklist di atas selesai.

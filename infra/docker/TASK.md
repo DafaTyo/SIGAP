@@ -1,15 +1,38 @@
-# TASK.md – Infra/docker
+# 📌 Module Task Tracker: Infra Docker (infra/docker)
 
-## Goals
-- Write **multi‑stage Dockerfiles** untuk setiap service (frontend, backend, db, opa).
-- Set ukuran image < 300 MB masing‑masing, gunakan **alpine** atau **distroless** pada stage akhir.
-- Pastikan Dockerfile memuat **health‑check** (`CMD curl -f http://localhost:8000/health || exit 1`).
+## 🎯 Core Objective & Responsibility
+- Menyediakan **Dockerfile** dan **docker‑compose.yml** untuk membangun dan menjalankan seluruh stack SIGAP (backend, frontend, Postgres, Redis, OPA, Prometheus, Grafana).
+- Menjamin semua layanan dapat berkomunikasi via jaringan Docker internal.
 
-## Verification Criteria
-- [] `docker build -f Dockerfile.frontend .` selesai dalam < 5 min, image size < 300 MB.
-- [] `docker build -f Dockerfile.backend .` selesai dalam < 5 min, size < 300 MB.
-- [] Health‑check ter‑define di masing‑Dockerfile (Dockerfile `HEALTHCHECK`).
-- [] CI (`ci.yml`) menjalankan `docker build` untuk semua Dockerfile dan gagal bila build error atau size > 300 MB.
+## 📋 Development Checklist
+- [ ] **Package init** – `README.md` dengan langkah build/run.
+- [ ] **Dockerfile for Backend** – `backend.Dockerfile`
+  - Base image: `python:3.11-slim`
+  - Install dependencies (`pip install -r requirements.txt`).
+  - Copy `backend/` code, set `WORKDIR /app`.
+  - Expose port `8000`.
+- [ ] **Dockerfile for Frontend** – `frontend.Dockerfile`
+  - Base image: `node:20-alpine`
+  - Install deps, build (`npm run build`).
+  - Use `nginx` stage to serve static files.
+- [ ] **docker-compose.yml** (root of `infra/docker`)
+  - Services: `backend`, `frontend`, `postgres`, `redis`, `opa`, `prometheus`, `grafana`.
+  - Define env vars (`POSTGRES_USER`, `POSTGRES_PASSWORD`, `DATABASE_URL`, `REDIS_URL`, `OPA_URL`).
+  - Networks: `sigap_net`.
+  - Volumes: `pg_data`, `redis_data`.
+- [ ] **Healthcheck scripts** – `healthcheck.sh` untuk backend (curl /health) dan DB (pg_isready).
+- [ ] **Write Infra Docker README** – langkah build images, `docker compose up -d`, akses UI (`localhost:3000`), API (`localhost:8000`).
 
-## Status
-- [ ] Pending
+## 🔒 Constraints & Best Practices
+- **Multi‑stage builds** untuk frontend to keep image size < 150 MB.
+- **Least privilege:** run containers as non‑root user (`USER node` for frontend, `USER app` for backend).
+- **Secret handling:** tidak hard‑code credentials; gunakan `.env` file (excluded from git).
+- **Logging:** send logs to stdout/stderr, let Docker capture.
+
+## 📄 References
+- `docs/DESIGN.md` – diagram deployment.
+- `api-contract.yaml` – port dan base path (`/v1`).
+
+---
+
+**Instruksi Eksplisit:** Tidak ada Dockerfile atau compose file yang boleh ditulis sampai semua poin checklist di atas ditandai selesai.
