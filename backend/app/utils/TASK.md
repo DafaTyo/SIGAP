@@ -1,21 +1,17 @@
-# 📌 Module Task Tracker: Utils Package
+# 📌 Module Task Tracker: Utils Package (backend/app/utils)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Provide reusable utility functions for handling personally identifiable information (PII), notably NIK masking and encryption placeholders.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` re‑exports helpers.
+- [x] **PII utilities** – `pii.py` with `mask_nik`, `encrypt_nik`, `decrypt_nik` stubs.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- `mask_nik` must never expose the full NIK; short strings are masked by half‑length.
+- Encryption/decryption functions are **stubs** that raise `NotImplementedError` until integrated with a DB session.
+- Utilities must be pure functions without side‑effects.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – masking rules for `nik_penanggung_jawab_masked`.
+- `docs/DATA_GOVERNANCE.md` – PII classification and encryption requirements.

@@ -1,21 +1,16 @@
-# 📌 Module Task Tracker: Exceptions Package
+# 📌 Module Task Tracker: Exceptions Package (backend/app/exceptions)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Provide a thin re‑export layer for domain‑specific exception classes used throughout the application.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` re‑exports all exception symbols.
+- [x] **Exceptions module** – `exceptions.py` with concrete classes (`VendorNotFound`, `PermissionDenied`, etc.).
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- All exceptions subclass `SIGAPException` (which itself subclasses FastAPI `HTTPException`).
+- Each exception must carry an appropriate HTTP status code matching `api-contract.yaml`.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – response definitions.
+- `docs/DESIGN.md` – error handling strategy.

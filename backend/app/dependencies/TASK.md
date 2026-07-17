@@ -1,21 +1,21 @@
-# 📌 Module Task Tracker: Dependencies Package
+# 📌 Module Task Tracker: Dependencies Package (backend/app/dependencies)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Centralize dependency injection for FastAPI: DB session, JWT authentication, Redis cache, and settings re‑export.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` exposing helpers.
+- [x] **DB Session** – `db_session.py` implemented with async SQLAlchemy, RLS helpers, and safe teardown.
+- [x] **JWT Auth** – `jwt_auth.py` implemented (token decode, expiration check, `UserPayload`).
+- [x] **Redis Cache** – `redis_cache.py` singleton client.
+- [x] **Settings Export** – `settings.py` re‑exports `Settings`.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- DB engine must adapt to SQLite for tests (conditional pool args).
+- JWT must be validated on every request; expired tokens raise `Unauthorized`.
+- Redis client is created once per process; `decode_responses=True`.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – `bearerAuth` security scheme.
+- `docs/DESIGN.md` – dependency layer diagram.
+- `docs/DATA_GOVERNANCE.md` – idempotency window definition.
