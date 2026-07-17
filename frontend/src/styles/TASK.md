@@ -1,30 +1,21 @@
-# 📌 Module Task Tracker: Styles Package (frontend/src/styles)
+# 📌 Module Task Tracker: Frontend Styles
 
 ## 🎯 Core Objective & Responsibility
-- Menyimpan **style definitions** untuk proyek Next.js, termasuk Tailwind configuration, CSS‑Modules, dan design token file.
-- Tidak mengandung kode JavaScript/TypeScript, hanya konfigurasi styling.
+- *Deskripsi singkat tentang tujuan modul ini.*
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `index.ts` (optional, hanya untuk re‑export jika diperlukan).
-- [ ] **Tailwind Config** – `tailwind.config.js`
-  - Define custom colors, spacing, typography based on `docs/DESIGN.md` palette.
-  - Enable JIT mode, purge paths `./src/**/*.tsx`.
-- [ ] **Design Tokens** – `tokens.css` (or `tokens.module.css`)
-  - Variables: `--color-primary`, `--spacing-sm`, `--border-radius`, dll.
-- [ ] **Global CSS** – `globals.css`
-  - Import Tailwind base, components, utilities; set `html, body` font family.
-- [ ] **Write Styles README** – pola penggunaan Tailwind vs CSS‑Modules, contoh `className={styles.buttonPrimary}`.
+- [ ] **Package init** – `__init__.py` (placeholder)
+- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
+- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
 
 ## 🔒 Constraints & Best Practices
-- **No inline styles** in React components – always use Tailwind classes or CSS‑Modules.
-- **Purge unused CSS** to keep bundle size < 150 KB.
-- **Accessibility:** ensure high contrast colors, focus outlines.
-- **Testing:** use `storybook` (optional) to visual‑test components.
+- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
 
 ## 📄 References
-- `docs/DESIGN.md` – color palette, typography, spacing guidelines.
-- `frontend/src/components/` – contoh penggunaan classNames.
+- `api-contract.yaml` – jika modul ini terkait endpoint API.
+- `docs/DESIGN.md` – referensi arsitektur.
+- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
 
 ---
 
-**Instruksi Eksplisit:** Tidak ada file konfigurasi styling yang boleh di‑commit (Tailwind, CSS) sebelum checklist di atas ditandai selesai.
+**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).

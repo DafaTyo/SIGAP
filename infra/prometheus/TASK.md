@@ -1,29 +1,21 @@
-# 📌 Module Task Tracker: Infra Prometheus (infra/prometheus)
+# 📌 Module Task Tracker: Infra Prometheus
 
 ## 🎯 Core Objective & Responsibility
-- Menyiapkan **Prometheus** untuk meng‑scrape metrik dari FastAPI backend (`/metrics`) dan dari Redis/OPA bila diperlukan.
-- Menyediakan **alerting rules** dasar (up/down, high latency, error rate).
+- *Deskripsi singkat tentang tujuan modul ini.*
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `README.md` dengan petunjuk instalasi.
-- [ ] **Prometheus Config** – `prometheus.yml`
-  - Scrape `backend:8000/metrics` every 15s.
-  - Optional: scrape `redis:6379` via `redis_exporter` (future).
-  - Define job `sigap_backend`.
-- [ ] **Alerting Rules** – `alerts.yml`
-  - Alert if `up{job="sigap_backend"} == 0` for >1m.
-  - Alert if `http_requests_total{status="5.."}` > 5 per minute.
-- [ ] **Write Prometheus README** – cara menjalankan `prometheus --config.file=prometheus.yml` dan mengakses UI (`localhost:9090`).
+- [ ] **Package init** – `__init__.py` (placeholder)
+- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
+- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
 
 ## 🔒 Constraints & Best Practices
-- **Retention:** keep 15 days of data (set in Prometheus args).
-- **Security:** expose Prometheus only inside Docker network (`sigap_net`).
-- **Metrics Naming:** follow `snake_case` convention, prefix `sigap_`.
+- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
 
 ## 📄 References
-- `docs/DESIGN.md` – kebutuhan observability.
-- `infra/docker/docker-compose.yml` – service definition.
+- `api-contract.yaml` – jika modul ini terkait endpoint API.
+- `docs/DESIGN.md` – referensi arsitektur.
+- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
 
 ---
 
-**Instruksi Eksplisit:** Tidak menulis `prometheus.yml` atau `alerts.yml` sebelum checklist di atas ditandai selesai.
+**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).

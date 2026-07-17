@@ -1,16 +1,21 @@
-# TASK.md – Docs
+# 📌 Module Task Tracker: Docs Reference Package
 
-## Goals
-- Menyimpan semua artefak **dokumentasi** proyek SIGAP (PRD, DESIGN, CLAUDE, ARCHITECTURE, POLICIES, MIDDLEWARE, DATA_LINEAGE).
-- Dokumentasi harus dapat **dibangun menjadi static site** menggunakan MkDocs (atau Docsify).
-- Semua dokumen harus **referensi silang** (link antar dokumen) dan mengikuti **naming convention** (snake_case.md).
+## 🎯 Core Objective & Responsibility
+- *Deskripsi singkat tentang tujuan modul ini.*
 
-## Verification Criteria
-- [] `mkdocs.yml` ada di root, konfigurasi site meng‑include semua file di `docs/`.
-- [] `mkdocs build` menghasilkan `site/` tanpa error.
-- [] Setiap dokumen memiliki front‑matter (title, description) untuk SEO.
-- [] Link internal (`[link](./other.md)`) berfungsi ketika site dibuka.
-- [] CI pipeline menjalankan `mkdocs build` dan gagal bila ada broken link.
+## 📋 Development Checklist
+- [ ] **Package init** – `__init__.py` (placeholder)
+- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
+- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
 
-## Status
-- [ ] Pending
+## 🔒 Constraints & Best Practices
+- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+
+## 📄 References
+- `api-contract.yaml` – jika modul ini terkait endpoint API.
+- `docs/DESIGN.md` – referensi arsitektur.
+- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
+
+---
+
+**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).

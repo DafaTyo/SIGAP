@@ -1,0 +1,277 @@
+{
+  "generated_at": "2026-07-17T12:34:56Z",
+  "repo_root": "C:/SIGAP",
+  "total_folders_with_task_md": 28,
+  "total_tasks_across_repo": 0,
+  "total_completed": 0,
+  "overall_percent_complete": 0.0,
+  "folders": [
+    {
+      "path": "/c/SIGAP/backend/app/api/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/core/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/dependencies/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/domains/complaint/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/domains/distribution/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/domains/vendor/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/exceptions/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/middleware/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/policies/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/tests/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/app/utils/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/backend/workers/validate_documents/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/data/migrations/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/data/seeds/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/docs/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/public/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/actions/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/components/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/hooks/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/styles/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/tests/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/frontend/src/utils/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/infra/docker/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/infra/grafana/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/infra/prometheus/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/infra/scripts/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    },
+    {
+      "path": "/c/SIGAP/TASK.md",
+      "format_valid": false,
+      "format_issues": ["Missing sections: 🎯 Core Objective & Responsibility, 📋 Development Checklist, 🔒 Constraints & Best Practices, 📄 References"],
+      "total": 0,
+      "completed": 0,
+      "percent_complete": 0.0,
+      "tasks": []
+    }
+  ],
+  "api_endpoints": [
+    {"path": "/auth/login","method": "POST","tag": "Auth","security": [],"idempotency_required": false,"request_schema": null,"response_schema": null},
+    {"path": "/auth/me","method": "GET","tag": "Auth","security": [],"idempotency_required": false,"request_schema": null,"response_schema": "#/components/schemas/User"},
+    {"path": "/vendors","method": "POST","tag": "Vendor","security": ["bearerAuth"],"idempotency_required": true,"request_schema": "#/components/schemas/VendorRegistrationRequest","response_schema": "#/components/schemas/Vendor"},
+    {"path": "/vendors","method": "GET","tag": "Vendor","security": ["bearerAuth"],"idempotency_required": false,"request_schema": null,"response_schema": "#/components/schemas/VendorList"},
+    {"path": "/vendors/{vendorId}","method": "GET","tag": "Vendor","security": ["bearerAuth"],"idempotency_required": false,"request_schema": null,"response_schema": "#/components/schemas/Vendor"},
+    {"path": "/vendors/{vendorId}","method": "PATCH","tag": "Vendor","security": ["bearerAuth"],"idempotency_required": true,"request_schema": "#/components/schemas/VendorUpdateRequest","response_schema": "#/components/schemas/Vendor"},
+    {"path": "/vendors/{vendorId}/nik","method": "GET","tag": "Vendor","security": ["bearerAuth"],"idempotency_required": false,"request_schema": null,"response_schema": "#/components/schemas/VendorNikReveal"},
+    {"path": "/distributions","method": "POST","tag": "Distribution","security": ["bearerAuth"],"idempotency_required": true,"request_schema": "#/components/schemas/DistributionReportRequest","response_schema": "#/components/schemas/DistributionReport"}
+  ],
+  "cross_reference": {},
+  "inconsistencies": [
+    {"severity": "critical","type": "format_issue","description": "All 28 TASK.md files are missing required sections and have no checklist items.","sources": []}
+  ],
+  "gaps": []
+}

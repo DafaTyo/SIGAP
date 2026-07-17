@@ -1,33 +1,21 @@
-# 📌 Module Task Tracker: Components Package (frontend/src/components)
+# 📌 Module Task Tracker: Frontend Components
 
 ## 🎯 Core Objective & Responsibility
-- Menyimpan **komponen UI** yang bersifat presentational (tidak mengandung business logic). 
-- Komponen dibuat dengan **React (TSX)**, memanfaatkan TailwindCSS atau CSS‑Modules.
-- Semua komponen harus **stateless**; state dikelola melalui hooks atau server actions.
+- *Deskripsi singkat tentang tujuan modul ini.*
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `index.ts` yang men‑export semua komponen utama (Button, Card, Modal, Table).
-- [ ] **Button Component** – `Button.tsx`
-  - Props: `variant` (`primary`,`secondary`,`danger`), `onClick`, `type`, `disabled`, `children`.
-  - Styles: Tailwind classes, accessible ARIA attributes.
-- [ ] **Card Component** – `Card.tsx`
-  - Props: `title`, `subtitle?`, `children`, optional `footer`.
-- [ ] **Modal Component** – `Modal.tsx`
-  - Props: `isOpen`, `onClose`, `title`, `children`.
-- [ ] **Table Component** – `Table.tsx`
-  - Props: `columns` (array of {header:string, accessor:string}), `data` (array of objects), optional `onRowClick`.
-- [ ] **Write Component README** – menjelaskan konvensi penamaan, styling guide, dan contoh penggunaan di halaman.
+- [ ] **Package init** – `__init__.py` (placeholder)
+- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
+- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
 
 ## 🔒 Constraints & Best Practices
-- **No direct API calls** – gunakan hooks atau server actions untuk fetch data.
-- **Accessibility:** semua komponen harus memiliki proper ARIA labels, focus management.
-- **Testing:** gunakan React Testing Library untuk unit test, pastikan snapshot testing untuk UI.
-- **Styling:** gunakan utility‑first Tailwind; hindari inline styles kecuali diperlukan.
+- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
 
 ## 📄 References
-- `docs/DESIGN.md` – UI component guidelines, color palette.
-- `frontend/src/styles/` – design tokens (font, spacing, colors).
+- `api-contract.yaml` – jika modul ini terkait endpoint API.
+- `docs/DESIGN.md` – referensi arsitektur.
+- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
 
 ---
 
-**Instruksi Eksplisit:** Kode komponen React **tidak boleh** ditulis sebelum semua checklist di atas dibubuhi tanda selesai.
+**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).

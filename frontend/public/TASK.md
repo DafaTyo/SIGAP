@@ -1,22 +1,21 @@
-# 📌 Module Task Tracker: Public Assets (frontend/public)
+# 📌 Module Task Tracker: Frontend Public Assets
 
 ## 🎯 Core Objective & Responsibility
-- Menyimpan **static assets** yang akan dilayani oleh Next.js secara langsung (favicon, logo, gambar ilustrasi, robots.txt).
-- Tidak mengandung kode eksekusi, hanya file‑binary atau teks.
+- *Deskripsi singkat tentang tujuan modul ini.*
 
 ## 📋 Development Checklist
-- [ ] **Create placeholder assets** – `favicon.ico`, `logo.svg`, `robots.txt` (dummy content).
-- [ ] **Add README.md** – menjelaskan konvensi penamaan (`*.png` untuk UI icons, `*.svg` untuk vector, `*.ico` untuk favicon) dan cara men‑add asset ke repo.
-- [ ] **Add .gitkeep** (optional) jika folder akan tetap kosong pada awal commit.
+- [ ] **Package init** – `__init__.py` (placeholder)
+- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
+- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
 
 ## 🔒 Constraints & Best Practices
-- **Size limit:** tidak ada file > 150 KB untuk menjaga bundle size.
-- **Naming:** gunakan lower‑kebab‑case (`my-logo.svg`).
-- **Performance:** compress PNG/JPEG dengan lossless tools sebelum commit.
+- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
 
 ## 📄 References
-- `docs/DESIGN.md` – bagian *UI/UX Assets*.
+- `api-contract.yaml` – jika modul ini terkait endpoint API.
+- `docs/DESIGN.md` – referensi arsitektur.
+- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
 
 ---
 
-**Instruksi Eksplisit:** Tidak ada file kode yang boleh dibuat di dalam `frontend/public` sampai semua checklist di atas selesai.
+**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
