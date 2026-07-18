@@ -1,21 +1,19 @@
 # 📌 Module Task Tracker: Complaint Domain (backend/app/domains/complaint)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Handle complaint workflow: generate ticket number, resolve severity and SLA, and manage status transitions.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` created.
+- [x] **Models** – `models.py` matches Complaint spec (ticket_number, status check).
+- [x] **Schemas** – `schemas.py` defines request/response formats.
+- [x] **Repository** – `repositories.py` supports create/get/list/update.
+- [x] **Service** – `services.py` generates SG‑YYYY‑XXXX tickets and maps severity.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Every status update checks domain constraints.
+- Default resolution SLA set to 3 days.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – `/complaints` definition.
+- `docs/DESIGN.md` – complaint schema layout.

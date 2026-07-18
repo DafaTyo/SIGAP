@@ -1,21 +1,18 @@
 # 📌 Module Task Tracker: Vendor Domain (backend/app/domains/vendor)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Handle vendor registration, document submission tracking, and secure PII reveal.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` created.
+- [x] **Models** – `models.py` uses LargeBinary for encrypted fields.
+- [x] **Schemas** – `schemas.py` defines masked response schema.
+- [x] **Repository** – `repositories.py` handles DB state storage.
+- [x] **Service** – `services.py` coordinates logic, NIK masking, and reveal constraints.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Plain NIK never exposed via standard read models.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – `/vendors` endpoints.
+- `docs/DATA_GOVERNANCE.md` – NIK encryption specification.

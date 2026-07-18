@@ -1,21 +1,17 @@
 # 📌 Module Task Tracker: Validate Documents Worker
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Handle asynchronous background validation for uploaded legal documents (NIB, Hygiene, etc.) using mock external APIs.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` created.
+- [x] **Worker script** – `worker.py` implemented with async simulation.
+- [x] **Self check** – main block script validates successfully.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Heavy integration calls must not block the main FastAPI request thread.
+- Fallback mock data behaves as "valid" for standard testing flow.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – async status updates workflow.
+- `docs/DESIGN.md` – worker configuration.

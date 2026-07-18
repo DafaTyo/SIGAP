@@ -28,6 +28,26 @@ def settings_env():
     yield
 
 
+@pytest.fixture(scope="session", autouse=True)
+def setup_database():
+    """Create all SQLite tables in memory before tests run."""
+    import asyncio
+    from app.dependencies.db_session import engine
+    from app.domains.vendor.models import Base as VendorBase
+    from app.domains.distribution.models import Base as DistBase
+    from app.domains.complaint.models import Base as CompBase
+
+    async def create_tables():
+        async with engine.begin() as conn:
+            # Drop/Create is safe for in-memory DB
+            await conn.run_sync(VendorBase.metadata.create_all)
+            await conn.run_sync(DistBase.metadata.create_all)
+            await conn.run_sync(CompBase.metadata.create_all)
+
+    asyncio.run(create_tables())
+    yield
+
+
 @pytest.fixture
 async def client():
     """Async HTTP client pointing to the FastAPI test app."""

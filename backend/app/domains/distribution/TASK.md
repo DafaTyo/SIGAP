@@ -1,21 +1,18 @@
 # 📌 Module Task Tracker: Distribution Domain (backend/app/domains/distribution)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Handle distribution reports: log porsi, geolocation coords, photo meta, and validate tampering.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` created.
+- [x] **Models** – `models.py` matches Distribution spec.
+- [x] **Schemas** – `schemas.py` defines request/response formats.
+- [x] **Repository** – `repositories.py` supports create/get/list.
+- [x] **Service** – `services.py` calculates photo age and flags tampering.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- `photo_taken_at` difference of > 24 hours triggers `tampering_suspicion`.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – `/distributions` endpoints.
+- `docs/DATA_GOVERNANCE.md` – tampering check definition.

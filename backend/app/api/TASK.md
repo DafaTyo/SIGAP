@@ -1,21 +1,17 @@
-# 📌 Module Task Tracker: API Router Package
+# 📌 Module Task Tracker: API Router Package (backend/app/api)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Expose endpoints for each domain module (Vendor, Distribution, Complaint) as defined by the API contract.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Package init** – `__init__.py` mounts all sub-routers.
+- [x] **Vendor Router** – `vendors.py` endpoints created.
+- [x] **Distribution Router** – `distributions.py` endpoints created.
+- [x] **Complaint Router** – `complaints.py` endpoints created.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Keep routes as thin transportation layers; delegate all logic to domains.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – router definitions.
+- `docs/DESIGN.md` – api layer setup.

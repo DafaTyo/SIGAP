@@ -21,13 +21,15 @@ class Settings(BaseSettings):
     )
 
     # ── Database ──────────────────────────────────────────────
-    DATABASE_URL: str = "postgresql+asyncpg://sigap:sigap@localhost:5432/sigap"
+    # ponytail: aiosqlite for dev/test — swap to asyncpg via env DATABASE_URL in prod
+    DATABASE_URL: str = "sqlite+aiosqlite:///:memory:"
 
     # ── Redis ─────────────────────────────────────────────────
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # ── JWT ───────────────────────────────────────────────────
     JWT_SECRET_KEY: str = "CHANGE-ME-IN-PRODUCTION"
+    NIK_ENCRYPTION_KEY: str = "CHANGE-ME-ENCRYPTION-KEY"
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRES_MINUTES: int = 60
 

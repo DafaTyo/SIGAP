@@ -1,21 +1,19 @@
-# 📌 Module Task Tracker: Task.Md
+# 📌 Module Task Tracker: Root Project (C:/SIGAP)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Menyelaraskan seluruh folder proyek SIGAP dengan standar Task‑Driven Development: masing‑masing modul memiliki `TASK.md` berisi empat bagian wajib dan checklist tercentang sebelum kode ditulis.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [x] **Core packages** – Core, Dependencies, Exceptions, Middleware, Utils selesai & ter‑test.
+- [x] **Migrations** – Database migration script selesai & ter‑test.
+- [x] **Documentation** – `CONTEXT_SUMMARY.md` & `TASK_OVERVIEW.json` dihasilkan.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Semua kode harus lulus unit‑test (`pytest`) sebelum merge.
+- Tidak ada kode yang ditulis tanpa `TASK.md` selesai.
+- Setiap modul wajib mengikuti pola empat section.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – kontrak API utama.
+- `docs/DESIGN.md` – arsitektur.
+- `docs/DATA_GOVERNANCE.md` – kebijakan keamanan & audit.
