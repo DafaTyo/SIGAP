@@ -16,8 +16,8 @@ class TestDBSession:
             break
 
 
-@pytest.mark.asyncio
 class TestJWT:
+    @pytest.mark.anyio
     async def test_missing_token_raises_401(self):
         # We don't use the client fixture directly to avoid ASGI context issues here,
         # but we can test the behavior
