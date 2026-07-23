@@ -124,3 +124,6 @@ src/llm_service/models/
 !docs/**/*.yaml
 !docs/**/*.yml
 !README.md
+
+CONTEXT_SUMMARY.md
+docs/context
