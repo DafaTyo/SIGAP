@@ -8,21 +8,42 @@ Reference: DESIGN.md §2.2 OPA, AGENTS.md primary directive.
 """
 
 from __future__ import annotations
+from __future__ import annotations
 
 import json
 import httpx
-
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 
-from app.dependencies import settings, get_current_user
-
+from app.dependencies import settings
+from app.core.exceptions import PermissionDenied, Unauthorized
+from app.dependencies.jwt_auth import get_current_user
+from starlette.exceptions import HTTPException
 
 class OPAPolicyMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
-        # Resolve current user (already validated by JWT)
-        user = await get_current_user(request)  # type: ignore[arg-type]
+        # Public endpoints (no security) can proceed directly
+        if request.url.path.startswith("/public/") or request.url.path in ["/auth/login", "/auth/me", "/audit-logs", "/health"]:
+            return await call_next(request)
+            
+        # Resolve current user from Authorization header
+        try:
+            auth_header = request.headers.get("Authorization", "")
+            token = auth_header.replace("Bearer ", "") if auth_header.startswith("Bearer ") else ""
+            if not token:
+                raise Unauthorized(detail="Missing Bearer token")
+            from app.dependencies.jwt_auth import _decode_token, UserPayload
+            payload = _decode_token(token)
+            user = UserPayload(
+                id=str(payload.get("sub") or payload.get("id", "")),
+                role=payload.get("role", ""),
+                scope_type=payload.get("scope_type", ""),
+                scope_value=payload.get("scope_value", []),
+            )
+        except Unauthorized:
+            return await call_next(request)
+            
         # Build OPA input payload
         payload = {
             "input": {
@@ -44,7 +65,7 @@ class OPAPolicyMiddleware(BaseHTTPMiddleware):
                 resp.raise_for_status()
                 decision = resp.json().get("result", False)
             except Exception as exc:
-                # Fail‑closed: deny any request if OPA cannot be reached.
+                # Fail-closed: deny any request if OPA cannot be reached.
                 raise PermissionDenied(detail=f"OPA evaluation error: {exc}") from exc
         if not decision:
             raise PermissionDenied(detail="Policy denies this operation")

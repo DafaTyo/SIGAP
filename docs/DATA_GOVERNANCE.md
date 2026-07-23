@@ -64,9 +64,9 @@ This document defines the data governance framework for **SIGAP** (Sistem Inform
 ---
 
 ## 6. Metadata & Photo Timestamp
-- New column `photo_taken_at TIMESTAMP WITH TIME ZONE` added to `distributions` table.
-- **Tampering Detection**: Jika `photo_taken_at` lebih lama dari `created_at` lebih dari **24 jam**, otomatis flag `tampering_suspicion = true`.
-- Endpoint `/distribution/{id}/metadata` menyediakan metadata lengkap (EXIF, capture time, lokasi) kepada auditor.
+|- New column `photo_taken_at TIMESTAMP WITH TIME ZONE` added to `distributions` table.
+|- **Tampering Detection**: Jika `photo_taken_at` lebih lama dari `created_at` lebih dari **24 jam**, otomatis flag `tampering_suspicion = true`.
+|- Endpoint `/distributions/{id}/metadata` menyediakan metadata lengkap (EXIF, capture time, lokasi) kepada auditor.
 
 ---
 

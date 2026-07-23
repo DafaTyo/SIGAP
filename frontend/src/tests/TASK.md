@@ -1,21 +1,22 @@
-# 📌 Module Task Tracker: Frontend Tests
+# 📌 Module Task Tracker: Frontend Tests (frontend/src/tests)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Test suite untuk frontend: unit tests (Jest/Vitest), component tests (Testing Library), E2E tests.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **Unit tests** – utility functions, hooks.
+- [ ] **Component tests** – button, input, table, modal rendering.
+- [ ] **Integration tests** – auth flow, form submission.
+- [ ] **E2E tests** – critical user paths (login, vendor registration, complaint submission).
+- [ ] **CI setup** – GitHub Actions workflow.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Minimum 70% coverage untuk logic-critical files.
+- Mock API responses untuk stability.
+- Test yang independent dan idempotent.
+- Responsive testing: desktop, tablet, mobile viewports.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- Jest / Vitest documentation.
+- React Testing Library.
+- Playwright / Cypress untuk E2E.

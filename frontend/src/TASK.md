@@ -1,21 +1,21 @@
-# 📌 Module Task Tracker: Frontend Root Src
+# 📌 Module Task Tracker: Frontend (frontend/src)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Next.js BFF (Backend-for-Frontend) yang mengatur request ke FastAPI, SSR, dan PII masking layer.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **Package init** – `package.json`, `next.config.js` dengan proxy ke `/api`.
+- [ ] **BFF layer** – Server Actions untuk setiap domain (vendor, distribution, complaint).
+- [ ] **PII masking** – Middleware yang mem‑mask NIK sebelum response ke client.
+- [ ] **CASL integration** – Permission toggling berdasarkan role/scope.
+- [ ] **UI components** – Halaman utama: Dashboard, Vendor List, Distribution Map, Complaint Tracker.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- PII masking wajib di BFF layer (DESIGN.md §2.3).
+- RBAC diperiksa di Server Component/Route Handler, bukan hanya middleware.ts (CVE-2025-29927).
+- Semua request ke FastAPI harus melalui BFF, tidak ada direct API call dari client.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – endpoint tujuan dari BFF.
+- `docs/DESIGN.md` – BFF layer dan PII masking.
+- `docs/DATA_GOVERNANCE.md` §3 – masking rules.

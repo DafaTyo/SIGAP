@@ -12,7 +12,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Central settings — all values come from env / .env file."""
+    """Central settings — all values come from env / .env file.
+
+    JWT_SECRET_KEY is **required**; the application will refuse to start if not provided.
+    """
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -28,7 +31,8 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # ── JWT ───────────────────────────────────────────────────
-    JWT_SECRET_KEY: str = "CHANGE-ME-IN-PRODUCTION"
+    # Must be set via environment; no default to avoid accidental plaintext secrets.
+    JWT_SECRET_KEY: str
     NIK_ENCRYPTION_KEY: str = "CHANGE-ME-ENCRYPTION-KEY"
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRES_MINUTES: int = 60

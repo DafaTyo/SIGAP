@@ -15,7 +15,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 from app.dependencies import get_redis, settings
-from app.exceptions import RateLimitExceeded
+from app.core.exceptions import RateLimitExceeded
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):

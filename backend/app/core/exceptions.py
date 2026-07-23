@@ -59,6 +59,11 @@ class DocumentValidationFailed(SIGAPException):
     default_detail = "Validasi dokumen gagal"
 
 
+class GeoValidationError(SIGAPException):
+    status_code = 422
+    default_detail = "Validasi geospasial gagal"
+
+
 class RateLimitExceeded(SIGAPException):
     status_code = 429
     default_detail = "Terlalu banyak request — coba lagi nanti"

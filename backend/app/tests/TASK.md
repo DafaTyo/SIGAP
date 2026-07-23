@@ -1,21 +1,23 @@
-# 📌 Module Task Tracker: Tests Package
+# 📌 Module Task Tracker: Tests Package (backend/app/tests)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Menjamin kualitas backend melalui automated tests: unit, integration, security, dan contract compliance.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **Test setup** – `conftest.py` menyiapkan app client, DB session, dan Redis mock.
+- [ ] **Core tests** – `test_core.py` untuk config, logger, exceptions.
+- [ ] **Dependency tests** – `test_dependencies.py` untuk auth, RLS context, Redis cache.
+- [ ] **Middleware tests** – `test_middleware.py` untuk audit, rate-limit, idempotency, OPA.
+- [ ] **Domain tests** – `test_vendor.py`, `test_distribution.py`, `test_complaint.py`.
+- [ ] **API contract tests** – `test_api.py` validasi semua endpoint sesuai OpenAPI.
+- [ ] **Security tests** – RLS bypass attempt, PII leak scan, idempotency replay.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Minimum coverage target: core modules 80%.
+- Gunakan `respx` untuk mock HTTP eksternal (OSS/BPOM/OPA).
+- Jangan mengandalkan aiosqlite untuk menguji PostGIS/RLS; pakai PostgreSQL testcontainer untuk hal itu.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `docs/DESIGN.md` – architecture.
+- `api-contract.yaml` – source of truth untuk endpoint contract.
+- `docs/DATA_GOVERNANCE.md` – audit & retention.

@@ -1,21 +1,20 @@
-# 📌 Module Task Tracker: Policies Package
+# 📌 Module Task Tracker: Policies Package (backend/app/policies)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Menyimpan kebijakan OPA/ABAC yang dievaluasi untuk menentukan akses user terhadap resource.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **OPA policy file** – buat `policies/sigap.rego` minimal untuk Vendor/Distribution/Complaint.
+- [ ] **Unit test policy** – verifikasi decision untuk tiap role (vendor, verifikator_bgn, pengawas_dinas, admin).
+- [ ] **Sync CASL** – endpoint `/auth/me/permissions` harus cocok dengan policy OPA untuk UI.
+- [ ] **Fallback mode** – implementasi fallback policy bila OPA unreachable untuk dev/testing.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Fail-closed: jika OPA gagal, tolak akses (403).
+- Policy hanya memakai atribusi, bukan hardcode role-check di Python.
+- Jangan kembalikan `result: true` untuk operasi sensitif tanpa validasi scope.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `docs/DESIGN.md` – §2.2 OPA & CASL.
+- `docs/DATA_GOVERNANCE.md` – §7 Access Control.
+- `api-contract.yaml` – endpoint yang butuh bearerAuth.

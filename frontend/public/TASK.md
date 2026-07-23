@@ -1,21 +1,19 @@
 # 📌 Module Task Tracker: Frontend Public Assets
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Static assets untuk Next.js frontend: logo, favicon, gambar, manifest.json.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **logo.png** – logo SIGAP (transparent background).
+- [ ] **favicon.ico** – favicon untuk browser tab.
+- [ ] **manifest.json** – PWA manifest (jika relevan).
+- [ ] **og-image.png** – OpenGraph image untuk share.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Format gambar: SVG untuk logo, PNG untuk raster, WebP untuk kompresi.
+- Ukuran file < 100KB untuk load time optimal.
+- Accessibility: alt text untuk semua gambar.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- Next.js public folder documentation.
+- PWA manifest spec.

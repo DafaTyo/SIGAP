@@ -1,21 +1,29 @@
-# 📌 Module Task Tracker: Frontend Actions
+# 📌 Module Task Tracker: Frontend Actions (frontend/src/actions)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Server Actions Next.js (App Router) yang menjadi gateway utama frontend menuju API backend.
+- Setiap action wajib mencantumkan inkimentiditas kunci (X-Idempotency-Key) dan masking PII sebelum dikirim ke client.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **auth/login** – Login JWT untuk vendor, verifikator BGN, pengawas dinas, admin.
+- [ ] **auth/logout** – Blacklist token.
+- [ ] **vendor/submit-registration** – Submit form registrasi sesuai `VendorRegistrationRequest`.
+- [ ] **vendor/upload-document** – Upload dokumen legal (NIK, NIB, PIRT, dll.) dengan progress status via SSE/websocket.
+- [ ] **vendor/list** – Ambil list vendor sesuai scope role.
+- [ ] **distribution/submit-report** – Submit laporan distribusi dengan foto dan koordinat GPS.
+- [ ] **distribution/list** – List laporan distribusi yang bisa diakses berdasarkan scope.
+- [ ] **complaint/submit** – Submit pengaduan masyarakat (publik) tanpa login.
+- [ ] **complaint/track** – Public tracking per tiket dan status pengaduan.
+- [ ] **public/vendor-verify** – Verify keabsahan vendor via kode SIO.
+- [ ] **public/dashboard/summary** – Data agregat publik (total vendor, pengaduan, distribusi).
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Semua mutation (POST, PATCH, DELETE) wajib set `X-Idempotency-Key` header.
+- PII masking diterapkan setelah response didapat dari FastAPI (DESIGN.md §2.3).
+- Semua routes dilindungi oleh CASL berdasarkan role/scope user.
+- Error handling menampilkan pesan dalam Bahasa Indonesia.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – endpoint target.
+- `docs/DESIGN.md` – BFF + CASL architecture.
+- `docs/DATA_GOVERNANCE.md` §3 – PII masking di BFF.

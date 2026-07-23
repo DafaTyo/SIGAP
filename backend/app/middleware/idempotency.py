@@ -26,7 +26,7 @@ class IdempotencyMiddleware(BaseHTTPMiddleware):
         key = request.headers.get("X-Idempotency-Key")
         if not key:
             # Header missing – reject per contract
-            from app.exceptions import IdempotencyConflict
+            from app.core.exceptions import IdempotencyConflict
 
             raise IdempotencyConflict(detail="X-Idempotency-Key header wajib untuk operasi ini")
 
@@ -37,8 +37,7 @@ class IdempotencyMiddleware(BaseHTTPMiddleware):
                 # Key exists – compare bodies
                 body = await request.body()
                 if body and body != cached.encode():
-                    from app.exceptions import IdempotencyConflict
-
+                    from app.core.exceptions import IdempotencyConflict
                     raise IdempotencyConflict(
                         detail="X-Idempotency-Key sudah dipakai dengan payload berbeda"
                     )

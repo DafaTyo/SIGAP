@@ -1,14 +1,33 @@
-"""SIGAP FastAPI app assembly."""
-
-from __future__ import annotations
-
-from fastapi import FastAPI
-
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from app.api import api_router
+from app.core.exceptions import SIGAPException
+from app.core.api_error import APIError
+from app.middleware import (
+    RLSSetterMiddleware, OPAPolicyMiddleware, IdempotencyMiddleware,
+    RateLimitMiddleware, AuditLogMiddleware
+)
+from app.core.logger import configure_logging
 
-app = FastAPI(title="SIGAP API", version="0.2.0", openapi_url="/openapi.json")
+configure_logging()
+
+app = FastAPI(title="SIGAP API", version="0.2.0")
+
+# Register Middlewares (Order matters)
+app.add_middleware(RLSSetterMiddleware)
+app.add_middleware(AuditLogMiddleware)
+app.add_middleware(RateLimitMiddleware)
+app.add_middleware(IdempotencyMiddleware)
+app.add_middleware(OPAPolicyMiddleware)
+
+@app.exception_handler(SIGAPException)
+async def sigap_exception_handler(request: Request, exc: SIGAPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=APIError(code=exc.status_code, detail=exc.detail).model_dump(),
+    )
+
 app.include_router(api_router, prefix="/v1")
-
 
 @app.get("/health")
 async def health():

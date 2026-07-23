@@ -1,21 +1,25 @@
-# 📌 Module Task Tracker: Frontend Hooks
+# 📌 Module Task Tracker: Frontend Hooks (frontend/src/hooks)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Custom React hooks untuk state management, API fetching, form handling, dan auth state.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **useAuth** – user session, login, logout, permissions.
+- [ ] **useVendors** – fetch vendors list, filter, pagination.
+- [ ] **useDistributions** – fetch distributions, map data, anomaly flags.
+- [ ] **useComplaints** – fetch complaints, severity, SLA tracking.
+- [ ] **useForm** – reusable form state dan validation.
+- [ ] **useGeolocation** – GPS coordinate capture.
+- [ ] **useDebounce** – debounce input untuk search.
+- [ ] **useLocalStorage** – persist state ke localStorage.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Semua hooks wajib cleanup (useEffect return function).
+- Error handling yang konsisten di setiap hook.
+- Loading states untuk setiap async operation.
+- TypeScript types wajib di-export.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `frontend/src/actions/` – Server Actions yang di-fetch.
+- `frontend/src/components/` – komponen yang mengkonsumsi hooks.
+- React Documentation – hooks best practices.

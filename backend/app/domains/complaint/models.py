@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime, timezone, timedelta
 
-from sqlalchemy import String, Text, DateTime, CheckConstraint
+from sqlalchemy import String, Text, DateTime, Boolean, Float, CheckConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -24,6 +24,10 @@ class Complaint(Base):
         CheckConstraint("kategori IN ('keracunan','keterlambatan','kekurangan_porsi','kualitas_makanan','lainnya')"),
     )
     deskripsi: Mapped[str] = mapped_column(Text, nullable=False)
+    photo_url: Mapped[str | None] = mapped_column(Text)
+    latitude: Mapped[float | None] = mapped_column(Float)
+    longitude: Mapped[float | None] = mapped_column(Float)
+    province: Mapped[str | None] = mapped_column(String(100))
     severity: Mapped[str] = mapped_column(
         String(10),
         CheckConstraint("severity IN ('rendah','sedang','tinggi','kritis')"),
@@ -36,6 +40,7 @@ class Complaint(Base):
     )
     resolution_notes: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     sla_deadline: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc) + timedelta(days=3),

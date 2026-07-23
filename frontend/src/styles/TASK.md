@@ -1,21 +1,22 @@
-# 📌 Module Task Tracker: Frontend Styles
+# 📌 Module Task Tracker: Frontend Styles (frontend/src/styles)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Konfigurasi Tailwind CSS dan custom stylesheet untuk SIGAP UI (dark theme).
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **tailwind.config.js** – colors, fonts, dark mode enabled.
+- [ ] **globals.css** – custom CSS variables, base styles.
+- [ ] **typography** – heading, body, caption styles.
+- [ ] **spacing** – margin, padding scale.
+- [ ] **animations** – loading, fade transitions.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Dark theme sebagai default: background `#0d1117`, text `#c9d1d9`.
+- Accent colors: primary `#238636` (hijau MBG), error `#f85149`.
+- Gunakan Tailwind utility classes, minimal custom CSS.
+- Font: Inter atau system font.
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- Tailwind CSS Documentation.
+- GitHub Dark theme sebagai referensi.
+- Figma design tokens (jika ada).

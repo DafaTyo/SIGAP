@@ -28,7 +28,13 @@ class ComplaintRead(BaseModel):
     severity: str
     status: str
     resolution_notes: str | None
+    photo_url: str | None = None
+    latitude: float | None = None
+    longitude: float | None = None
+    province: str | None = None
+    nama_pelapor: str | None = None
     created_at: datetime
+    updated_at: datetime | None = None
     sla_deadline: datetime
 
 

@@ -1,21 +1,27 @@
-# 📌 Module Task Tracker: Frontend Components
+# 📌 Module Task Tracker: Frontend Components (frontend/src/components)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Komponen UI reusable yang Patuh pada desain sistem (Tailwind, dark theme) dan accessibility.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **Button** – variants: primary, secondary, danger, outline.
+- [ ] **Input** – text, email, password, file upload.
+- [ ] **Select** – dropdown untuk province, kabupaten, status.
+- [ ] **Card** – container untuk konten.
+- [ ] **Table** – sortable columns, pagination.
+- [ ] **Modal** – untuk form dan konfirmasi.
+- [ ] **Alert** – info, success, warning, error.
+- [ ] **Badge** – untuk status (verified, pending, rejected).
+- [ ] **Map** – Leaflet/OpenLayers untuk geospatial visualization.
+- [ ] **QRReader** – untuk scan SIO QR code.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Semua komponen menggunakan Tailwind CSS.
+- Responsif (mobile-first).
+- Accessibility: ARIA labels, keyboard navigation.
+- Dark theme: background `#0d1117`, text `#c9d1d9` (GitHub Dark).
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `frontend/src/styles/` – Tailwind config.
+- `docs/IDEA.md` – UI/UX guidelines.
+- Figma/Prototyping link (jika ada).

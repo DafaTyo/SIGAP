@@ -1,21 +1,23 @@
-# 📌 Module Task Tracker: Frontend Utils
+# 📌 Module Task Tracker: Frontend Utils (frontend/src/utils)
 
 ## 🎯 Core Objective & Responsibility
-- *Deskripsi singkat tentang tujuan modul ini.*
+- Utilitas TypeScript reusable: formatters, validators, PII mask, koordinat helper, dll.
 
 ## 📋 Development Checklist
-- [ ] **Package init** – `__init__.py` (placeholder)
-- [ ] **Add core files** – implement module‑specific artifacts (placeholder)
-- [ ] **Write documentation** – `README.md` dengan contoh penggunaan (placeholder)
+- [ ] **pii.ts** – mask NIK, mask email, mask phone (mirror dari backend rules).
+- [ ] **format.ts** – format tanggal Indonesia, format currency (Rupiah).
+- [ ] **validate.ts** – validator untuk NIK, nib, koordinat GPS.
+- [ ] **map.ts** – bounding box, radius calculation untuk peta.
+- [ ] **api.ts** – typed fetch wrapper dengan idempotency key injection.
+- [ ] **date.ts** – date helpers dengan locale id-ID.
 
 ## 🔒 Constraints & Best Practices
-- *Daftar constraint keamanan, performa, atau standar coding yang harus dipatuhi.*
+- Pure functions, no side effects.
+- Full TypeScript types dan JSDoc comments.
+- Unit test coverage wajib untuk setiap utilitas.
+- Tidak boleh menyimpan secret di frontend (XSS risk).
 
 ## 📄 References
-- `api-contract.yaml` – jika modul ini terkait endpoint API.
-- `docs/DESIGN.md` – referensi arsitektur.
-- `docs/DATA_GOVERNANCE.md` – kebijakan data bila relevan.
-
----
-
-**Instruksi Eksplisit:** Tidak ada kode Python/SQL/JS yang boleh ditulis sampai semua item checklist di atas ditandai selesai (`[x]`).
+- `api-contract.yaml` – field type dan validation rules.
+- `docs/DATA_GOVERNANCE.md` §3 – masking patterns.
+- `frontend/src/hooks/` – hook yang menggunakan utilitas ini.

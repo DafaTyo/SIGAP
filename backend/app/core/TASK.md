@@ -1,20 +1,20 @@
 # 📌 Module Task Tracker: Core Package (backend/app/core)
 
 ## 🎯 Core Objective & Responsibility
-- Provide global configuration, structured logging, and base exception hierarchy for the SIGAP backend.
+- Menyediakan fondasi shared untuk seluruh aplikasi FastAPI: konfigurasi environment, logging terstruktur, dan error classes yang konsisten.
 
 ## 📋 Development Checklist
-- [x] **Package init** – `__init__.py` placeholder.
-- [x] **Config** – `config.py` implemented (pydantic‑settings, env vars).
-- [x] **Logger** – `logger.py` implemented (structlog JSON logger).
-- [x] **Exceptions** – `exceptions.py` implemented (SIGAPException subclasses).
+- [x] **Config** – `config.py` memuat env via `pydantic-settings`, mencakup DB/Redis/JWT/OPA/RateLimit/Idempotency.
+- [x] **Logger** – `logger.py` mengembalikan JSON logger berbasis `structlog` dengan `request_id`.
+- [ ] **Validasi startup** – pastikan FastAPI startup memanggil `configure_logging()`.
+- [ ] **Secret rotation docs** – tambahkan prosedur rotasi `JWT_SECRET_KEY` dan `NIK_ENCRYPTION_KEY`.
 
 ## 🔒 Constraints & Best Practices
-- Settings must be loaded exclusively via environment variables; no hard‑coded secrets.
-- Logger output must be valid JSON with mandatory fields (`timestamp`, `level`, `module`, `event`, optional `request_id`).
-- All exception classes inherit from `SIGAPException` and expose a `detail` message.
+- Jangan hardcode secret di kode; semua lewat `.env`.
+- Logger hanya menulis metadata, bukan PII mentah.
+- Gunakan exception classes khusus domain, bukan `Exception` generik.
 
 ## 📄 References
-- `api-contract.yaml` – response status‑code mapping.
-- `docs/DESIGN.md` – logging & security architecture.
-- `docs/DATA_GOVERNANCE.md` – PII handling policy.
+- `api-contract.yaml` – security schemes, error format.
+- `docs/DESIGN.md` – layer architecture.
+- `docs/DATA_GOVERNANCE.md` – audit & logging.
