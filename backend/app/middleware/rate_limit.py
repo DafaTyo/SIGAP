@@ -14,7 +14,8 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.requests import Request
 from starlette.responses import Response
 
-from app.dependencies import get_redis, settings
+from app.dependencies import get_redis
+from app.core.config import settings
 from app.core.exceptions import RateLimitExceeded
 
 

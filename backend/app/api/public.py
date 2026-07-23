@@ -24,7 +24,7 @@ async def verify_vendor_public(
     db: AsyncSession = Depends(get_db),
 ) -> list[PublicVendorProfile]:
     # Filter only verified vendors for public display
-    vendors = await list_vendors(db, status="verified")
+    vendors, _ = await list_vendors(db, status="verified")
     results = []
     for v in vendors:
         # Simple search filter (in production: full-text search)
@@ -51,7 +51,7 @@ async def get_summary(
     from app.domains.vendor.repositories import list_vendors
     from app.domains.complaint.repositories import list_complaints as repo_list_complaints_public
 
-    vendors = await list_vendors(db, status="verified")
+    vendors, _ = await list_vendors(db, status="verified")
     complaints, _ = await repo_list_complaints_public(db)
     
     return {

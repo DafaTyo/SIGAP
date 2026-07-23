@@ -52,6 +52,7 @@ htmlcov/
 venv/
 .venv/
 env/
+.venv-wsl/
 ENV/
 src/backend/venv/
 

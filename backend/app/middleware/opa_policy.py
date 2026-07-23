@@ -16,7 +16,7 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.requests import Request
 from starlette.responses import Response
 
-from app.dependencies import settings
+from app.core.config import settings
 from app.core.exceptions import PermissionDenied, Unauthorized
 from app.dependencies.jwt_auth import get_current_user
 from starlette.exceptions import HTTPException
@@ -24,7 +24,14 @@ from starlette.exceptions import HTTPException
 class OPAPolicyMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         # Public endpoints (no security) can proceed directly
-        if request.url.path.startswith("/public/") or request.url.path in ["/auth/login", "/auth/me", "/audit-logs", "/health"]:
+        safe_paths = ["/auth/login", "/auth/me", "/auth/me/permissions", "/audit-logs", "/health"]
+
+        # Strip /v1 prefix for safe-path matching
+        check_path = request.url.path
+        if check_path.startswith("/v1/"):
+            check_path = "/" + check_path[len("/v1/"):]
+
+        if request.url.path.startswith("/public/") or check_path in safe_paths:
             return await call_next(request)
             
         # Resolve current user from Authorization header
@@ -65,6 +72,9 @@ class OPAPolicyMiddleware(BaseHTTPMiddleware):
                 resp.raise_for_status()
                 decision = resp.json().get("result", False)
             except Exception as exc:
+                # Fail-open in dev mode (OPA server may not be running)
+                if settings.ENV == "dev":
+                    return await call_next(request)
                 # Fail-closed: deny any request if OPA cannot be reached.
                 raise PermissionDenied(detail=f"OPA evaluation error: {exc}") from exc
         if not decision:

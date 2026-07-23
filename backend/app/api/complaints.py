@@ -1,10 +1,10 @@
 """Complaint router — /complaints endpoints per api-contract.yaml.
 
 Endpoints implemented:
-- POST / (submit complaint) - without auth (public can submit)
-- GET / (list complaints, scoped) - verifikator/pengawas
-- GET /{id} (detail) - with ticket tracking
-- PATCH /{id} (update status) - verifikator
+- POST / (submit complaint) — public, tanpa auth (security: [])
+- GET /{id} (detail) — public, akses via nomor tiket
+- PATCH /{id} (update status) — verifikator_bgn/admin
+- GET / (list complaints, scoped) — verifikator/pengawas/admin
 """
 
 from __future__ import annotations
@@ -27,8 +27,8 @@ router = APIRouter()
 async def submit_complaint(
     dto: ComplaintCreate,
     db: AsyncSession = Depends(get_db),
-    user: UserPayload | None = Depends(get_current_user),
 ):
+    """Public endpoint — no auth required per api-contract."""
     return await services.submit_complaint(db, dto)
 
 
@@ -37,6 +37,7 @@ async def get_complaint(
     complaint_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
 ):
+    """Public endpoint — no auth required."""
     return await services.get_detail(db, complaint_id)
 
 
@@ -46,7 +47,7 @@ async def patch_complaint(
     dto: ComplaintUpdate,
     db: AsyncSession = Depends(get_db),
     user: UserPayload = Depends(get_current_user),
-):
+) -> ComplaintRead:
     if user.role not in ("verifikator_bgn", "admin"):
         raise PermissionDenied(detail="Hanya verifikator_bgn yang dapat mengupdate pengaduan")
     return await services.patch_complaint(db, complaint_id, dto)
@@ -60,9 +61,11 @@ async def list_complaints(
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
     user: UserPayload = Depends(get_current_user),
-):
-    items, total_items = await services.list_complaints(db, status=status, severity=severity, user_scope=user.scope_value,
-                                          limit=page_size, offset=(page - 1) * page_size)
+) -> dict:
+    items, total_items = await services.list_complaints(
+        db, status=status, severity=severity, user_scope=user.scope_value,
+        limit=page_size, offset=(page - 1) * page_size,
+    )
     total_pages = max((total_items + page_size - 1) // page_size, 1)
     return {
         "data": items,

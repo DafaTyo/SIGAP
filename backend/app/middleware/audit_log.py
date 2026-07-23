@@ -19,6 +19,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 from app.dependencies import get_db
+from sqlalchemy import text
 
 
 class AuditLogMiddleware(BaseHTTPMiddleware):
@@ -35,9 +36,9 @@ class AuditLogMiddleware(BaseHTTPMiddleware):
         # Build payload – domain code can set request.state.audit_payload = {...}
         audit_payload = getattr(request.state, "audit_payload", None)
         if audit_payload:
-            async for db in get_db():
+            async for db in get_db(request):
                 await db.execute(
-                    """
+                    text("""
                     INSERT INTO audit_logs (
                         id, actor_id, action, entity_type, entity_id,
                         old_values, new_values, ip_address, request_id, timestamp
@@ -45,7 +46,7 @@ class AuditLogMiddleware(BaseHTTPMiddleware):
                         :id, :actor, :action, :entity_type, :entity_id,
                         :old, :new, :ip, :req_id, :ts
                     )
-                    """,
+                    """),
                     {
                         "id": str(uuid.uuid4()),
                         "actor": user_id,

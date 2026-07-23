@@ -8,6 +8,7 @@ Import order (FastAPI app.add_middleware):
     5. AuditLogMiddleware
 """
 
+from app.middleware.error_wrapper import MiddlewareErrorWrapper
 from app.middleware.rls_setter import RLSSetterMiddleware
 from app.middleware.opa_policy import OPAPolicyMiddleware
 from app.middleware.idempotency import IdempotencyMiddleware
@@ -15,6 +16,7 @@ from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.audit_log import AuditLogMiddleware
 
 __all__ = [
+    "MiddlewareErrorWrapper",
     "RLSSetterMiddleware",
     "OPAPolicyMiddleware",
     "IdempotencyMiddleware",

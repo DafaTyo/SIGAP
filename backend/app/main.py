@@ -4,8 +4,8 @@ from app.api import api_router
 from app.core.exceptions import SIGAPException
 from app.core.api_error import APIError
 from app.middleware import (
-    RLSSetterMiddleware, OPAPolicyMiddleware, IdempotencyMiddleware,
-    RateLimitMiddleware, AuditLogMiddleware
+    MiddlewareErrorWrapper, RLSSetterMiddleware, OPAPolicyMiddleware,
+    IdempotencyMiddleware, RateLimitMiddleware, AuditLogMiddleware
 )
 from app.core.logger import configure_logging
 
@@ -13,7 +13,8 @@ configure_logging()
 
 app = FastAPI(title="SIGAP API", version="0.2.0")
 
-# Register Middlewares (Order matters)
+# Register Middlewares (Order matters – outermost first)
+app.add_middleware(MiddlewareErrorWrapper)
 app.add_middleware(RLSSetterMiddleware)
 app.add_middleware(AuditLogMiddleware)
 app.add_middleware(RateLimitMiddleware)

@@ -1,0 +1,813 @@
+{
+  "info": {
+    "name": "SIGAP API",
+    "description": "SIGAP (Sistem Integrasi Gizi & Akuntabilitas Pangan) \u2014 platform tata kelola vendor MBG.\n\nGenerated from api-contract.yaml v0.2.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "sigap"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var json = pm.response.json();",
+                  "    pm.collectionVariables.set('access_token', json.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"admin@sigap.gov\", \"password\": \"admin123\"}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "My Permissions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/auth/me/permissions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "me",
+                "permissions"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vendors",
+      "item": [
+        {
+          "name": "Create Vendor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/vendors",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nama_usaha\": \"Warung Berkah Sejahtera\",\n  \"nik_penanggung_jawab\": \"3175123456781234\",\n  \"nib\": \"NIB-9988776655\",\n  \"alamat\": \"Jl. Merdeka No. 10, Rt 05 Rw 02\",\n  \"provinsi\": \"DKI Jakarta\",\n  \"kabupaten_kota\": \"Jakarta Pusat\",\n  \"kontak_telepon\": \"021-12345678\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List Vendors",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/vendors?page=1&page_size=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "province",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Vendor by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Vendor",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"alamat\": \"Jl. Baru No. 5\",\n  \"kontak_telepon\": \"021-99999999\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Reveal NIK",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}/nik",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}",
+                "nik"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}/documents",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}",
+                "documents"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "document_type",
+                  "value": "nib",
+                  "type": "text"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Verify Vendor (Approve/Reject)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}",
+                "verify"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"decision\": \"approve\",\n  \"notes\": \"Dokumen lengkap & valid\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get SIO Digital (QR)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}/sio",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}",
+                "sio"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Vendor Score",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/vendors/{{vendor_id}}/score",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "vendors",
+                "{{vendor_id}}",
+                "score"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Distributions",
+      "item": [
+        {
+          "name": "Submit Distribution Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/distributions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "distributions"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "vendor_id",
+                  "value": "{{vendor_id}}",
+                  "type": "text"
+                },
+                {
+                  "key": "jumlah_porsi",
+                  "value": "150",
+                  "type": "text"
+                },
+                {
+                  "key": "lokasi_sekolah",
+                  "value": "SDN 01 Jakarta",
+                  "type": "text"
+                },
+                {
+                  "key": "latitude",
+                  "value": "-6.21462",
+                  "type": "text"
+                },
+                {
+                  "key": "longitude",
+                  "value": "106.84513",
+                  "type": "text"
+                },
+                {
+                  "key": "foto",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Distributions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/distributions?page=1&page_size=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "distributions"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "vendor_id",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "has_anomaly",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Distribution Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/distributions/{{report_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "distributions",
+                "{{report_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Metadata (Audit)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/distributions/{{report_id}}/metadata",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "distributions",
+                "{{report_id}}",
+                "metadata"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Appeal Anomaly Flag",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/distributions/{{report_id}}/appeal",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "distributions",
+                "{{report_id}}",
+                "appeal"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "reason",
+                  "value": "Foto diambil tepat waktu, perbedaan timestamp karena perbedaan zona waktu",
+                  "type": "text"
+                },
+                {
+                  "key": "supporting_evidence",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complaints",
+      "item": [
+        {
+          "name": "Submit Complaint (Public)",
+          "request": {
+            "method": "POST",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/complaints",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "complaints"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "vendor_id",
+                  "value": "{{vendor_id}}",
+                  "type": "text"
+                },
+                {
+                  "key": "kategori",
+                  "value": "keterlambatan",
+                  "type": "text"
+                },
+                {
+                  "key": "deskripsi",
+                  "value": "Makanan datang terlambat 1 jam dari jadwal",
+                  "type": "text"
+                },
+                {
+                  "key": "nama_pelapor",
+                  "value": "Siti Rahayu",
+                  "type": "text"
+                },
+                {
+                  "key": "foto",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Complaints",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/complaints?page=1&page_size=20",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "complaints"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "page_size",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "severity",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Complaint Detail",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/complaints/{{complaint_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "complaints",
+                "{{complaint_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Complaint Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/complaints/{{complaint_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "complaints",
+                "{{complaint_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"diproses\",\n  \"resolution_notes\": \"Sedang diinvestigasi oleh tim BGN\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Verify Vendor (Public)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/public/vendors/verify?sio_code=SIO-2026-JKT-ABCDEF",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "public",
+                "vendors",
+                "verify"
+              ],
+              "query": [
+                {
+                  "key": "sio_code",
+                  "value": "SIO-2026-JKT-ABCDEF"
+                },
+                {
+                  "key": "query",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Dashboard Summary (Public)",
+          "request": {
+            "method": "GET",
+            "auth": {
+              "type": "noauth"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/public/dashboard/summary",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "public",
+                "dashboard",
+                "summary"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"verifikator@sigap.gov\",\n  \"name\": \"Budi Verifikator\",\n  \"role\": \"verifikator_bgn\",\n  \"scope_value\": [\n    \"DKI Jakarta\"\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/admin/users",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Audit Logs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/v1/audit-logs?entity_type=vendor&action=CREATE",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "audit-logs"
+              ],
+              "query": [
+                {
+                  "key": "entity_type",
+                  "value": "vendor"
+                },
+                {
+                  "key": "action",
+                  "value": "CREATE"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

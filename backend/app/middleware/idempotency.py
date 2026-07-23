@@ -14,13 +14,21 @@ from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoin
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
-from app.dependencies import get_redis, settings
+from app.dependencies import get_redis
+from app.core.config import settings
 
 
 class IdempotencyMiddleware(BaseHTTPMiddleware):
+    # Endpoints that don't require X-Idempotency-Key (per api-contract.yaml)
+    _SKIP_PATHS = {"/v1/auth/login", "/v1/complaints"}
+
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         method = request.method.upper()
         if method not in {"POST", "PATCH", "DELETE"}:
+            return await call_next(request)
+
+        # Skip paths that don't require idempotency per contract
+        if request.url.path in self._SKIP_PATHS:
             return await call_next(request)
 
         key = request.headers.get("X-Idempotency-Key")

@@ -33,7 +33,8 @@ class Settings(BaseSettings):
     # ── JWT ───────────────────────────────────────────────────
     # Must be set via environment; no default to avoid accidental plaintext secrets.
     JWT_SECRET_KEY: str
-    NIK_ENCRYPTION_KEY: str = "CHANGE-ME-ENCRYPTION-KEY"
+    # Generate with: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+    NIK_ENCRYPTION_KEY: str
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRES_MINUTES: int = 60
 
