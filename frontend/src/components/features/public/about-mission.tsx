@@ -24,7 +24,7 @@ const missions = [
 
 export function AboutMission() {
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-gray-50 py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-16">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
@@ -36,7 +36,7 @@ export function AboutMission() {
           Tentang Kami
         </motion.p>
 
-        <div className="mt-10 grid items-center gap-12 lg:grid-cols-2">
+        <div className="mt-8 grid items-center gap-8 lg:mt-10 lg:grid-cols-2 lg:gap-12">
           {/* Left Illustration */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -50,7 +50,7 @@ export function AboutMission() {
               alt="Misi SIGAP"
               width={420}
               height={420}
-              className="h-auto w-full max-w-[420px] object-contain"
+              className="h-auto w-full max-w-[320px] object-contain sm:max-w-[420px]"
             />
           </motion.div>
 
@@ -61,14 +61,14 @@ export function AboutMission() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
           >
-            <h2 className="text-3xl font-bold text-[#2563EB]">MISI KAMI</h2>
+            <h2 className="font-bold text-[#2563EB]" style={{ fontSize: "var(--text-fluid-3xl)" }}>MISI KAMI</h2>
             <ul className="mt-6 space-y-5">
               {missions.map((m) => (
                 <li key={m.number} className="flex items-start gap-4">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-[#2563EB]">
                     {m.number}
                   </span>
-                  <p className="text-base text-gray-500">{m.text}</p>
+                  <p className="text-sm text-gray-500 sm:text-base">{m.text}</p>
                 </li>
               ))}
             </ul>

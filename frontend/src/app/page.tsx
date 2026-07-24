@@ -4,6 +4,7 @@ import { HomeHero } from "@/components/features/public/home-hero";
 import { AboutVision } from "@/components/features/public/about-vision";
 import { AboutMission } from "@/components/features/public/about-mission";
 import { HowItWorks } from "@/components/features/public/how-it-works";
+import { ChatBubble } from "@/components/features/public/chat-bubble";
 
 export default function HomePage() {
   return (
@@ -16,6 +17,7 @@ export default function HomePage() {
         <HowItWorks />
       </main>
       <PublicFooter />
+      <ChatBubble />
     </>
   );
 }

@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 
 export function AboutVision() {
   return (
-    <section className="bg-white py-16">
+    <section className="bg-white py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-16">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
@@ -17,7 +17,7 @@ export function AboutVision() {
           Tentang Kami
         </motion.p>
 
-        <div className="mt-10 grid items-center gap-12 lg:grid-cols-2">
+        <div className="mt-8 grid items-center gap-8 lg:mt-10 lg:grid-cols-2 lg:gap-12">
           {/* Left Text */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -25,8 +25,8 @@ export function AboutVision() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <h2 className="text-3xl font-bold text-[#2563EB]">VISI KAMI</h2>
-            <p className="mt-4 text-base leading-relaxed text-gray-500">
+            <h2 className="font-bold text-[#2563EB]" style={{ fontSize: "var(--text-fluid-3xl)" }}>VISI KAMI</h2>
+            <p className="mt-4 leading-relaxed text-gray-500" style={{ fontSize: "var(--text-fluid-base)" }}>
               Menjadi infrastruktur digital terdepan dalam tata kelola pangan nasional yang transparan, akuntabel, dan presisi, demi menjamin pemenuhan gizi generasi emas Indonesia secara merata.
             </p>
           </motion.div>
@@ -44,7 +44,7 @@ export function AboutVision() {
               alt="Visi SIGAP"
               width={420}
               height={420}
-              className="h-auto w-full max-w-[420px] object-contain"
+              className="h-auto w-full max-w-[320px] object-contain sm:max-w-[420px]"
             />
           </motion.div>
         </div>

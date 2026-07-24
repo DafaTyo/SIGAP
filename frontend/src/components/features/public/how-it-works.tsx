@@ -72,14 +72,15 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-gray-50 py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-16 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
-          className="text-3xl font-bold text-[#2563EB]"
+          className="font-bold text-[#2563EB]"
+          style={{ fontSize: "var(--text-fluid-3xl)" }}
         >
           Bagaimana SIGAP Bekerja
         </motion.h2>
@@ -101,7 +102,7 @@ export function HowItWorks() {
                 {card.svg}
               </div>
               <h3 className="mt-5 text-base font-semibold text-[#2563EB]">{card.title}</h3>
-              <p className="mt-1.5 text-sm text-gray-400">{card.desc}</p>
+              <p className="mt-1.5 text-sm text-gray-400" style={{ fontSize: "var(--text-fluid-sm)" }}>{card.desc}</p>
             </motion.div>
           ))}
         </motion.div>
